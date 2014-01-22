@@ -8,6 +8,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidArgumentException;
+import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidEntrezGeneId;
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidIdException;
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidInteractionIdException;
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidUniProtId;
@@ -331,6 +332,8 @@ public class PidFileHandler extends DefaultHandler {
 			e.printStackTrace();
 		} catch (InvalidUniProtId e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidEntrezGeneId e) {
 			e.printStackTrace();
 		} catch (InconsistentOntologyException e) {
 			// TODO Auto-generated catch block

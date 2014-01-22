@@ -1,5 +1,7 @@
 package de.bioquant.cytoscape.pidfileconverter.FileWriter;
 
+import java.util.regex.Pattern;
+
 import de.bioquant.cytoscape.pidfileconverter.Model.CompMolMember;
 
 public final class ExtPreferredSymbolWriter extends AbstractPreferredSymbolWriter {
@@ -23,7 +25,7 @@ public final class ExtPreferredSymbolWriter extends AbstractPreferredSymbolWrite
 			String activityState = molMember.getModification()
 					.getActivityState();
 			if (activityState.equals("active"))
-				result.append("{+}");
+				result.append("{plus}");
 			else if (activityState.equals("inactive"))
 				result.append("{-}");
 			String location = molMember.getModification().getLocation();

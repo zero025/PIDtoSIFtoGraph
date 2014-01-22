@@ -26,7 +26,7 @@ public class AffymetrixRegexReader
     private static int counter = 0;
 	// regular expression of e.g. [P98170::Q13490::Q13489:]
 //	private final static String regex = "(((\\[*)([POQ]\\d\\d\\d\\d\\d)(\\:*)(\\]*))*(\\::)*)*";
-	private final static String regex1 = "(\\[*([POQ]\\d|A-Z\\d|A-Z\\d|A-Z\\d|A-Z\\d|A-Z).*)+";
+	private final static String regex1 = "(.*)";
 	
 	// the file name of the full human mapping uniprot to geneID
 	private static final String UNIPROTTOGENEIDMAP = "UPtoGeneIDFULL.txt";
@@ -135,7 +135,7 @@ public class AffymetrixRegexReader
 									if(i == 0)
 									{
 										// write detail as UP1
-										tobewrittenuniprotname = splittedName[i].substring(0, 6);
+										tobewrittenuniprotname = splittedName[i];
 									}
 									// if at second half or more of the split
 									if(i > 0)
@@ -149,7 +149,7 @@ public class AffymetrixRegexReader
 										else
 										{
 											// write detail as UP1 :: UP2 ...
-											tobewrittenuniprotname = tobewrittenuniprotname + "::" + splittedName[i].substring(0, 6);											
+											tobewrittenuniprotname = tobewrittenuniprotname + "::" + splittedName[i];											
 										}								
 									}
 									
@@ -165,7 +165,7 @@ public class AffymetrixRegexReader
 								if(Pattern.matches(regex1, splittedName[i]))
 								{
 									String linetobeaddedtoFile1 = tobewrittenIDcytoname + " = " + tobewrittenuniprotname;
-									String tobeadded = splittedName[i].substring(0, 6) + " protein family";
+									String tobeadded = splittedName[i] + " protein family";
 									// if the first list doesnt yet contain the thing to be added
 									if(!listofFile1.contains(linetobeaddedtoFile1))
 									{
@@ -179,9 +179,9 @@ public class AffymetrixRegexReader
 										listofFile2.add(tobeadded);
 									}
 									// if the list of unique proteins doesnt yet contain the uniprot to be added
-									if(!uniqueuniprots.contains(splittedName[i].substring(0, 6)))
+									if(!uniqueuniprots.contains(splittedName[i]))
 									{
-										uniqueuniprots.add(splittedName[i].substring(0, 6));
+										uniqueuniprots.add(splittedName[i]);
 									}
 								}
 								
@@ -191,13 +191,13 @@ public class AffymetrixRegexReader
 						// if the expression is as plain as "P56915 = protein"
 						else
 						{
-							tobewrittenuniprotname = trimmedName.substring(0, 6);
+							tobewrittenuniprotname = trimmedName;
 							if(Pattern.matches(regex1, trimmedName))
 							{
 								// put IDCyto (key) together with associated UP (value) into the corresponding hashmap
 								proteinhashmap.put(tobewrittenIDcytoname, tobewrittenuniprotname);
 								String linetobeaddedtoFile1 = tobewrittenIDcytoname + " = " + tobewrittenuniprotname;
-								String tobeadded = trimmedName.substring(0, 6) + " protein";
+								String tobeadded = trimmedName + " protein";
 								// if the list doesnt yet contain the thing to be added
 								if(!listofFile1.contains(linetobeaddedtoFile1))
 								{
@@ -213,9 +213,9 @@ public class AffymetrixRegexReader
 									listofFile2.add(tobeadded);
 								}
 								// if the list of unique proteins doesnt yet contain the uniprot to be added
-								if(!uniqueuniprots.contains(trimmedName.substring(0, 6)))
+								if(!uniqueuniprots.contains(trimmedName))
 								{
-									uniqueuniprots.add(trimmedName.substring(0, 6));
+									uniqueuniprots.add(trimmedName);
 								}
 							}
 						}
@@ -259,7 +259,7 @@ public class AffymetrixRegexReader
 									if(i == 0)
 									{
 										// write detail as UP1
-										tobewrittenuniprotname = splittedName[i].substring(0, 6);
+										tobewrittenuniprotname = splittedName[i];
 									}
 									// if at second half or more of the split
 									if(i > 0)
@@ -273,7 +273,7 @@ public class AffymetrixRegexReader
 										else
 										{
 											// write detail as UP1 : UP2 ...
-											tobewrittenuniprotname = tobewrittenuniprotname + ":" + splittedName[i].substring(0, 6);											
+											tobewrittenuniprotname = tobewrittenuniprotname + ":" + splittedName[i];											
 										}								
 									}
 									
@@ -289,7 +289,7 @@ public class AffymetrixRegexReader
 								if(Pattern.matches(regex1, splittedName[i]))
 								{
 									String linetobeaddedtoFile1 = tobewrittenIDcytoname + " = " + tobewrittenuniprotname;
-									String tobeadded = splittedName[i].substring(0, 6) + " protein complex";
+									String tobeadded = splittedName[i] + " protein complex";
 									// if the list doesnt yet contain the thing to be added
 									if(!listofFile1.contains(linetobeaddedtoFile1))
 									{
@@ -303,9 +303,9 @@ public class AffymetrixRegexReader
 										listofFile2.add(tobeadded);
 									}
 									// if the list of unique proteins doesnt yet contain the uniprot to be added
-									if(!uniqueuniprots.contains(splittedName[i].substring(0, 6)))
+									if(!uniqueuniprots.contains(splittedName[i]))
 									{
-										uniqueuniprots.add(splittedName[i].substring(0, 6));
+										uniqueuniprots.add(splittedName[i]);
 									}
 								}
 								
@@ -315,13 +315,13 @@ public class AffymetrixRegexReader
 						// if the expression is as plain as "P56915 = complex"
 						else
 						{
-							tobewrittenuniprotname = trimmedName.substring(0, 6);
+							tobewrittenuniprotname = trimmedName;
 							if(Pattern.matches(regex1, trimmedName))
 							{
 								// put IDCyto (key) together with associated UP (value) into the corresponding hashmap
 								proteincomplexhashmap.put(tobewrittenIDcytoname, tobewrittenuniprotname);
 								String linetobeaddedtoFile1 = tobewrittenIDcytoname + " = " + tobewrittenuniprotname;
-								String tobeadded = trimmedName.substring(0, 6) + " complex";
+								String tobeadded = trimmedName + " complex";
 								// if the list doesnt yet contain the thing to be added
 								if(!listofFile1.contains(linetobeaddedtoFile1))
 								{
@@ -337,9 +337,9 @@ public class AffymetrixRegexReader
 									listofFile2.add(tobeadded);
 								}
 								// if the list of unique proteins doesnt yet contain the uniprot to be added
-								if(!uniqueuniprots.contains(trimmedName.substring(0, 6)))
+								if(!uniqueuniprots.contains(trimmedName))
 								{
-									uniqueuniprots.add(trimmedName.substring(0, 6));
+									uniqueuniprots.add(trimmedName);
 								}
 							}
 						}

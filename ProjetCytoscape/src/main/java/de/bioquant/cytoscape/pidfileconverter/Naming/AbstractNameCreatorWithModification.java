@@ -72,6 +72,8 @@ public abstract class AbstractNameCreatorWithModification implements
 	public String getId(final MoleculeNode molecule) {
 		if (molecule.hasUniprot())
 			return molecule.getUniProdID();
+		else if (molecule.hasEntrezGene())
+			return molecule.getEntrezGeneID();
 		else
 			return molecule.getFullPid();
 	}

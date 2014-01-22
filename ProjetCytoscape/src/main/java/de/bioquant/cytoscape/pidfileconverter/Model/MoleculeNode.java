@@ -28,6 +28,7 @@ public class MoleculeNode extends AbstractGraphNode {
 	public final static String PREFIX = "pid_m_";
 	private OntologyElement type;
 	private UniprotID uniProdID;
+	private EntrezGeneID entrezGeneID;
 	private String preferredSymbol = "";
 	private List<PartRelation> partRelations;
 	private List<CompMolMember> complexComponents = new ArrayList<CompMolMember>();
@@ -71,6 +72,16 @@ public class MoleculeNode extends AbstractGraphNode {
 		else
 			return uniProdID.getId();
 	}
+	
+	/**
+	 * @return the entrezGeneID
+	 */
+	public String getEntrezGeneID() {
+		if (null == entrezGeneID)
+			return "";
+		else
+			return entrezGeneID.getId();
+	}
 
 	/**
 	 * 
@@ -81,6 +92,17 @@ public class MoleculeNode extends AbstractGraphNode {
 	 */
 	public void setUniProdID(String id) throws InvalidArgumentException {
 		this.uniProdID = new UniprotID(id, false);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 *            EntrezGene ID to set, must not be null
+	 * @throws InvalidArgumentException
+	 *             thrown if id is null
+	 */
+	public void setEntrezGeneID(String id) throws InvalidArgumentException {
+		this.entrezGeneID = new EntrezGeneID(id, false);
 	}
 
 	/**
@@ -95,6 +117,20 @@ public class MoleculeNode extends AbstractGraphNode {
 	public void setUniProdID(String id, boolean partmolecule)
 			throws InvalidArgumentException {
 		this.uniProdID = new UniprotID(id, partmolecule);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 *            EntrezGene ID to set, must not be null
+	 * @param partmolecule
+	 *            true - part tag will be added to EntrezGene; false - normal id
+	 *            will be set as entrezGene
+	 * @throws InvalidArgumentException thrown if id is null
+	 */
+	public void setEntrezGeneID(String id, boolean partmolecule)
+			throws InvalidArgumentException {
+		this.entrezGeneID = new EntrezGeneID(id, partmolecule);
 	}
 
 	/**
@@ -179,6 +215,17 @@ public class MoleculeNode extends AbstractGraphNode {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean hasEntrezGene() {
+		if (entrezGeneID != null)
+			if (!entrezGeneID.getId().isEmpty())
+				return true;
+		return false;
+	}
+	
 	/**
 	 * @return an unmodifiable list of all complex components of this molecule
 	 */

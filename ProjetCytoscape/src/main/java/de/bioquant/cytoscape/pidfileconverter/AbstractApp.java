@@ -34,6 +34,7 @@ import de.bioquant.cytoscape.pidfileconverter.FileWriter.PidForUniprotWithModWri
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.PreferredSymbolForUniprotWithModWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.SifFileWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.UniprotIdForUniprotWithModWriter;
+import de.bioquant.cytoscape.pidfileconverter.FileWriter.EntrezGeneIdforEntrezGeneWithModWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.MemberExpansion.SifFileExpandMolWriter;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 import de.bioquant.cytoscape.pidfileconverter.View.Controller;

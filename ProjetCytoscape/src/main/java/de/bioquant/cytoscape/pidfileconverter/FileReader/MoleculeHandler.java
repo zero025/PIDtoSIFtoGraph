@@ -8,9 +8,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.xml.sax.Attributes;
 
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidArgumentException;
+import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidEntrezGeneId;
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidIdException;
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidInteractionIdException;
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidUniProtId;
@@ -49,8 +51,11 @@ public class MoleculeHandler {
 	private boolean partMolecule;
 
 	private boolean hasUniprot;
+	private boolean hasEntrezGene;
+	
 	private String uniprot;
-
+	private String entrezGene;
+	
 	private InteractionComponent member;
 	private boolean newMember;
 	private boolean memHasModification;
@@ -69,11 +74,12 @@ public class MoleculeHandler {
 	private void resetMoleculeStates() {
 		partMolecule = false;
 		hasUniprot = false;
+		hasEntrezGene = false;
 		newMember = false;
 		memHasModification=false;
 	}
 
-	public void handleName(Attributes atts) throws InvalidUniProtId,
+	public void handleName(Attributes atts) throws InvalidUniProtId, InvalidEntrezGeneId,
 			UnknownOntologyException, InconsistentOntologyException,
 			InvalidArgumentException {
 		if (PidTags.MOLECULELIST.isIn() && PidTags.MOLECULE.isIn()
@@ -82,8 +88,13 @@ public class MoleculeHandler {
 			String long_name = atts.getValue("long_name_type");
 			if (name_type != null && long_name != null) {
 				String value = atts.getValue("value");
+				value =  StringUtils.replace(value, "+", "plus");
 				if (name_type.equals("UP") && long_name.equals("UniProt")) {
 					handleUniProtId(value);
+					return;
+				}
+				if (name_type.equals("LL")&& long_name.equals("EntrezGene")){
+					handleEntrezGeneId(value);
 					return;
 				}
 				if (name_type.equals("PF")
@@ -110,6 +121,19 @@ public class MoleculeHandler {
 		}
 	}
 
+	public void handleEntrezGeneId(final String value)
+			throws UnknownOntologyException, InconsistentOntologyException,
+			InvalidUniProtId, InvalidEntrezGeneId {
+		if (currentMolecule.isProtein()) {
+
+			if (value.matches("([0-9])+")) {
+				this.hasEntrezGene= true;
+				this.entrezGene = value;
+			}
+
+		}
+	}
+	
 	public void handleMember(Attributes atts) throws InvalidIdException {
 		if (PidTags.MOLECULE.isIn() && PidTags.FAMILYMEMBERLIST.isIn()
 				&& PidTags.MEMBER.isIn()) {
@@ -142,7 +166,8 @@ public class MoleculeHandler {
 		mManager.addMolecule(currentMolecule);
 		if (hasUniprot)
 			currentMolecule.setUniProdID(uniprot, partMolecule);
-
+		if (hasEntrezGene)
+			currentMolecule.setEntrezGeneID(entrezGene, partMolecule);
 	}
 
 	public void handleMolecule(Attributes atts) throws InvalidIdException {

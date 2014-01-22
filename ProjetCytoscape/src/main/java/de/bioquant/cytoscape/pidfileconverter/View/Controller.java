@@ -26,6 +26,7 @@ import de.bioquant.cytoscape.pidfileconverter.FileReader.PidFileReader;
 import de.bioquant.cytoscape.pidfileconverter.FileReader.AffymetrixRegexReader;
 import de.bioquant.cytoscape.pidfileconverter.FileReader.IlluminaRegexReader;
 import de.bioquant.cytoscape.pidfileconverter.FileReader.SubgraphExtraction;
+import de.bioquant.cytoscape.pidfileconverter.FileWriter.EntrezGeneIdforEntrezGeneWithModWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.ExtPreferredSymbolWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.FileWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.IdWithPreferredSymbolWriter;
@@ -35,6 +36,7 @@ import de.bioquant.cytoscape.pidfileconverter.FileWriter.PidForUniprotWithModWri
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.PreferredSymbolForUniprotWithModWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.SifFileWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.UniprotIdForUniprotWithModWriter;
+import de.bioquant.cytoscape.pidfileconverter.FileWriter.EntrezGeneIdforEntrezGeneWithModWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.MemberExpansion.SifFileExpandMolWriter;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 import edu.ucsd.bioeng.coreplugin.tableImport.reader.AttributeMappingParameters;
@@ -66,14 +68,18 @@ public class Controller extends JFrame implements ActionListener{
 	private String targetsubgraphedSIFpath;
 	private static String targetNODE_TYPEpath;
 	private static String targetUNIPROTpath;
+	private static String targetENTREZGENEpath;
 	private static String targetMODIFICATIONSpath;
 	private static String targetPREFERRED_SYMBOLpath;
 	private static String targetPREFERRED_SYMBOL_EXTpath;
 	private static String targetPIDpath;
 	private static String targetID_PREFpath;
 	private static String targetIDCytoUniProtFilepath;
+	private static String targetIDCytoEntrezGeneFilepath;
 	private static String targetUniqueUniProtFilepath;
+	private static String targetUniqueEntrezGeneFilepath;
 	private static String targetUniProtToGeneIDMapFilepath;
+	private static String targetEntrezGeneToGeneIDMapFilepath;
 	private static String targetGeneIDtoAffymetrixMapFilepath;
 	private static String targetGeneIDtoIlluminaMapFilepath;
 	private File curFile = null; 
@@ -129,6 +135,7 @@ public class Controller extends JFrame implements ActionListener{
 	public Controller(IlluminaView illuminaview)
 	{
 		this.illuminaview = illuminaview;
+		// TODO : make hashmap From IlluminaID to CytoID
 	}
 
 	/**
@@ -236,6 +243,9 @@ public class Controller extends JFrame implements ActionListener{
 						
 						// load the UNIPROT .NA file
 						loadNodeAttributeFile(getTargetUNIPROTpath());
+						
+						// load the ENTREZGENE .NA file
+						loadNodeAttributeFile(getTargetENTREZGENEpath());
 						
 						// load the MODIFICATIONS .NA file
 						loadNodeAttributeFile(getTargetMODIFICATIONSpath());
@@ -361,7 +371,9 @@ public class Controller extends JFrame implements ActionListener{
 					// load the NODE_TYPE .NA file
 					loadNodeAttributeFile(getTargetNODE_TYPEpath());					
 					// load the UNIPROT .NA file
-					loadNodeAttributeFile(getTargetUNIPROTpath());					
+					loadNodeAttributeFile(getTargetUNIPROTpath());		
+					// load the ENTREZGENE .NA file
+					loadNodeAttributeFile(getTargetENTREZGENEpath());	
 					// load the MODIFICATIONS .NA file
 					loadNodeAttributeFile(getTargetMODIFICATIONSpath());					
 					// load the PREFERRED_SYMBOL .NA file
@@ -380,8 +392,9 @@ public class Controller extends JFrame implements ActionListener{
 					mapVisually(VIZMAP_PROPS_FILE_NAME);
 										
 					// read the nodetype file and then parse it accordingly, generating the 3 targetfiles
-					AffymetrixRegexReader.readAndWriteFiles(targetNODE_TYPEpath, targetIDCytoUniProtFilepath, 
-							targetUniqueUniProtFilepath, targetUniProtToGeneIDMapFilepath, targetGeneIDtoAffymetrixMapFilepath);
+					AffymetrixRegexReader.readAndWriteFiles(targetNODE_TYPEpath, targetIDCytoUniProtFilepath,
+							targetUniqueUniProtFilepath, targetUniProtToGeneIDMapFilepath, targetGeneIDtoAffymetrixMapFilepath
+							/*,targetIDCytoEntrezGeneFilepath, targetUniqueEntrezGeneFilepath, targetEntrezGeneToGeneIDMapFilepath*/);
 
 					// change the title of the splash frame
 					sp.setTitle("Visualisation loaded, this window closes automatically.");
@@ -725,6 +738,8 @@ public class Controller extends JFrame implements ActionListener{
 			setTargetNODE_TYPEpath(temporarypath[0].concat(".NODE_TYPE.NA"));
 			// set the UNIPROT NA path
 			setTargetUNIPROTpath(temporarypath[0].concat(".UNIPROT.NA"));
+			// set the ENTREZGENE NA path
+			setTargetENTREZGENEpath(temporarypath[0].concat(".ENTREZGENE.NA"));
 			// set the MODIFICATIONS NA path
 			setTargetMODIFICATIONSpath(temporarypath[0].concat(".MODIFICATIONS.NA"));
 			// set the PREFERRED_SYMBOL NA path
@@ -736,11 +751,17 @@ public class Controller extends JFrame implements ActionListener{
 			// set the ID_PREF NA path
 			setTargetID_PREFpath(temporarypath[0].concat(".ID_PREF.NA"));
 			// set the IDCytoUniProtFile path
-			setTargetIDCytoUniProtFilepath(temporarypath[0].concat(".IDCytoToUniProt.NA"));
+			setTargetIDCytoUniProtFilepath(temporarypath[0].concat(".IDCytoToUniprot.NA"));
+			// set the IDCytEntrezGeneFile path
+			setTargetIDCytoEntrezGeneFilepath(temporarypath[0].concat(".IDCytoToEntrezGene.NA"));
 			// set the UniqueUniProtFile path
 			setTargetUniqueUniProtFilepath(temporarypath[0].concat(".UNIQUEUNIPROT.NA"));
+			// set the UniqueEntrezGeneFile path
+			setTargetUniqueEntrezGeneFilepath(temporarypath[0].concat(".UNIQUEENTREZGENE.NA"));
 			// set the UniProt to GeneID map file path
 			setTargetUniProtToGeneIDMapFilepath(temporarypath[0].concat(".UPToGeneIDMap.NA"));
+			// set the EntrezGene to GeneID map file path
+			setTargetEntrezGeneToGeneIDMapFilepath(temporarypath[0].concat(".UPToGeneIDMap2.NA"));
 			// set the GeneID to Affymetrix map file path
 			setTargetGeneIDtoAffymetrixMapFilepath(temporarypath[0].concat(".GeneIDToAffyMap.NA"));
 		}
@@ -809,6 +830,16 @@ public class Controller extends JFrame implements ActionListener{
 				e.printStackTrace();
 			}
 
+			FileWriter eWriter = EntrezGeneIdforEntrezGeneWithModWriter.getInstance();
+			try
+			{
+				eWriter.write(getTargetENTREZGENEpath(), manager);
+			}
+			catch (FileNotFoundException e)
+			{
+				e.printStackTrace();
+			}
+			
 			FileWriter modiWriter = ModificationsWriter.getInstance();
 			try
 			{
@@ -960,6 +991,9 @@ public class Controller extends JFrame implements ActionListener{
 
 					// set the target uniprot NA path
 					setTargetUNIPROTpath(filepath.concat("\\").concat(temporarypath[0].concat(".UNIPROT.NA")));
+					
+					// set the target entrezGene NA path
+					setTargetENTREZGENEpath(filepath.concat("\\").concat(temporarypath[0].concat(".ENTREZGENE.NA")));
 
 					// set the target MODIFICATIONS NA path
 					setTargetMODIFICATIONSpath(filepath.concat("\\").concat(temporarypath[0].concat(".MODIFICATIONS.NA")));
@@ -979,11 +1013,20 @@ public class Controller extends JFrame implements ActionListener{
 					// set the IDCytoUniProtFile path
 					setTargetIDCytoUniProtFilepath(filepath.concat("\\").concat(temporarypath[0].concat(".IDCytoToUniProt.NA")));
 
+					// set the IDCytoEntrezGeneFile path
+					setTargetIDCytoEntrezGeneFilepath(filepath.concat("\\").concat(temporarypath[0].concat(".IDCytoToEntrezGene.NA")));
+					
 					// set the UniqueUniProtFile path
 					setTargetUniqueUniProtFilepath(filepath.concat("\\").concat(temporarypath[0].concat(".UNIQUEUNIPROT.NA")));	
 
+					// set the UniqueEntrezGeneFile path
+					setTargetUniqueEntrezGeneFilepath(filepath.concat("\\").concat(temporarypath[0].concat(".UNIQUEENTREZGENE.NA")));	
+					
 					// set the UniProt to GeneID map file path
 					setTargetUniProtToGeneIDMapFilepath(filepath.concat("\\").concat(temporarypath[0].concat(".UPToGeneIDMap.NA")));
+					
+					// set the EntrezGene to GeneID map file path
+					setTargetEntrezGeneToGeneIDMapFilepath(filepath.concat("\\").concat(temporarypath[0].concat(".UPToGeneIDMap2.NA")));
 					
 					// set the GeneID to Affymetrix map file path
 					setTargetGeneIDtoAffymetrixMapFilepath(filepath.concat("\\").concat(temporarypath[0].concat(".GeneIDToAffyMap.NA")));
@@ -1005,6 +1048,9 @@ public class Controller extends JFrame implements ActionListener{
 					// set the target uniprot NA path
 					setTargetUNIPROTpath(filedirectory.concat("\\").concat(temporarypath[0]).concat(".UNIPROT.NA"));
 
+					// set the target entrezGene NA path
+					setTargetENTREZGENEpath(filedirectory.concat("\\").concat(temporarypath[0]).concat(".ENTREZGENE.NA"));
+					
 					// set the target MODIFICATIONS NA path
 					setTargetMODIFICATIONSpath(filedirectory.concat("\\").concat(temporarypath[0]).concat(".MODIFICATIONS.NA"));
 
@@ -1023,11 +1069,20 @@ public class Controller extends JFrame implements ActionListener{
 					// set the IDCytoUniProtFile path
 					setTargetIDCytoUniProtFilepath(filedirectory.concat("\\").concat(temporarypath[0].concat(".IDCytoToUniProt.NA")));
 
+					// set the IDCytoEntrezGeneFile path
+					setTargetIDCytoEntrezGeneFilepath(filedirectory.concat("\\").concat(temporarypath[0].concat(".IDCytoToEntrezGene.NA")));
+					
 					// set the UniqueUniProtFile path
 					setTargetUniqueUniProtFilepath(filedirectory.concat("\\").concat(temporarypath[0].concat(".UNIQUEUNIPROT.NA")));
 
+					// set the UniqueEntrezGeneFile path
+					setTargetUniqueEntrezGeneFilepath(filedirectory.concat("\\").concat(temporarypath[0].concat(".UNIQUEENTREZGENE.NA")));
+					
 					// set the UniProt to GeneID map file path
 					setTargetUniProtToGeneIDMapFilepath(filedirectory.concat("\\").concat(temporarypath[0].concat(".UPToGeneIDMap.NA")));
+					
+					// set the EntrezGene to GeneID map file path
+					setTargetEntrezGeneToGeneIDMapFilepath(filedirectory.concat("\\").concat(temporarypath[0].concat(".UPToGeneIDMap2.NA")));
 					
 					// set the GeneID to Affymetrix map file path
 					setTargetGeneIDtoAffymetrixMapFilepath(filedirectory.concat("\\").concat(temporarypath[0].concat(".GeneIDToAffyMap.NA")));
@@ -1261,10 +1316,20 @@ public class Controller extends JFrame implements ActionListener{
 	{
 		return targetUNIPROTpath;
 	}
+	
+	public String getTargetENTREZGENEpath()
+	{
+		return targetENTREZGENEpath;
+	}
 
 	public void setTargetUNIPROTpath(String targetUNIPROTpath)
 	{
 		this.targetUNIPROTpath = targetUNIPROTpath;
+	}
+	
+	public void setTargetENTREZGENEpath(String targetENTREZGENEpath)
+	{
+		this.targetENTREZGENEpath = targetENTREZGENEpath;
 	}
 
 	public String getTargetMODIFICATIONSpath()
@@ -1322,9 +1387,19 @@ public class Controller extends JFrame implements ActionListener{
 		return targetIDCytoUniProtFilepath;
 	}
 	
+	public String getTargetIDCytoEntrezGeneFilepath()
+	{
+		return targetIDCytoEntrezGeneFilepath;
+	}
+	
 	public void setTargetIDCytoUniProtFilepath(String targetIDCytoUniProtFilepath)
 	{
 		this.targetIDCytoUniProtFilepath = targetIDCytoUniProtFilepath;
+	}
+	
+	public void setTargetIDCytoEntrezGeneFilepath(String targetIDCytoEntrezGeneFilepath)
+	{
+		this.targetIDCytoEntrezGeneFilepath = targetIDCytoEntrezGeneFilepath;
 	}
 
 	public String getTargetUniqueUniProtFilepath()
@@ -1332,21 +1407,41 @@ public class Controller extends JFrame implements ActionListener{
 		return targetUniqueUniProtFilepath;
 	}
 
+	public String getTargetUniqueEntrezGeneFilepath()
+	{
+		return targetUniqueEntrezGeneFilepath;
+	}
+
 	public void setTargetUniqueUniProtFilepath(String targetUniqueUniProtFilepath)
 	{
 		this.targetUniqueUniProtFilepath = targetUniqueUniProtFilepath;
 	}
 
+	public void setTargetUniqueEntrezGeneFilepath(String targetUniqueEntrezGeneFilepath)
+	{
+		this.targetUniqueEntrezGeneFilepath = targetUniqueEntrezGeneFilepath;
+	}
+	
 	public String getTargetUniProtToGeneIDMapFilepath()
 	{
 		return targetUniProtToGeneIDMapFilepath;
 	}
 
+	public String getTargetEntrezGeneToGeneIDMapFilepath()
+	{
+		return targetEntrezGeneToGeneIDMapFilepath;
+	}
+	
 	public void setTargetUniProtToGeneIDMapFilepath(String targetUniProtToGeneIDMapFilepath)
 	{
 		this.targetUniProtToGeneIDMapFilepath = targetUniProtToGeneIDMapFilepath;
 	}
 
+	public void setTargetEntrezGeneToGeneIDMapFilepath(String targetEntrezGeneToGeneIDMapFilepath)
+	{
+		this.targetEntrezGeneToGeneIDMapFilepath = targetEntrezGeneToGeneIDMapFilepath;
+	}
+	
 	public String getTargetGeneIDtoAffymetrixMapFilepath()
 	{
 		return targetGeneIDtoAffymetrixMapFilepath;
