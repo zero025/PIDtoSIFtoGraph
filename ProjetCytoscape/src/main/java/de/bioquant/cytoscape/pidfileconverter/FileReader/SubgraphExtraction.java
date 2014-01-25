@@ -33,8 +33,6 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
  */
 public class SubgraphExtraction
 {
-	// regular expression of a UniProtID eg: P13121
-	private final String REGEX = "(\\[*([POQ]\\d|A-Z\\d|A-Z\\d|A-Z\\d|A-Z\\d|A-Z).*)+";
 	private String inputcytosourcetext;
 	private String inputcytotargettext;
 	private String inputgenesourcefilepath;

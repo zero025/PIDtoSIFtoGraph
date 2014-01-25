@@ -156,6 +156,29 @@ public class MoleculeNode extends AbstractGraphNode {
 					"Molecule type ontology is not known!");
 	}
 
+	/**
+	 * 
+	 * @return true - if molecule type is rna
+	 * @throws UnknownOntologyException
+	 *             if MoleculeTypeOntology is unknown
+	 * @throws InconsistentOntologyException
+	 *             if MoleculeTypeOntology is inconsistent
+	 */
+	public boolean isRna() throws UnknownOntologyException,
+			InconsistentOntologyException {
+		Ontology onto = AbstractGraphNode.ONTOMANAGER
+				.getOntology(MoleculeTypeOntology.NAME);
+		if (onto == null)
+			throw new UnknownOntologyException(
+					"Molecule type ontology is not known!");
+		else if (onto.getClass() == MoleculeTypeOntology.class) {
+			MoleculeTypeOntology newOnto = (MoleculeTypeOntology) onto;
+			return newOnto.isRna(type);
+		} else
+			throw new UnknownOntologyException(
+					"Molecule type ontology is not known!");
+	}
+	
 	public boolean hasPreferredSymbol() {
 		if (preferredSymbol != null && !preferredSymbol.isEmpty())
 			return true;
