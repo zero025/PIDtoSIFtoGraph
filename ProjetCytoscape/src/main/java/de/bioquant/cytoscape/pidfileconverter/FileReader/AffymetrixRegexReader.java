@@ -24,8 +24,10 @@ import de.bioquant.cytoscape.pidfileconverter.View.Controller;
 public class AffymetrixRegexReader
 {
     private static int counter = 0;
+    
 	// regular expression of e.g. [P98170::Q13490::Q13489:]
-	
+    private final static String regex1 = "(\\[*([POQ]\\d|A-Z\\d|A-Z\\d|A-Z\\d|A-Z\\d|A-Z).*)+";
+    
 	// the file name of the full human mapping uniprot to geneID
 	private static final String UNIPROTTOGENEIDMAP = "UPtoGeneIDFULL.txt";
 	// the file name of the full human mapping uniprot to geneID
@@ -103,7 +105,7 @@ public class AffymetrixRegexReader
 					String tobewrittenIDcytoname = "";
 					String tobewrittenuniprotname = "";
 					// if protein or protein family
-					if(trimmedDetail.equals("protein"))
+					if(trimmedDetail.equals("protein")||trimmedDetail.equals("rna"))
 					{
 						tobewrittenIDcytoname = trimmedName;
 						// try to destroy the [ in trimmedName
@@ -141,7 +143,7 @@ public class AffymetrixRegexReader
 									// DO NOT add the ::
 									if(tobewrittenuniprotname.equals(""))
 									{
-										tobewrittenuniprotname = splittedName[i].substring(0,6);
+										tobewrittenuniprotname = splittedName[i];
 									}
 									else
 									{
@@ -185,7 +187,15 @@ public class AffymetrixRegexReader
 							// put IDCyto (key) together with associated UP (value) into the corresponding hashmap
 							proteinhashmap.put(tobewrittenIDcytoname, tobewrittenuniprotname);
 							String linetobeaddedtoFile1 = tobewrittenIDcytoname + " = " + tobewrittenuniprotname;
-							String tobeadded = trimmedName + " protein";
+							String tobeadded = trimmedName;
+							if(trimmedDetail.equals("protein"))
+							{
+								tobeadded += " protein";
+							}
+							else if (trimmedDetail.equals("rna"))
+							{
+								tobeadded += " rna";
+							}
 							// if the list doesnt yet contain the thing to be added
 							if(!listofFile1.contains(linetobeaddedtoFile1))
 							{
@@ -343,16 +353,24 @@ public class AffymetrixRegexReader
 			// e.g. "protein family" or "protein" or "protein complex"
 			for (int i = 0; i < uniqueuniprots.size(); i++)
 			{
-				matchedUPtoGeneIDmapping = lookUpGeneIDofUniprot(uniqueuniprots.get(i), UNIPROTTOGENEIDMAP);
-				// if there is a match, add that to the arraylist file3tobewritten,
-				// also adding to the list of uniquegeneIDs
-				// and also to the hashmap which goes in the direction GeneID -> Uniprot
-				if(matchedUPtoGeneIDmapping != "")
+				if (Pattern.matches(regex1, uniqueuniprots.get(i)))
 				{
-					uniqueGeneIDs.add(matchedUPtoGeneIDmapping);
-					geneIDtouniprothashmap.put(matchedUPtoGeneIDmapping, uniqueuniprots.get(i));
-					file3tobewritten.add(uniqueuniprots.get(i) + " = " + matchedUPtoGeneIDmapping + "\n");
+					matchedUPtoGeneIDmapping = lookUpGeneIDofUniprot(uniqueuniprots.get(i), UNIPROTTOGENEIDMAP);
+					// if there is a match, add that to the arraylist file3tobewritten,
+					// also adding to the list of uniquegeneIDs
+					// and also to the hashmap which goes in the direction GeneID -> Uniprot
+					if(matchedUPtoGeneIDmapping != "")
+					{
+						uniqueGeneIDs.add(matchedUPtoGeneIDmapping);
+						geneIDtouniprothashmap.put(matchedUPtoGeneIDmapping, uniqueuniprots.get(i));
+						file3tobewritten.add(uniqueuniprots.get(i) + " = " + matchedUPtoGeneIDmapping + "\n");
+					}
 				}
+				else//EntrezGene
+				{
+					uniqueGeneIDs.add(uniqueuniprots.get(i));
+				}
+				
 			}
 			
 			// For every unique GeneID, find the corresponding affymetrixID and add the mapping into the arraylist file4tobewritten
@@ -717,15 +735,41 @@ public class AffymetrixRegexReader
 	public static boolean isPresentInHashMaps(String uniprotid)
 	{
 		boolean ispresent = false;
-		//if Uniprot ID key gives a geneID value in uniprottogeneid_fullhashmap
-		if(!uniprottogeneid_fullhashmap.get(uniprotid).isEmpty() && (uniprottogeneid_fullhashmap.get(uniprotid) != null))
+		if(Pattern.matches(regex1,uniprotid))
 		{
-			String geneID = uniprottogeneid_fullhashmap.get(uniprotid);
-			//if geneID key gives a affyID value in geneidtoaffymetrixid_fullhashmap
-			if(!geneidtoaffymetrixid_fullhashmap.get(geneID).isEmpty())
-				
+			//if Uniprot ID key gives a geneID value in uniprottogeneid_fullhashmap
+			if(!uniprottogeneid_fullhashmap.get(uniprotid).isEmpty() && (uniprottogeneid_fullhashmap.get(uniprotid) != null))
 			{
-				String affyID = geneidtoaffymetrixid_fullhashmap.get(geneID);
+				String geneID = uniprottogeneid_fullhashmap.get(uniprotid);
+				//if geneID key gives a affyID value in geneidtoaffymetrixid_fullhashmap
+				if(!geneidtoaffymetrixid_fullhashmap.get(geneID).isEmpty())	
+				{
+					String affyID = geneidtoaffymetrixid_fullhashmap.get(geneID);
+					//if there exists a set of values in the barcode1hashmap for the affyID
+					if(barcode1hashmap.containsKey(affyID))
+					{
+						// check for corresponding existence in the barcode2 hashmap
+						if(barcode2hashmap.containsKey(affyID))
+						{
+							// if both barcode files give 0 for the affyID,
+							if(barcode1hashmap.get(affyID) == false)
+							{
+								if (barcode2hashmap.get(affyID) == false)
+								{
+//									destroyNode(idcyto); // mark the node to be destroyed
+									ispresent = true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else //EntrezGene 
+		{
+			if(!geneidtoaffymetrixid_fullhashmap.get(uniprotid).isEmpty())	
+			{
+				String affyID = geneidtoaffymetrixid_fullhashmap.get(uniprotid);
 				//if there exists a set of values in the barcode1hashmap for the affyID
 				if(barcode1hashmap.containsKey(affyID))
 				{

@@ -263,7 +263,7 @@ public class MainFrame extends JFrame{
 	    bottompanel.add(targetlabel, c);
 	    /* ------------------------------------------------------ */
 	    // setting the genelabel and adding it to bottompanel
-	    genelabel.setText("Genes (UniProtID):");
+	    genelabel.setText("Genes (UniProtID//GeneID):");
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    c.ipady = 10;
 	    c.ipadx = 10;
@@ -311,7 +311,7 @@ public class MainFrame extends JFrame{
 	    genetargetbrowsebutton.addActionListener(controller);
 	    /* ------------------------------------------------------ */
 	    // setting the sigmollabel and adding it to bottompanel
-	    sigmollabel.setText("Signalling Molecules (UniProtID):");
+	    sigmollabel.setText("Signalling Molecules (UniProtID//GeneID):");
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    c.ipady = 10;
 	    c.ipadx = 10;
