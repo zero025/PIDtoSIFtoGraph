@@ -25,7 +25,7 @@ public final class ExtPreferredSymbolWriter extends AbstractPreferredSymbolWrite
 			String activityState = molMember.getModification()
 					.getActivityState();
 			if (activityState.equals("active"))
-				result.append("{+}");
+				result.append("{plus}");
 			else if (activityState.equals("inactive"))
 				result.append("{-}");
 			String location = molMember.getModification().getLocation();

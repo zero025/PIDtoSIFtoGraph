@@ -24,7 +24,6 @@ import de.bioquant.cytoscape.pidfileconverter.View.Controller;
 public class AffymetrixRegexReader
 {
     private static int counter = 0;
-	// regular expression of e.g. [P98170::Q13490::Q13489:]
 	
 	// the file name of the full human mapping uniprot to geneID
 	private static final String UNIPROTTOGENEIDMAP = "UPtoGeneIDFULL.txt";
@@ -141,7 +140,8 @@ public class AffymetrixRegexReader
 									// DO NOT add the ::
 									if(tobewrittenuniprotname.equals(""))
 									{
-										tobewrittenuniprotname = splittedName[i].substring(0,6);
+										// write detail as UP1
+										tobewrittenuniprotname = splittedName[i];
 									}
 									else
 									{
@@ -248,11 +248,11 @@ public class AffymetrixRegexReader
 								// if at second half or more of the split
 								if(i > 0)
 								{
-									// if the first UP of the line doesn't match the pattern,
+									//if the first UP of the line doesn't match the pattern,
 									// DO NOT add the :
 									if(tobewrittenuniprotname.equals(""))
 									{
-										tobewrittenuniprotname = splittedName[i];
+										tobewrittenuniprotname = splittedName[i].substring(0,6);
 									}
 									else
 									{
