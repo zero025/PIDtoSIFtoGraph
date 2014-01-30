@@ -13,7 +13,7 @@ import de.bioquant.cytoscape.pidfileconverter.FileWriter.FileWriter;
 import de.bioquant.cytoscape.pidfileconverter.Model.CompMolMember;
 import de.bioquant.cytoscape.pidfileconverter.Model.InteractionComponent;
 import de.bioquant.cytoscape.pidfileconverter.Model.MoleculeNode;
-import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorUniprotWithModification;
+import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorIDWithModification;
 import de.bioquant.cytoscape.pidfileconverter.Naming.NameCreator;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.InconsistentOntologyException;
@@ -27,7 +27,7 @@ public abstract class AbstractExpandMolWriter implements FileWriter {
 
 	private Set<String> writtenLines = new TreeSet<String>();
 
-	private NameCreator naming = CreatorUniprotWithModification.getInstance();
+	private NameCreator naming = CreatorIDWithModification.getInstance();
 
 	protected boolean duplicateExclude = true;
 

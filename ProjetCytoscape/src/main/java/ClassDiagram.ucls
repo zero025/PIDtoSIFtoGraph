@@ -1,0 +1,1969 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.4" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" language="java" name="de.bioquant.cytoscape.pidfileconverter.AppWithStatAndRules" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/AppWithStatAndRules.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="188" y="282"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="de.bioquant.cytoscape.pidfileconverter.App" project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/App.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="538" y="282"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="de.bioquant.cytoscape.pidfileconverter.AbstractApp" project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/AbstractApp.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="366" y="107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="de.bioquant.cytoscape.pidfileconverter.Analyzer.RuleApplicator" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Analyzer/RuleApplicator.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="525" y="442"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="de.bioquant.cytoscape.pidfileconverter.Analyzer.ConcurrentRenamingException" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Analyzer/ConcurrentRenamingException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="190" y="451"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="de.bioquant.cytoscape.pidfileconverter.Analyzer.Rule1SingleModification" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Analyzer/Rule1SingleModification.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="992" y="469"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="de.bioquant.cytoscape.pidfileconverter.Analyzer.Rule2ImportantComplexModification" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Analyzer/Rule2ImportantComplexModification.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1546" y="487"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="8" language="java" name="de.bioquant.cytoscape.pidfileconverter.Analyzer.IntCompAnalyzer" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Analyzer/IntCompAnalyzer.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2655" y="797"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="9" language="java" name="de.bioquant.cytoscape.pidfileconverter.Analyzer.IntCompAnalyzerImpl" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Analyzer/IntCompAnalyzerImpl.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2655" y="487"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="de.bioquant.cytoscape.pidfileconverter.Analyzer.RuleGraphNode" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Analyzer/RuleGraphNode.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2997" y="914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="de.bioquant.cytoscape.pidfileconverter.Analyzer.RuleGraph" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Analyzer/RuleGraph.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2998" y="532"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.Analyzer.InvalidRuleGraphConnectionException" project="ProjetCytoscape" 
+    
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Analyzer/InvalidRuleGraphConnectionException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1984" y="451"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="de.bioquant.cytoscape.pidfileconverter.Analyzer.UnknownRuleGraphNodeException" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Analyzer/UnknownRuleGraphNodeException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2317" y="451"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="14" language="java" name="de.bioquant.cytoscape.pidfileconverter.Analyzer.Rule" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Analyzer/Rule.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="925" y="770"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="15" language="java" name="de.bioquant.cytoscape.pidfileconverter.CytoPlugin.CytoView" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/CytoPlugin/CytoView.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="194" y="939"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="de.bioquant.cytoscape.pidfileconverter.CytoPlugin.LoadFileToGraphAction" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/CytoPlugin/LoadFileToGraphAction.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="456" y="939"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidInteractionIdException" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Exceptions/InvalidInteractionIdException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1154" y="1283"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidUniProtId" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Exceptions/InvalidUniProtId.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="188" y="1099"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="de.bioquant.cytoscape.pidfileconverter.Exceptions.FileParsingException" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Exceptions/FileParsingException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="450" y="1099"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidArgumentException" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Exceptions/InvalidArgumentException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="721" y="1099"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="de.bioquant.cytoscape.pidfileconverter.Exceptions.UnknownMoleculeException" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Exceptions/UnknownMoleculeException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1008" y="1099"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidIdException" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Exceptions/InvalidIdException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1285" y="1108"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidEntrezGeneId" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Exceptions/InvalidEntrezGeneId.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1547" y="1099"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="de.bioquant.cytoscape.pidfileconverter.Exceptions.NoValidManagerSetException" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Exceptions/NoValidManagerSetException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1827" y="1099"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="25" language="java" name="de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidPathwayIdException" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Exceptions/InvalidPathwayIdException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1442" y="1283"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileReader.AffymetrixRegexReader" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileReader/AffymetrixRegexReader.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="179" y="1799"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="27" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileReader.FileReader" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileReader/FileReader.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1174" y="2235"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="28" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileReader.SubgraphExtraction" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileReader/SubgraphExtraction.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="516" y="1718"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="29" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileReader.MoleculeHandler" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileReader/MoleculeHandler.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="569" y="3175"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="30" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileReader.PidTags" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileReader/PidTags.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1351" y="1727"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="31" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileReader.PidFileHandler" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileReader/PidFileHandler.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="679" y="2487"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="32" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileReader.IlluminaRegexReader" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileReader/IlluminaRegexReader.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1651" y="1790"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="33" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileReader.PidFileReader" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileReader/PidFileReader.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="945" y="1529"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="34" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileWriter.ExtPreferredSymbolWriter" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/ExtPreferredSymbolWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2527" y="4057"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="35" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.FileWriter.UniprotIdForUniprotWithModWriter" project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/UniprotIdForUniprotWithModWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="877" y="3809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="36" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.FileWriter.EntrezGeneIdforEntrezGeneWithModWriter" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/EntrezGeneIdforEntrezGeneWithModWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1209" y="3809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="37" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileWriter.PidForIDWithModWriter" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/PidForIDWithModWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1542" y="3809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="38" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileWriter.SifFileWriter" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/SifFileWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="522" y="4066"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="39" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileWriter.IdWithPreferredSymbolWriter" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/IdWithPreferredSymbolWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="209" y="3818"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="40" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileWriter.SifFileRuleGraphWriter" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/SifFileRuleGraphWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="834" y="4048"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="41" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileWriter.StatisticsWriter" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/StatisticsWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1164" y="4084"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="42" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileWriter.FileWriter" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/FileWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1512" y="4269"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="43" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileWriter.AbstractNodeAttributeWriter" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/AbstractNodeAttributeWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1546" y="3625"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="44" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileWriter.ModificationsWriter" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/ModificationsWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1858" y="3809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="45" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.FileWriter.NodeTypeAttributeForIDWithModWriter" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/NodeTypeAttributeForIDWithModWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="543" y="3836"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="46" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileWriter.TupelWriter" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/TupelWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="723" y="3616"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="47" language="java" name="de.bioquant.cytoscape.pidfileconverter.FileWriter.AbstractPreferredSymbolWriter" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/AbstractPreferredSymbolWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2195" y="3800"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="48" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.FileWriter.PreferredSymbolForIDWithModWriter" project="ProjetCytoscape" 
+    
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/PreferredSymbolForIDWithModWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2209" y="4057"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="49" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.FileWriter.MemberExpansion.AbstractExpandMolWriter" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/MemberExpansion/AbstractExpandMolWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="324" y="4417"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="50" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.FileWriter.MemberExpansion.SifFileExpandMolWriter" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/FileWriter/MemberExpansion/SifFileExpandMolWriter.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="256" y="4637"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="51" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.InteractionComponent" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/InteractionComponent.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="790" y="6606"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="52" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.PathwayNode" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/PathwayNode.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="170" y="5707"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="53" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.InteractionNode" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/InteractionNode.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="408" y="5325"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="54" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.IdClearer" project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/IdClearer.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="357" y="4916"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="55" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.CompMolMemberImpl" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/CompMolMemberImpl.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="842" y="5316"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="56" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.ComponentModification" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/ComponentModification.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="437" y="5806"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="57" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.EntrezGeneID" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/EntrezGeneID.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1398" y="6332"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="58" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.Modification" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/Modification.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="170" y="6359"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="59" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.UniprotID" project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/UniprotID.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1638" y="6332"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="60" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.MoleculeNode" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/MoleculeNode.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1394" y="5905"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="61" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.PartRelation" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/PartRelation.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1878" y="6341"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="62" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.CompMolMember" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/CompMolMember.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1138" y="6359"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="63" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.InteractionComponentImpl" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/InteractionComponentImpl.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="790" y="5725"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="64" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.PTMterm" project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/PTMterm.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="178" y="6660"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="65" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.PidNode" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/PidNode.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1139" y="5136"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="66" language="java" name="de.bioquant.cytoscape.pidfileconverter.Model.AbstractGraphNode" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Model/AbstractGraphNode.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="785" y="4916"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="67" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.Naming.AbstractNameCreatorWithModification" project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Naming/AbstractNameCreatorWithModification.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="466" y="6957"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="68" language="java" name="de.bioquant.cytoscape.pidfileconverter.Naming.ModificationExtractor" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Naming/ModificationExtractor.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="903" y="6912"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="69" language="java" name="de.bioquant.cytoscape.pidfileconverter.Naming.CreatorIDWithModification" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Naming/CreatorIDWithModification.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="261" y="7168"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="70" language="java" name="de.bioquant.cytoscape.pidfileconverter.Naming.NameCreator" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Naming/NameCreator.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="605" y="7195"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="71" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.Naming.CreatorPreferredSymbolWithModification" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Naming/CreatorPreferredSymbolWithModification.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="962" y="7177"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="72" language="java" name="de.bioquant.cytoscape.pidfileconverter.NodeManager.GraphConnector" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/NodeManager/GraphConnector.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="368" y="7371"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="73" language="java" name="de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/NodeManager/NodeManagerImpl.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1455" y="6898"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="74" language="java" name="de.bioquant.cytoscape.pidfileconverter.NodeManager.ModificationManager" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/NodeManager/ModificationManager.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="817" y="7380"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="75" language="java" name="de.bioquant.cytoscape.pidfileconverter.NodeManager.MoleculeNodeManager" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/NodeManager/MoleculeNodeManager.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1554" y="7416"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="76" language="java" name="de.bioquant.cytoscape.pidfileconverter.NodeManager.InteractionNodeManager" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/NodeManager/InteractionNodeManager.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1173" y="7416"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="77" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.NodeManager.InteractionComponentManager" project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/NodeManager/InteractionComponentManager.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1954" y="7416"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="78" language="java" name="de.bioquant.cytoscape.pidfileconverter.NodeManager.PathwayNodeManager" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/NodeManager/PathwayNodeManager.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2355" y="7416"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="79" language="java" name="de.bioquant.cytoscape.pidfileconverter.Ontology.Ontology" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Ontology/Ontology.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="223" y="7953"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="80" language="java" name="de.bioquant.cytoscape.pidfileconverter.Ontology.OntologyElement" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Ontology/OntologyElement.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="212" y="8362"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="81" language="java" name="de.bioquant.cytoscape.pidfileconverter.Ontology.OntologyManager" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Ontology/OntologyManager.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="212" y="7615"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="82" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.UnknownOntologyElementException" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Ontology/Exceptions/UnknownOntologyElementException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="290" x="555" y="8285"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="83" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.UnknownOntologyException" project="ProjetCytoscape" 
+    
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Ontology/Exceptions/UnknownOntologyException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="262" x="885" y="8285"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="84" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.InvalidParentException" project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Ontology/Exceptions/InvalidParentException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="262" x="1187" y="8285"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="85" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.InconsistentOntologyException" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Ontology/Exceptions/InconsistentOntologyException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="265" x="1489" y="8285"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="86" language="java" name="de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.PtmOntology" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Ontology/Specialized/PtmOntology.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="685" y="8606"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="87" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.ActivityStateOntology" project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Ontology/Specialized/ActivityStateOntology.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="987" y="8606"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="88" language="java" name="de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.LocationOntology" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Ontology/Specialized/LocationOntology.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1289" y="8606"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="89" language="java" name="de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.MoleculeTypeOntology" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Ontology/Specialized/MoleculeTypeOntology.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1591" y="8642"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="90" language="java" name="de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.ProcessTypeOntology" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Ontology/Specialized/ProcessTypeOntology.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1893" y="8642"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="91" language="java" name="de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.EdgeTypeOntology" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Ontology/Specialized/EdgeTypeOntology.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2195" y="8669"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="92" language="java" 
+    name="de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.SpecialOntologies" project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/Ontology/Specialized/SpecialOntologies.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2497" y="8696"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="93" language="java" name="de.bioquant.cytoscape.pidfileconverter.View.IlluminaView" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/View/IlluminaView.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-2" y="10643"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="94" language="java" name="de.bioquant.cytoscape.pidfileconverter.View.MainFrame" project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/View/MainFrame.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="250" y="11183"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="95" language="java" name="de.bioquant.cytoscape.pidfileconverter.View.Controller" project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/View/Controller.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="233" y="9587"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="96" language="java" name="de.bioquant.cytoscape.pidfileconverter.View.AffymetrixView" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/View/AffymetrixView.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="510" y="10697"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="97" language="java" name="de.bioquant.cytoscape.pidfileconverter.View.SplashFrame" 
+    project="ProjetCytoscape" 
+    file="/ProjetCytoscape/src/main/java/de/bioquant/cytoscape/pidfileconverter/View/SplashFrame.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="518" y="8794"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <realization id="98">    
+    <bendpoint x="1397" y="3990"/>    
+    <end type="SOURCE" refId="36"/>    
+    <end type="TARGET" refId="42"/>  
+  </realization>  
+  <realization id="99">    
+    <end type="SOURCE" refId="73"/>    
+    <end type="TARGET" refId="77"/>  
+  </realization>  
+  <association id="100">    
+    <end type="SOURCE" refId="36" navigable="false">      
+      <attribute id="101" name="instance"/>      
+      <multiplicity id="102" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="103">    
+    <bendpoint x="1376" y="3990"/>    
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="42"/>  
+  </realization>  
+  <realization id="104">    
+    <end type="SOURCE" refId="49"/>    
+    <end type="TARGET" refId="42"/>  
+  </realization>  
+  <generalization id="105">    
+    <end type="SOURCE" refId="55"/>    
+    <end type="TARGET" refId="66"/>  
+  </generalization>  
+  <association id="106">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="107" name="currModification"/>      
+      <multiplicity id="108" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="56" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="109">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="110" name="nodes"/>      
+      <multiplicity id="111" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="112">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="113" name="currentMolecule"/>      
+      <multiplicity id="114" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="60" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="115">    
+    <end type="SOURCE" refId="73" navigable="false">      
+      <attribute id="116" name="molecules"/>      
+      <multiplicity id="117" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="60" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="118">    
+    <end type="SOURCE" refId="41"/>    
+    <end type="TARGET" refId="42"/>  
+  </realization>  
+  <realization id="119">    
+    <end type="SOURCE" refId="73"/>    
+    <end type="TARGET" refId="74"/>  
+  </realization>  
+  <association id="120">    
+    <end type="SOURCE" refId="35" navigable="false">      
+      <attribute id="121" name="instance"/>      
+      <multiplicity id="122" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="35" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="123">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="124" name="modificationManager"/>      
+      <multiplicity id="125" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="74" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="126">    
+    <end type="SOURCE" refId="71" navigable="false">      
+      <attribute id="127" name="instance"/>      
+      <multiplicity id="128" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="71" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="129">    
+    <end type="SOURCE" refId="33" navigable="false">      
+      <attribute id="130" name="handler"/>      
+      <multiplicity id="131" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="132">    
+    <end type="SOURCE" refId="44"/>    
+    <end type="TARGET" refId="43"/>  
+  </generalization>  
+  <association id="133">    
+    <end type="SOURCE" refId="45" navigable="false">      
+      <attribute id="134" name="naming"/>      
+      <multiplicity id="135" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="70" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="136">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="137" name="naming"/>      
+      <multiplicity id="138" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="70" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="139">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="140" name="naming"/>      
+      <multiplicity id="141" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="70" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="142">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="143" name="mManager"/>      
+      <multiplicity id="144" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="75" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="145">    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="146" name="instance"/>      
+      <multiplicity id="147" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="148">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <realization id="149">    
+    <bendpoint x="593" y="6238"/>    
+    <end type="SOURCE" refId="63"/>    
+    <end type="TARGET" refId="51"/>  
+  </realization>  
+  <realization id="150">    
+    <end type="SOURCE" refId="73"/>    
+    <end type="TARGET" refId="76"/>  
+  </realization>  
+  <generalization id="151">    
+    <end type="SOURCE" refId="89"/>    
+    <end type="TARGET" refId="79"/>  
+  </generalization>  
+  <association id="152">    
+    <end type="SOURCE" refId="49" navigable="false">      
+      <attribute id="153" name="naming"/>      
+      <multiplicity id="154" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="70" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="155">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="156" name="currentInter"/>      
+      <multiplicity id="157" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="53" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="158">    
+    <end type="SOURCE" refId="60" navigable="false">      
+      <attribute id="159" name="uniProdID"/>      
+      <multiplicity id="160" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="59" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="161">    
+    <end type="SOURCE" refId="64" navigable="false">      
+      <attribute id="162" name="modification"/>      
+      <multiplicity id="163" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="80" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="164">    
+    <end type="SOURCE" refId="73" navigable="false">      
+      <attribute id="165" name="interactions"/>      
+      <multiplicity id="166" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="53" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="167">    
+    <end type="SOURCE" refId="69"/>    
+    <end type="TARGET" refId="67"/>  
+  </generalization>  
+  <association id="168">    
+    <end type="SOURCE" refId="81" navigable="false">      
+      <attribute id="169" name="instance"/>      
+      <multiplicity id="170" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="81" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="171">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="172" name="mainframe"/>      
+      <multiplicity id="173" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="94" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="174">    
+    <end type="SOURCE" refId="45" navigable="false">      
+      <attribute id="175" name="instance"/>      
+      <multiplicity id="176" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="177">    
+    <bendpoint x="1027" y="5613"/>    
+    <end type="SOURCE" refId="55"/>    
+    <end type="TARGET" refId="62"/>  
+  </realization>  
+  <association id="178">    
+    <end type="SOURCE" refId="36" navigable="false">      
+      <attribute id="179" name="naming"/>      
+      <multiplicity id="180" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="70" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="181">    
+    <end type="SOURCE" refId="48"/>    
+    <end type="TARGET" refId="47"/>  
+  </generalization>  
+  <generalization id="182">    
+    <end type="SOURCE" refId="87"/>    
+    <end type="TARGET" refId="79"/>  
+  </generalization>  
+  <association id="183">    
+    <end type="SOURCE" refId="60" navigable="false">      
+      <attribute id="184" name="familyMembers"/>      
+      <multiplicity id="185" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="62" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="186">    
+    <end type="SOURCE" refId="73" navigable="false">      
+      <attribute id="187" name="pathways"/>      
+      <multiplicity id="188" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="52" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="189">    
+    <end type="SOURCE" refId="60" navigable="false">      
+      <attribute id="190" name="type"/>      
+      <multiplicity id="191" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="80" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="192">    
+    <bendpoint x="1269" y="5078"/>    
+    <end type="SOURCE" refId="60"/>    
+    <end type="TARGET" refId="66"/>  
+  </generalization>  
+  <association id="193">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="194" name="naming"/>      
+      <multiplicity id="195" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="70" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="196">    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="43"/>  
+  </generalization>  
+  <generalization id="197">    
+    <end type="SOURCE" refId="63"/>    
+    <end type="TARGET" refId="55"/>  
+  </generalization>  
+  <association id="198">    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="199" name="location"/>      
+      <multiplicity id="200" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="80" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="201">    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="42"/>  
+  </realization>  
+  <generalization id="202">    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="22"/>  
+  </generalization>  
+  <generalization id="203">    
+    <end type="SOURCE" refId="53"/>    
+    <end type="TARGET" refId="66"/>  
+  </generalization>  
+  <association id="204">    
+    <end type="SOURCE" refId="95" navigable="false">      
+      <attribute id="205" name="mainframe"/>      
+      <multiplicity id="206" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="94" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="207">    
+    <bendpoint x="300" y="5613"/>    
+    <bendpoint x="300" y="6238"/>    
+    <end type="SOURCE" refId="53" navigable="false">      
+      <attribute id="208" name="interactionComponents"/>      
+      <multiplicity id="209" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="51" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="210">    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="211" name="instance"/>      
+      <multiplicity id="212" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="38" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="213">    
+    <end type="SOURCE" refId="95" navigable="false">      
+      <attribute id="214" name="affymetrixview"/>      
+      <multiplicity id="215" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="96" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="216">    
+    <end type="SOURCE" refId="45"/>    
+    <end type="TARGET" refId="43"/>  
+  </generalization>  
+  <generalization id="217">    
+    <end type="SOURCE" refId="91"/>    
+    <end type="TARGET" refId="79"/>  
+  </generalization>  
+  <generalization id="218">    
+    <end type="SOURCE" refId="51"/>    
+    <end type="TARGET" refId="62"/>  
+  </generalization>  
+  <association id="219">    
+    <end type="SOURCE" refId="73" navigable="false">      
+      <attribute id="220" name="ONTOMANAGER"/>      
+      <multiplicity id="221" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="81" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="222">    
+    <bendpoint x="1418" y="3990"/>    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="42"/>  
+  </realization>  
+  <association id="223">    
+    <end type="SOURCE" refId="60" navigable="false">      
+      <attribute id="224" name="partRelations"/>      
+      <multiplicity id="225" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="61" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="226">    
+    <end type="SOURCE" refId="47"/>    
+    <end type="TARGET" refId="43"/>  
+  </generalization>  
+  <association id="227">    
+    <end type="SOURCE" refId="35" navigable="false">      
+      <attribute id="228" name="naming"/>      
+      <multiplicity id="229" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="70" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="230">    
+    <bendpoint x="1048" y="5613"/>    
+    <end type="SOURCE" refId="62"/>    
+    <end type="TARGET" refId="65"/>  
+  </generalization>  
+  <association id="231">    
+    <end type="SOURCE" refId="40" navigable="false">      
+      <attribute id="232" name="instance"/>      
+      <multiplicity id="233" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="40" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="234">    
+    <end type="SOURCE" refId="81" navigable="false">      
+      <attribute id="235" name="ontos"/>      
+      <multiplicity id="236" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="79" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="237">    
+    <end type="SOURCE" refId="44" navigable="false">      
+      <attribute id="238" name="instance"/>      
+      <multiplicity id="239" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="44" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="240">    
+    <end type="SOURCE" refId="47" navigable="false">      
+      <attribute id="241" name="naming"/>      
+      <multiplicity id="242" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="70" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="243">    
+    <end type="SOURCE" refId="44" navigable="false">      
+      <attribute id="244" name="naming"/>      
+      <multiplicity id="245" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="70" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="246">    
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="47"/>  
+  </generalization>  
+  <realization id="247">    
+    <end type="SOURCE" refId="73"/>    
+    <end type="TARGET" refId="75"/>  
+  </realization>  
+  <realization id="248">    
+    <end type="SOURCE" refId="73"/>    
+    <end type="TARGET" refId="72"/>  
+  </realization>  
+  <association id="249">    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="250" name="mainframe"/>      
+      <multiplicity id="251" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="94" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="252">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="253" name="rules"/>      
+      <multiplicity id="254" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="255">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="14"/>  
+  </realization>  
+  <realization id="256">    
+    <bendpoint x="1573" y="3990"/>    
+    <end type="SOURCE" refId="44"/>    
+    <end type="TARGET" refId="42"/>  
+  </realization>  
+  <association id="257">    
+    <end type="SOURCE" refId="33" navigable="false">      
+      <attribute id="258" name="manager"/>      
+      <multiplicity id="259" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="73" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="260">    
+    <end type="SOURCE" refId="33"/>    
+    <end type="TARGET" refId="27"/>  
+  </realization>  
+  <association id="261">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="262" name="currentOnto"/>      
+      <multiplicity id="263" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="79" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="264">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="265" name="instance"/>      
+      <multiplicity id="266" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="37" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="267">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="42"/>  
+  </realization>  
+  <generalization id="268">    
+    <end type="SOURCE" refId="71"/>    
+    <end type="TARGET" refId="67"/>  
+  </generalization>  
+  <association id="269">    
+    <end type="SOURCE" refId="58" navigable="false">      
+      <attribute id="270" name="modifications"/>      
+      <multiplicity id="271" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="64" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="272">    
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="43"/>  
+  </generalization>  
+  <generalization id="273">    
+    <bendpoint x="141" y="5078"/>    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="66"/>  
+  </generalization>  
+  <generalization id="274">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="275">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="276" name="instance"/>      
+      <multiplicity id="277" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="278">    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="279" name="activityState"/>      
+      <multiplicity id="280" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="80" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="281">    
+    <end type="SOURCE" refId="55" navigable="false">      
+      <attribute id="282" name="modification"/>      
+      <multiplicity id="283" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="56" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="284">    
+    <end type="SOURCE" refId="90"/>    
+    <end type="TARGET" refId="79"/>  
+  </generalization>  
+  <association id="285">    
+    <end type="SOURCE" refId="33" navigable="false">      
+      <attribute id="286" name="instance"/>      
+      <multiplicity id="287" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="33" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="288">    
+    <end type="SOURCE" refId="41" navigable="false">      
+      <attribute id="289" name="naming"/>      
+      <multiplicity id="290" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="70" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="291">    
+    <end type="SOURCE" refId="67"/>    
+    <end type="TARGET" refId="70"/>  
+  </realization>  
+  <association id="292">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="293" name="member"/>      
+      <multiplicity id="294" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="51" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="295">    
+    <end type="SOURCE" refId="50"/>    
+    <end type="TARGET" refId="49"/>  
+  </generalization>  
+  <association id="296">    
+    <end type="SOURCE" refId="60" navigable="false">      
+      <attribute id="297" name="entrezGeneID"/>      
+      <multiplicity id="298" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="57" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="299">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="22"/>  
+  </generalization>  
+  <association id="300">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="301" name="intCompMan"/>      
+      <multiplicity id="302" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="77" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="303">    
+    <end type="SOURCE" refId="53" navigable="false">      
+      <attribute id="304" name="pathways"/>      
+      <multiplicity id="305" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="52" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="306">    
+    <end type="SOURCE" refId="50" navigable="false">      
+      <attribute id="307" name="instance"/>      
+      <multiplicity id="308" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="50" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="309">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="310" name="mManager"/>      
+      <multiplicity id="311" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="75" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="312">    
+    <end type="SOURCE" refId="69" navigable="false">      
+      <attribute id="313" name="instance"/>      
+      <multiplicity id="314" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="69" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="315">    
+    <end type="SOURCE" refId="53" navigable="false">      
+      <attribute id="316" name="type"/>      
+      <multiplicity id="317" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="80" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="318">    
+    <end type="SOURCE" refId="79" navigable="false">      
+      <attribute id="319" name="onto"/>      
+      <multiplicity id="320" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="80" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="321">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="322" name="intCompMan"/>      
+      <multiplicity id="323" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="77" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="324">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="325" name="molHandler"/>      
+      <multiplicity id="326" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="29" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="327">    
+    <end type="SOURCE" refId="55" navigable="false">      
+      <attribute id="328" name="molecule"/>      
+      <multiplicity id="329" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="60" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="330">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="331" name="naming"/>      
+      <multiplicity id="332" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="70" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="333">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="334" name="pManager"/>      
+      <multiplicity id="335" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="78" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="336">    
+    <end type="SOURCE" refId="39" navigable="false">      
+      <attribute id="337" name="naming"/>      
+      <multiplicity id="338" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="70" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="339">    
+    <end type="SOURCE" refId="66"/>    
+    <end type="TARGET" refId="65"/>  
+  </realization>  
+  <association id="340">    
+    <end type="SOURCE" refId="95" navigable="false">      
+      <attribute id="341" name="illuminaview"/>      
+      <multiplicity id="342" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="93" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="343">    
+    <end type="SOURCE" refId="88"/>    
+    <end type="TARGET" refId="79"/>  
+  </generalization>  
+  <realization id="344">    
+    <end type="SOURCE" refId="73"/>    
+    <end type="TARGET" refId="78"/>  
+  </realization>  
+  <association id="345">    
+    <end type="SOURCE" refId="48" navigable="false">      
+      <attribute id="346" name="instance"/>      
+      <multiplicity id="347" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="48" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="348">    
+    <end type="SOURCE" refId="66" navigable="false">      
+      <attribute id="349" name="ONTOMANAGER"/>      
+      <multiplicity id="350" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="81" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="351">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="14"/>  
+  </realization>  
+  <association id="352">    
+    <end type="SOURCE" refId="73" navigable="false">      
+      <attribute id="353" name="interComps"/>      
+      <multiplicity id="354" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="51" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="355">    
+    <end type="SOURCE" refId="39" navigable="false">      
+      <attribute id="356" name="instance"/>      
+      <multiplicity id="357" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="39" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="358">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="359" name="memModification"/>      
+      <multiplicity id="360" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="56" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="361">    
+    <end type="SOURCE" refId="60" navigable="false">      
+      <attribute id="362" name="complexComponents"/>      
+      <multiplicity id="363" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="62" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="364">    
+    <end type="SOURCE" refId="56" navigable="false">      
+      <attribute id="365" name="modification"/>      
+      <multiplicity id="366" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="58" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="367">    
+    <end type="SOURCE" refId="73" navigable="false">      
+      <attribute id="368" name="instance"/>      
+      <multiplicity id="369" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="73" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="370">    
+    <end type="SOURCE" refId="48"/>    
+    <end type="TARGET" refId="42"/>  
+  </realization>  
+  <association id="371">    
+    <end type="SOURCE" refId="39" navigable="false">      
+      <attribute id="372" name="naming2"/>      
+      <multiplicity id="373" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="70" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="374">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="375" name="iManager"/>      
+      <multiplicity id="376" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="76" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="377">    
+    <bendpoint x="2031" y="3733"/>    
+    <bendpoint x="2031" y="3990"/>    
+    <end type="SOURCE" refId="43"/>    
+    <end type="TARGET" refId="42"/>  
+  </realization>  
+  <generalization id="378">    
+    <end type="SOURCE" refId="86"/>    
+    <end type="TARGET" refId="79"/>  
+  </generalization>  
+  <association id="379">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="380" name="controller"/>      
+      <multiplicity id="381" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="95" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="382">    
+    <end type="SOURCE" refId="36"/>    
+    <end type="TARGET" refId="43"/>  
+  </generalization>  
+  <generalization id="383">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <generalization id="384">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="43"/>  
+  </generalization>  
+  <association id="385">    
+    <end type="SOURCE" refId="41" navigable="false">      
+      <attribute id="386" name="instance"/>      
+      <multiplicity id="387" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="41" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="388">    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="389" name="naming"/>      
+      <multiplicity id="390" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="70" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="391">    
+    <end type="SOURCE" refId="80" navigable="false">      
+      <attribute id="392" name="parent"/>      
+      <multiplicity id="393" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="80" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="394">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="395" name="modiManager"/>      
+      <multiplicity id="396" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="74" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="397">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="398" name="currComponent"/>      
+      <multiplicity id="399" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="51" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

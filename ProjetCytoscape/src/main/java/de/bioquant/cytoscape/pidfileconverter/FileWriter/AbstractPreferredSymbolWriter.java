@@ -7,14 +7,14 @@ import de.bioquant.cytoscape.pidfileconverter.Model.CompMolMember;
 import de.bioquant.cytoscape.pidfileconverter.Model.InteractionComponent;
 import de.bioquant.cytoscape.pidfileconverter.Model.InteractionNode;
 import de.bioquant.cytoscape.pidfileconverter.Model.PathwayNode;
-import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorUniprotWithModification;
+import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorIDWithModification;
 import de.bioquant.cytoscape.pidfileconverter.Naming.NameCreator;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 
 public abstract class AbstractPreferredSymbolWriter extends
 		AbstractNodeAttributeWriter {
 
-	private NameCreator naming = CreatorUniprotWithModification.getInstance();
+	private NameCreator naming = CreatorIDWithModification.getInstance();
 
 	abstract String getPreferredSymbol(CompMolMember molMember);
 

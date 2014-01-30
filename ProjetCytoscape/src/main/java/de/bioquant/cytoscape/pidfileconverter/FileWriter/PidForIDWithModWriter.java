@@ -6,21 +6,21 @@ import java.util.Collection;
 import de.bioquant.cytoscape.pidfileconverter.Model.InteractionComponent;
 import de.bioquant.cytoscape.pidfileconverter.Model.InteractionNode;
 import de.bioquant.cytoscape.pidfileconverter.Model.PathwayNode;
-import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorUniprotWithModification;
+import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorIDWithModification;
 import de.bioquant.cytoscape.pidfileconverter.Naming.NameCreator;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 
-public final class PidForUniprotWithModWriter extends AbstractNodeAttributeWriter implements FileWriter {
+public final class PidForIDWithModWriter extends AbstractNodeAttributeWriter implements FileWriter {
 
-	private static PidForUniprotWithModWriter instance = null;
-	private NameCreator naming = CreatorUniprotWithModification.getInstance();
+	private static PidForIDWithModWriter instance = null;
+	private NameCreator naming = CreatorIDWithModification.getInstance();
 
-	private PidForUniprotWithModWriter() {
+	private PidForIDWithModWriter() {
 	}
 
-	public static PidForUniprotWithModWriter getInstance() {
+	public static PidForIDWithModWriter getInstance() {
 		if (null == instance)
-			instance = new PidForUniprotWithModWriter();
+			instance = new PidForIDWithModWriter();
 		return instance;
 	}
 

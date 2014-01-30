@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidIdException;
-import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorUniprotWithModification;
+import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorIDWithModification;
 import de.bioquant.cytoscape.pidfileconverter.Naming.NameCreator;
 
 /**
@@ -216,7 +216,7 @@ public class CompMolMemberImpl extends AbstractGraphNode implements
 		if (0 != result)
 			return result;
 		if (compObject instanceof CompMolMember) {
-			NameCreator naming=CreatorUniprotWithModification.getInstance();
+			NameCreator naming=CreatorIDWithModification.getInstance();
 			String name2=naming.getNameForCompMolMemberManagement((CompMolMember)compObject);
 			result=naming.getNameForCompMolMemberManagement(this).compareTo(name2);
 		}

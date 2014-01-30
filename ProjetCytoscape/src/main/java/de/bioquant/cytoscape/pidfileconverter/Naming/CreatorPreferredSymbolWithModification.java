@@ -18,7 +18,7 @@ public final class CreatorPreferredSymbolWithModification extends
 	}
 	
 	/* (non-Javadoc)
-	 * @see de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.Naming.CreatorUniprotWithModification#getId(de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.Model.MoleculeNode)
+	 * @see de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.Naming.CreatorIDWithModification#getId(de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.Model.MoleculeNode)
 	 */
 	@Override
 	public String getId(MoleculeNode molecule) {

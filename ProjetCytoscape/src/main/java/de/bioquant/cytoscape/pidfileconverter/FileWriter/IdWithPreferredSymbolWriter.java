@@ -6,14 +6,14 @@ import java.util.Collection;
 import de.bioquant.cytoscape.pidfileconverter.Model.InteractionComponent;
 import de.bioquant.cytoscape.pidfileconverter.Model.InteractionNode;
 import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorPreferredSymbolWithModification;
-import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorUniprotWithModification;
+import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorIDWithModification;
 import de.bioquant.cytoscape.pidfileconverter.Naming.NameCreator;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 
 public final class IdWithPreferredSymbolWriter extends AbstractNodeAttributeWriter {
 
 	private static IdWithPreferredSymbolWriter instance;
-	private NameCreator naming = CreatorUniprotWithModification.getInstance();
+	private NameCreator naming = CreatorIDWithModification.getInstance();
 	private NameCreator naming2 = CreatorPreferredSymbolWithModification.getInstance();
 	
 	

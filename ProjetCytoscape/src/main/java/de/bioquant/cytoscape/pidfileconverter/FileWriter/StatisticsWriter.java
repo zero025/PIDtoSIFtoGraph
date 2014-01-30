@@ -10,14 +10,14 @@ import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidIdException;
 import de.bioquant.cytoscape.pidfileconverter.Model.CompMolMember;
 import de.bioquant.cytoscape.pidfileconverter.Model.InteractionComponent;
 import de.bioquant.cytoscape.pidfileconverter.Model.MoleculeNode;
-import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorUniprotWithModification;
+import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorIDWithModification;
 import de.bioquant.cytoscape.pidfileconverter.Naming.NameCreator;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 
 public final class StatisticsWriter implements FileWriter {
 
 	private static StatisticsWriter instance = null;
-	private NameCreator naming = CreatorUniprotWithModification.getInstance();
+	private NameCreator naming = CreatorIDWithModification.getInstance();
 	
 	private int count;
 

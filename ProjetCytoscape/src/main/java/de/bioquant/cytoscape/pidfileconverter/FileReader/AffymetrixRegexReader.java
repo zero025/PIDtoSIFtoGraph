@@ -41,7 +41,7 @@ public class AffymetrixRegexReader
 	private static ArrayList<String> nodeIDtobedeleted = new ArrayList<String>();
 	
 	// the arraylist for the unique uniprots
-	private static ArrayList<String> uniqueuniprots = new ArrayList<String>();
+	private static ArrayList<String> uniqueIDs = new ArrayList<String>();
 	// the arraylist for the unique GeneIDs
 	private static ArrayList<String> uniqueGeneIDs = new ArrayList<String>();
 	
@@ -173,9 +173,9 @@ public class AffymetrixRegexReader
 									listofFile2.add(tobeadded);
 								}
 								// if the list of unique proteins doesnt yet contain the uniprot to be added
-								if(!uniqueuniprots.contains(splittedName[i]))
+								if(!uniqueIDs.contains(splittedName[i]))
 								{
-									uniqueuniprots.add(splittedName[i]);
+									uniqueIDs.add(splittedName[i]);
 								}
 							}
 						}
@@ -211,9 +211,9 @@ public class AffymetrixRegexReader
 								listofFile2.add(tobeadded);
 							}
 							// if the list of unique proteins doesnt yet contain the uniprot to be added
-							if(!uniqueuniprots.contains(trimmedName))
+							if(!uniqueIDs.contains(trimmedName))
 							{
-								uniqueuniprots.add(trimmedName);
+								uniqueIDs.add(trimmedName);
 							}
 						}						
 					}
@@ -292,9 +292,9 @@ public class AffymetrixRegexReader
 									listofFile2.add(tobeadded);
 								}
 								// if the list of unique proteins doesnt yet contain the uniprot to be added
-								if(!uniqueuniprots.contains(splittedName[i]))
+								if(!uniqueIDs.contains(splittedName[i]))
 								{
-									uniqueuniprots.add(splittedName[i]);
+									uniqueIDs.add(splittedName[i]);
 								}
 							}
 						}
@@ -322,9 +322,9 @@ public class AffymetrixRegexReader
 								listofFile2.add(tobeadded);
 							}
 							// if the list of unique proteins doesnt yet contain the uniprot to be added
-							if(!uniqueuniprots.contains(trimmedName))
+							if(!uniqueIDs.contains(trimmedName))
 							{
-								uniqueuniprots.add(trimmedName);
+								uniqueIDs.add(trimmedName);
 							}
 						}
 					}
@@ -351,24 +351,24 @@ public class AffymetrixRegexReader
 			// for every unique uniprot, look up the right geneID
 			// the below will be unnecessary depending on the necessity of file2tobewritten -> addition of
 			// e.g. "protein family" or "protein" or "protein complex"
-			for (int i = 0; i < uniqueuniprots.size(); i++)
+			for (int i = 0; i < uniqueIDs.size(); i++)
 			{
-				if (Pattern.matches(regex1, uniqueuniprots.get(i)))
+				if (Pattern.matches(regex1, uniqueIDs.get(i)))
 				{
-					matchedUPtoGeneIDmapping = lookUpGeneIDofUniprot(uniqueuniprots.get(i), UNIPROTTOGENEIDMAP);
+					matchedUPtoGeneIDmapping = lookUpGeneIDofUniprot(uniqueIDs.get(i), UNIPROTTOGENEIDMAP);
 					// if there is a match, add that to the arraylist file3tobewritten,
 					// also adding to the list of uniquegeneIDs
 					// and also to the hashmap which goes in the direction GeneID -> Uniprot
 					if(matchedUPtoGeneIDmapping != "")
 					{
 						uniqueGeneIDs.add(matchedUPtoGeneIDmapping);
-						geneIDtouniprothashmap.put(matchedUPtoGeneIDmapping, uniqueuniprots.get(i));
-						file3tobewritten.add(uniqueuniprots.get(i) + " = " + matchedUPtoGeneIDmapping + "\n");
+						geneIDtouniprothashmap.put(matchedUPtoGeneIDmapping, uniqueIDs.get(i));
+						file3tobewritten.add(uniqueIDs.get(i) + " = " + matchedUPtoGeneIDmapping + "\n");
 					}
 				}
 				else//EntrezGene
 				{
-					uniqueGeneIDs.add(uniqueuniprots.get(i));
+					uniqueGeneIDs.add(uniqueIDs.get(i));
 				}
 				
 			}
@@ -391,7 +391,7 @@ public class AffymetrixRegexReader
 			// get the second file printed out. The quoted file2tobewritten -> addition of
 			// e.g. "protein family" or "protein" or "protein complex" -> look at necessity
 //			idCytoUniProtFileWriter("Unique UniProts", secondfilepath, file2tobewritten);
-			multipleFileWriter("Unique_UniProts", secondfilepath, uniqueuniprots);
+			multipleFileWriter("Unique_UniProts", secondfilepath, uniqueIDs);
 			// get the third file printed out
 			multipleFileWriter("UniProt_to_GeneID_Map", thirdfilepath, file3tobewritten);
 			// get the fourth file printed out
@@ -738,13 +738,15 @@ public class AffymetrixRegexReader
 		if(Pattern.matches(regex1,uniprotid))
 		{
 			//if Uniprot ID key gives a geneID value in uniprottogeneid_fullhashmap
-			if(!uniprottogeneid_fullhashmap.get(uniprotid).isEmpty() && (uniprottogeneid_fullhashmap.get(uniprotid) != null))
+			String uniprottogeneid = uniprottogeneid_fullhashmap.get(uniprotid);
+			if(!uniprottogeneid.isEmpty() && (uniprottogeneid != null))
 			{
-				String geneID = uniprottogeneid_fullhashmap.get(uniprotid);
+				String geneID = uniprottogeneid;
 				//if geneID key gives a affyID value in geneidtoaffymetrixid_fullhashmap
-				if(!geneidtoaffymetrixid_fullhashmap.get(geneID).isEmpty())	
+				String geneidtoaffymetrixid = geneidtoaffymetrixid_fullhashmap.get(geneID);
+				if(!geneidtoaffymetrixid.isEmpty())	
 				{
-					String affyID = geneidtoaffymetrixid_fullhashmap.get(geneID);
+					String affyID = geneidtoaffymetrixid;
 					//if there exists a set of values in the barcode1hashmap for the affyID
 					if(barcode1hashmap.containsKey(affyID))
 					{
@@ -767,9 +769,10 @@ public class AffymetrixRegexReader
 		}
 		else //EntrezGene 
 		{
-			if(!geneidtoaffymetrixid_fullhashmap.get(uniprotid).isEmpty())	
+			String geneidtoaffymetrixid = geneidtoaffymetrixid_fullhashmap.get(uniprotid);
+			if(!geneidtoaffymetrixid.isEmpty())	
 			{
-				String affyID = geneidtoaffymetrixid_fullhashmap.get(uniprotid);
+				String affyID = geneidtoaffymetrixid;
 				//if there exists a set of values in the barcode1hashmap for the affyID
 				if(barcode1hashmap.containsKey(affyID))
 				{

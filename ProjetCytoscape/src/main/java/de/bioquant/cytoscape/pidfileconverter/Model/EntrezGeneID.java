@@ -20,7 +20,7 @@ public class EntrezGeneID {
 	 * molecules "-P" and a consecutive number is added to have a unique
 	 * EntrezGene-ID for each molecule.
 	 * 
-	 * @param uniprotID
+	 * @param entrezGeneID
 	 * @param partmolecule
 	 *            flag, whether its an EntrezGene for a part molecule or not
 	 * @throws InvalidArgumentException

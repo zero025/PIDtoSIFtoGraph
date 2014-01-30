@@ -52,8 +52,13 @@ public class SubgraphExtraction
 	 * The constructor for this class. Mainframe is instantiated and defined.
 	 */
 	public SubgraphExtraction(MainFrame mainframe)
-	{
+	{		
+		JOptionPane
+		.showMessageDialog(new JFrame(),
+				"Beginning constructor", "Success", JOptionPane.INFORMATION_MESSAGE);
+		
 		this.mainframe = mainframe;
+		
 		inputcytosourcetext = mainframe.getCytoidSourceTextArea().getText();
 		inputcytotargettext = mainframe.getCytoidTargetTextArea().getText();
 		inputgenesourcefilepath = mainframe.getGenesourcetextfield().getText();
