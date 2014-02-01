@@ -1,7 +1,7 @@
 package de.bioquant.cytoscape.pidfileconverter.FileReader;
 
 import java.io.BufferedReader;
-import java.io.File;
+//import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -39,10 +39,10 @@ public class SubgraphExtraction
 	private String inputgenetargetfilepath;
 	private String inputsigmolsourcefilepath;
 	private String inputsigmoltargetfilepath;
-	private File inputgenesourcefile;
-	private File inputgenetargetfile;
-	private File inputsigmolsourcefile;
-	private File inputsigmoltargetfile;
+//	private File inputgenesourcefile;
+//	private File inputgenetargetfile;
+//	private File inputsigmolsourcefile;
+//	private File inputsigmoltargetfile;
 	private MainFrame mainframe;
 	private ArrayList<CyNode> cytosourcesubgraph = new ArrayList<CyNode>();
 	private ArrayList<CyNode> cytotargetsubgraph = new ArrayList<CyNode>();

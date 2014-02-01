@@ -458,10 +458,12 @@ public class Controller extends JFrame implements ActionListener{
 					sp.setResizable(false);
 					sp.setVisible(true);
 					//setfocus on the splash frame
-					sp.requestFocus();
+					//sp.requestFocus();
 					
 					//TODO: instead of getting targetSIFpath, get actual network worked upon
 					String currentNetworkFilepath = targetSIFpath;
+										
+					SubgraphExtraction sgex;
 					
 					JOptionPane
 					.showMessageDialog(new JFrame(),
@@ -472,8 +474,8 @@ public class Controller extends JFrame implements ActionListener{
 							+mainframe.getSigmolsourcetextfield().getText() + "\n"
 							+mainframe.getSigmoltargettextfield().getText() +"\n", "Success", JOptionPane.INFORMATION_MESSAGE);
 					
-					SubgraphExtraction sgex = new SubgraphExtraction(mainframe);
-					
+					sgex = new SubgraphExtraction(mainframe);
+													
 //					sgex.readGeneSourceFile();
 					sgex.readGeneTargetFile(currentNetworkFilepath, targetNODE_TYPEpath);
 					sgex.readSigmolSourceFile();	
