@@ -43,7 +43,7 @@ public class IlluminaRegexReader
 	 * @param barcodefilepath
 	 * @throws IOException 
 	 */
-	public static void barcode1Reader(String barcodefilepath) throws IOException
+	public static void file1Reader(String barcodefilepath) throws IOException
 	{
 		BufferedReader reader = null;
 		try
@@ -59,31 +59,36 @@ public class IlluminaRegexReader
 				ArrayList<Float> conditionsP = new ArrayList<Float>();		
 				String[] splittedString = line.split("\t"); // splits the line at the tab sign; also force split into 2 parts only
 				//The "DD" column corresponds to the GeneID : 26*4+4=108
-				geneIDvalue = splittedString[107].trim();
-				//The conditions are from column "C" to "CT" : from 3 to 26*2+20=72. We keem the ".mean" and ".p" values : first and third values of each set of four columns
-				for (int i=2;i<72;i+=4)
+			
+				if (splittedString.length>107)
 				{
-					conditionsMeans.add(Float.valueOf(splittedString[i].trim()));
-					conditionsP.add(Float.valueOf(splittedString[i+2].trim()));
-				}
-				if (geneIDvalue != "NA")
-				{
-					//If the molecule cannot be found on a previous line or it can be found on a previous line with a false:
-					if (barcode1hashmap.get(geneIDvalue) == null)
+					geneIDvalue = splittedString[107].trim();
+					//The conditions are from column "C" to "CT" : from 3 to 26*2+20=72. We keem the ".mean" and ".p" values : first and third values of each set of four columns
+					for (int i=2;i<72;i+=4)
 					{
-						barcode1hashmap.put(geneIDvalue, true);
-						for (int i=0;i<conditionsMeans.size();i++)
+						conditionsMeans.add(Float.valueOf(splittedString[i].trim()));
+						conditionsP.add(Float.valueOf(splittedString[i+2].trim()));
+					}
+					if (geneIDvalue != "NA")
+					{
+						//If the molecule cannot be found on a previous line or it can be found on a previous line with a false:
+						if (barcode1hashmap.get(geneIDvalue) == null)
 						{
-							//If one of the two conditions for the presence to be true is not respected (see Report ElKoursi&Lavergne)
-							if (conditionsMeans.get(i)<150 || conditionsP.get(i)>0.01)
+							barcode1hashmap.put(geneIDvalue, true);
+							for (int i=0;i<conditionsMeans.size();i++)
 							{
-								barcode1hashmap.put(geneIDvalue, false);
-								break;
+								//If one of the two conditions for the presence to be true is not respected (see Report ElKoursi&Lavergne)
+								if (conditionsMeans.get(i)<150 || conditionsP.get(i)>0.01)
+								{
+									barcode1hashmap.put(geneIDvalue, false);
+									break;
+								}
 							}
+							
 						}
-						
 					}
 				}
+	
 			}
 		}
 		catch (IOException e)
@@ -102,7 +107,7 @@ public class IlluminaRegexReader
 		}
 	}
 	
-	public static void barcode2Reader(String barcodefilepath) throws IOException
+	public static void file2Reader(String barcodefilepath) throws IOException
 	{
 		BufferedReader reader = null;
 		try
@@ -118,31 +123,35 @@ public class IlluminaRegexReader
 				ArrayList<Float> conditionsP = new ArrayList<Float>();		
 				String[] splittedString = line.split("\t"); // splits the line at the tab sign; also force split into 2 parts only
 				//The "DD" column corresponds to the GeneID : 26*4+4=108
-				geneIDvalue = splittedString[107].trim();
-				//The conditions are from column "C" to "CT" : from 3 to 26*2+20=72. We keem the ".mean" and ".p" values : first and third values of each set of four columns
-				for (int i=2;i<72;i+=4)
+				if (splittedString.length>107)
 				{
-					conditionsMeans.add(Float.valueOf(splittedString[i].trim()));
-					conditionsP.add(Float.valueOf(splittedString[i+2].trim()));
-				}
-				if (geneIDvalue != "NA")
-				{
-					//If the molecule cannot be found on a previous line or it can be found on a previous line with a false:
-					if (barcode2hashmap.get(geneIDvalue) == null)
+					geneIDvalue = splittedString[107].trim();
+					//The conditions are from column "C" to "CT" : from 3 to 26*2+20=72. We keem the ".mean" and ".p" values : first and third values of each set of four columns
+					for (int i=2;i<72;i+=4)
 					{
-						barcode2hashmap.put(geneIDvalue, true);
-						for (int i=0;i<conditionsMeans.size();i++)
+						conditionsMeans.add(Float.valueOf(splittedString[i].trim()));
+						conditionsP.add(Float.valueOf(splittedString[i+2].trim()));
+					}
+					if (geneIDvalue != "NA")
+					{
+						//If the molecule cannot be found on a previous line or it can be found on a previous line with a false:
+						if (barcode2hashmap.get(geneIDvalue) == null)
 						{
-							//If one of the two conditions for the presence to be true is not respected (see Report ElKoursi&Lavergne)
-							if (conditionsMeans.get(i)<150 || conditionsP.get(i)>0.01)
+							barcode2hashmap.put(geneIDvalue, true);
+							for (int i=0;i<conditionsMeans.size();i++)
 							{
-								barcode1hashmap.put(geneIDvalue, false);
-								break;
+								//If one of the two conditions for the presence to be true is not respected (see Report ElKoursi&Lavergne)
+								if (conditionsMeans.get(i)<150 || conditionsP.get(i)>0.01)
+								{
+									barcode1hashmap.put(geneIDvalue, false);
+									break;
+								}
 							}
+							
 						}
-						
 					}
 				}
+				
 			}
 		}
 		catch (IOException e)
@@ -176,7 +185,7 @@ public class IlluminaRegexReader
 		{
 			//if Uniprot ID key gives a geneID value in uniprottogeneid_fullhashmap
 			String uniprottogeneid = AffymetrixRegexReader.getUniprottogeneidFullhashmap().get(defaultid);
-			if(!uniprottogeneid.isEmpty() && (uniprottogeneid != null))
+			if((uniprottogeneid != null) && !uniprottogeneid.isEmpty())
 			{
 				String geneID = uniprottogeneid;
 				
@@ -227,7 +236,7 @@ public class IlluminaRegexReader
 	 * @param illuminaID the illuminaID
 	 * @param value either 0 or 1
 	 */
-	public static void compareBarcodes()
+	public static void compareConditions()
 	{
 		// for every entry in proteinhashmap
 		for (Map.Entry<String, String> entryFromProteinHashmap : AffymetrixRegexReader.getProteinhashmap().entrySet())

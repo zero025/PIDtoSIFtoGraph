@@ -83,6 +83,7 @@ public class AffymetrixRegexReader
 	 */
 	public static void readAndWriteFiles(String filename, String firstfilepath, String secondfilepath, String thirdfilepath, String fourthfilepath) throws IOException
 	{
+			
 		BufferedReader reader = null;
 		try
 		{
@@ -331,7 +332,8 @@ public class AffymetrixRegexReader
 					}
 					
 				}
-			}					
+			}	
+			
 			// for every one of the entry in the first list, add it to the arraylist file1tobewritten
 			for (int i = 0; i < listofFile1.size() ; i++)
 			{
@@ -369,11 +371,11 @@ public class AffymetrixRegexReader
 				}
 				else//EntrezGene
 				{
-					uniqueIDs.add(uniqueIDs.get(i));
+					uniqueGeneIDs.add(uniqueIDs.get(i));
 				}
 				
 			}
-			
+
 			// For every unique GeneID, find the corresponding affymetrixID and add the mapping into the arraylist file4tobewritten
 			for (int i = 0; i < uniqueGeneIDs.size(); i++)
 			{
@@ -414,6 +416,7 @@ public class AffymetrixRegexReader
 			
 			// clear the arraylists for next read
 			clearArrayLists();
+			
 		}
 	}
 	

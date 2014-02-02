@@ -76,7 +76,7 @@ public class IlluminaView extends JFrame
 		c.gridx = 2;
 		c.gridy = 0;
 		toppanel.add(browsecondition1button, c);
-		browsecondition1button.setActionCommand("Browse Condition 1");
+		browsecondition1button.setActionCommand("Illumina Browse Condition 1");
 		browsecondition1button.addActionListener(controller);
 		/* ------------------------------------------------------ */
 		// adding the condition2label label to toppanel
@@ -93,21 +93,21 @@ public class IlluminaView extends JFrame
 		c.gridx = 2;
 		c.gridy = 1;
 		toppanel.add(browsecondition2button, c);
-		browsecondition2button.setActionCommand("Browse Condition 2");
+		browsecondition2button.setActionCommand("Illumina Browse Condition 2");
 		browsecondition2button.addActionListener(controller);
 		/* ------------------------------------------------------ */
 		// adding the applyfilterbutton to toppanel and adding action commands/listener
 		c.gridx = 2;
 		c.gridy = 2;
 		toppanel.add(applyfilterbutton, c);
-		applyfilterbutton.setActionCommand("Apply Filter");
+		applyfilterbutton.setActionCommand("Illumina Apply Filter");
 		applyfilterbutton.addActionListener(controller);
 		/* ------------------------------------------------------ */
 		// adding the browsecondition2button to toppanel and adding action commands/listener
 		c.gridx = 3;
 		c.gridy = 2;
 		toppanel.add(helpbutton, c);
-		helpbutton.setActionCommand("Help");
+		helpbutton.setActionCommand("Illumina Help");
 		helpbutton.addActionListener(controller);
 		/* ------------------------------------------------------ */
 		// Add top title panel into the main panel
@@ -129,5 +129,31 @@ public class IlluminaView extends JFrame
 		getContentPane().add(mainpanel);
 		getContentPane().setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);		
+	}
+	
+	public void setInput1FieldText(String arg)
+	{
+		this.inputcondition1field.setText(arg);
+	}
+
+	public void setInput2FieldText(String arg)
+	{
+		this.inputcondition2field.setText(arg);
+	}
+
+	public JTextField getInputcondition1field() {
+		return inputcondition1field;
+	}
+
+	public void setInputcondition1field(JTextField inputcondition1field) {
+		this.inputcondition1field = inputcondition1field;
+	}
+
+	public JTextField getInputcondition2field() {
+		return inputcondition2field;
+	}
+
+	public void setInputcondition2field(JTextField inputcondition2field) {
+		this.inputcondition2field = inputcondition2field;
 	}
 }

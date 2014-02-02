@@ -62,6 +62,8 @@ public class Controller extends JFrame implements ActionListener{
 	private String inputfilepath;
 	private static String inputbarcode1;
 	private static String inputbarcode2;
+	private static String inputFile1Illumina;
+	private static String inputFile2Illumina;
 	private static String targetSIFpath;
 	private static String targetfilteredSIFpath;
 	private String targetsubgraphedSIFpath;
@@ -77,10 +79,12 @@ public class Controller extends JFrame implements ActionListener{
 	private static String targetUniqueIDFilepath;
 	private static String targetUniProtToGeneIDMapFilepath;
 	private static String targetGeneIDtoAffymetrixMapFilepath;
-	private static String targetGeneIDtoIlluminaMapFilepath;
+//	private static String targetGeneIDtoIlluminaMapFilepath;
 	private File curFile = null; 
 	private File barcode1File = null;
 	private File barcode2File = null;
+	private File file1Illumina = null;
+	private File file2Illumina = null;
 	private File genesourceFile = null;
 	private File genetargetFile = null;
 	private File sigmolsourceFile = null;
@@ -131,7 +135,15 @@ public class Controller extends JFrame implements ActionListener{
 	public Controller(IlluminaView illuminaview)
 	{
 		this.illuminaview = illuminaview;
-		// TODO : make hashmap From IlluminaID to CytoID
+		try
+		{
+			AffymetrixRegexReader.makeHashMapUniProtToGeneID();
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -171,20 +183,33 @@ public class Controller extends JFrame implements ActionListener{
 		}
 
 		// if user clicks browse condition 1 button
-		if(command.equals("Browse Condition 1"))
+		if(command.equals("Affymetrix Browse Condition 1"))
 		{
 			browseBarcode1File();
 			//TODO: check if file really exists!!
 		}
 		
 		// if user clicks browse condition 2 button        
-		if(command.equals("Browse Condition 2"))
+		if(command.equals("Affymetrix Browse Condition 2"))
 		{
 			browseBarcode2File();
 		}
+		
+		// if user clicks browse condition 1 button
+		if(command.equals("Illumina Browse Condition 1"))
+		{
+			browseFile1Illumina();
+			//TODO: check if file really exists!!
+		}
+		
+		// if user clicks browse condition 2 button        
+		if(command.equals("Illumina Browse Condition 2"))
+		{
+			browseFile2Illumina();
+		}
 
 		// if user clicks apply filter button        
-		if(command.equals("Apply Filter"))
+		if(command.equals("Affymetrix Apply Filter"))
 		{
 			// checks if the user has selected 2 files in the two fields. if not, show the warning message.
 			if(affymetrixview.getInputcondition1field().getText().equals("") || affymetrixview.getInputcondition2field().getText().equals(""))
@@ -281,9 +306,109 @@ public class Controller extends JFrame implements ActionListener{
 				}
 			}
 		}
+		
+		// if user clicks apply filter button        
+		if(command.equals("Illumina Apply Filter"))
+		{
+			// checks if the user has selected 2 files in the two fields. if not, show the warning message.
+			if(illuminaview.getInputcondition1field().getText().equals("") || illuminaview.getInputcondition2field().getText().equals(""))
+			{
+				JOptionPane
+				.showMessageDialog(new JFrame(),
+						"Please choose 2 files using the browse buttons",
+						"Warning", JOptionPane.WARNING_MESSAGE);
+			}
+			else if(!illuminaview.getInputcondition1field().getText().equals("") && !illuminaview.getInputcondition2field().getText().equals(""))
+			{/*
+				// only if the two fields are not the same then try to read the files. Else warning message!
+				if (illuminaview.getInputcondition1field().getText().equals(illuminaview.getInputcondition2field().getText()))
+				{
+					JOptionPane
+					.showMessageDialog(new JFrame(),
+							"Please choose 2 DIFFERENT files",
+							"Warning", JOptionPane.WARNING_MESSAGE);
+				}
+				else
+				{*/
+					try
+					{
+						SplashFrame sp = new SplashFrame();
+						sp.setTitle("Please Wait a Moment...");
+						sp.setLocation(100, 100);
+						sp.setSize(500, 100);
+						sp.setResizable(false);
+						sp.setVisible(true);
+						//setfocus on the splash frame
+						sp.requestFocus();
+						
+						//read the inputfields
+						inputFile1Illumina = illuminaview.getInputcondition1field().getText();
+						inputFile2Illumina = illuminaview.getInputcondition2field().getText();
+						// read the conditions and compare them
+						IlluminaRegexReader.file1Reader(inputFile1Illumina);
+						JOptionPane.showMessageDialog(new JFrame(),"first file read","Success", JOptionPane.WARNING_MESSAGE);
+						IlluminaRegexReader.file2Reader(inputFile2Illumina);
+						JOptionPane.showMessageDialog(new JFrame(),"second file read","Success", JOptionPane.WARNING_MESSAGE);
+						IlluminaRegexReader.compareConditions();
+						JOptionPane.showMessageDialog(new JFrame(),"node suppressed","Success", JOptionPane.WARNING_MESSAGE);
+						
+						// create new SIF
+						//TODO: If can please create a separate method here
+						IlluminaRegexReader.SIFreaderAndNewCreator(targetSIFpath);
+						String[] temporarypath = targetSIFpath.split(".sif");
+						targetfilteredSIFpath = temporarypath[0].concat(ABSENT_PROTEINS_CONCATENATION+".sif");
+						//draw graph of new SIF and create a network
+						Cytoscape.createNetworkFromFile(targetfilteredSIFpath);// load the NODE_TYPE .NA file
+
+						//setfocus on the splash frame
+						sp.requestFocus();
+								
+						loadNodeAttributeFile(getTargetNODE_TYPEpath());
+								
+						// load the UNIPROT .NA file
+						loadNodeAttributeFile(getTargetUNIPROTpath());
+								
+						// load the ENTREZGENE .NA file
+						loadNodeAttributeFile(getTargetENTREZGENEpath());
+								
+						// load the MODIFICATIONS .NA file
+						loadNodeAttributeFile(getTargetMODIFICATIONSpath());
+								
+						// load the PREFERRED_SYMBOL .NA file
+						loadNodeAttributeFile(getTargetPREFERRED_SYMBOLpath());
+
+						// load the PREFERRED_SYMBOL_EXT .NA file
+						loadNodeAttributeFile(getTargetPREFERRED_SYMBOL_EXTpath());
+								
+						// load the PID .NA file
+						loadNodeAttributeFile(getTargetPIDpath());
+								
+						// load the ID_PREF .NA file
+						loadNodeAttributeFile(getTargetID_PREFpath());
+						// change the title of the splash frame
+						sp.setTitle("Network loaded, now loading visualisation...");
+						// load the VIZMAP props file
+						mapVisually(VIZMAP_PROPS_FILE_NAME);
+
+						// change the title of the splash frame
+						sp.setTitle("Visualisation loaded, this window closes automatically.");
+						//delete the splashframe
+						sp.dispose();
+					}
+					catch (IOException e1)
+					{
+						JOptionPane
+						.showMessageDialog(new JFrame(),
+								"Invalid Barcode files detected. Please check!",
+								"Warning", JOptionPane.WARNING_MESSAGE);
+						e1.printStackTrace();
+					}
+				/*}*/
+			}
+		}
 
 		// if user clicks help button        
-		if(command.equals("BarcodeHelp"))
+		if(command.equals("Affymetrix Help"))
 		{
 			JOptionPane
 			.showMessageDialog(new JFrame(),
@@ -292,6 +417,16 @@ public class Controller extends JFrame implements ActionListener{
 							+ "\n" + "\"1007_s_at\",1"
 							+ "\n" + "\"1053_at\",0",
 					"Take Note!", JOptionPane.INFORMATION_MESSAGE);
+		}
+		if(command.equals("Illumina Help"))
+		{
+			JOptionPane
+			.showMessageDialog(new JFrame(),
+					"Please input two .csv Illumina condition file, one for the experiment, the other for the control."
+							+ "\n" + "A Illumina condition file has lots of columns."
+									+ "\n"+"In the \"DD\" column you should find the EntrezGeneID"
+									+ "\n"+"The columns from \"C\" to \"CT\" are conditions, with several sets of .mean, .sd, .p and .nbeads columns",
+					"Help", JOptionPane.INFORMATION_MESSAGE);
 		}
 		if(command.equals("Check to expand help"))
 		{
@@ -1099,7 +1234,7 @@ public class Controller extends JFrame implements ActionListener{
 			fc.setCurrentDirectory(currentDirectory);
 
 			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
-			// get name und path
+			// get name and path
 			if(returnVal == JFileChooser.APPROVE_OPTION)
 			{
 				barcode1File = fc.getSelectedFile();
@@ -1132,7 +1267,7 @@ public class Controller extends JFrame implements ActionListener{
 			fc.setCurrentDirectory(currentDirectory);
 			
 			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
-			// get name und path
+			// get name and path
 			if(returnVal == JFileChooser.APPROVE_OPTION)
 			{
 				barcode2File = fc.getSelectedFile();
@@ -1148,6 +1283,70 @@ public class Controller extends JFrame implements ActionListener{
 			JOptionPane
 			.showMessageDialog(new JFrame(),
 					"Please select a Barcode file",
+					"Warning", JOptionPane.WARNING_MESSAGE);
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * this method browses for the first file of Illumina
+	 */
+	public void browseFile1Illumina()
+	{
+		try
+		{
+			fc.setDialogTitle("Please choose a  file for Condition 1");
+			fc.setCurrentDirectory(currentDirectory);
+
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
+			// get name and path
+			if(returnVal == JFileChooser.APPROVE_OPTION)
+			{
+				file1Illumina = fc.getSelectedFile();
+				// set the input file 1
+				setInputFile1Illumina(file1Illumina.getAbsolutePath());
+				// put the absolute path in the textfield
+				illuminaview.setInput1FieldText(inputFile1Illumina);	
+			}
+			currentDirectory = fc.getCurrentDirectory();
+		}
+		catch (Exception e)
+		{
+			JOptionPane
+			.showMessageDialog(new JFrame(),
+					"Please select a Condition file",
+					"Warning", JOptionPane.WARNING_MESSAGE);
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * this method browses for the second file of Illumina
+	 */
+	public void browseFile2Illumina()
+	{
+		try
+		{
+			fc.setDialogTitle("Please choose a  file for Condition 2");
+			fc.setCurrentDirectory(currentDirectory);
+
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
+			// get name and path
+			if(returnVal == JFileChooser.APPROVE_OPTION)
+			{
+				file2Illumina = fc.getSelectedFile();
+				// set the input file 1
+				setInputFile2Illumina(file2Illumina.getAbsolutePath());
+				// put the absolute path in the textfield
+				illuminaview.setInput2FieldText(inputFile2Illumina);	
+			}
+			currentDirectory = fc.getCurrentDirectory();
+		}
+		catch (Exception e)
+		{
+			JOptionPane
+			.showMessageDialog(new JFrame(),
+					"Please select a Condition file",
 					"Warning", JOptionPane.WARNING_MESSAGE);
 			e.printStackTrace();
 		}
@@ -1425,6 +1624,26 @@ public class Controller extends JFrame implements ActionListener{
 	public void setInputbarcode2(String inputbarcode2)
 	{
 		this.inputbarcode2 = inputbarcode2;
+	}
+	
+	public String getInputFile1Illumina()
+	{
+		return inputFile1Illumina;
+	}
+
+	public void setInputFile1Illumina(String inputfile1)
+	{
+		this.inputFile1Illumina = inputfile1;
+	}
+
+	public String getInputFile2Illumina()
+	{
+		return inputFile2Illumina;
+	}
+
+	public void setInputFile2Illumina(String inputfile2)
+	{
+		this.inputFile2Illumina = inputfile2;
 	}
 
 	public static String getAbsentProteinsConcatenation() {
