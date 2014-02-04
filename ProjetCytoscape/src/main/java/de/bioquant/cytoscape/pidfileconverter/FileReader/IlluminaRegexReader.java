@@ -52,8 +52,6 @@ public class IlluminaRegexReader
 			String line=reader.readLine(); //Do not read the first line
 			while((line = reader.readLine()) != null)
 			{
-				
-				//TODO : adapt this part for Illumina
 				String geneIDvalue;
 				ArrayList<Float> conditionsMeans = new ArrayList<Float>();
 				ArrayList<Float> conditionsP = new ArrayList<Float>();		
@@ -143,7 +141,7 @@ public class IlluminaRegexReader
 								//If one of the two conditions for the presence to be true is not respected (see Report ElKoursi&Lavergne)
 								if (conditionsMeans.get(i)<150 || conditionsP.get(i)>0.01)
 								{
-									barcode1hashmap.put(geneIDvalue, false);
+									barcode2hashmap.put(geneIDvalue, false);
 									break;
 								}
 							}
@@ -178,7 +176,7 @@ public class IlluminaRegexReader
 	 * and returning a boolean of true if something is deleted, else false!
 	 * @param defaultid
 	 */
-	public static boolean isPresentInHashMaps(String defaultid)
+	public static boolean isPresentInHashMaps(String defaultid) 
 	{
 		boolean ispresent = false;
 		if(Pattern.matches(regex1,defaultid))
@@ -198,6 +196,7 @@ public class IlluminaRegexReader
 						// if both barcode files give 0 for the geneID,
 						if(barcode1hashmap.get(geneID) == false)
 						{
+
 							if (barcode2hashmap.get(geneID) == false)
 							{
 								ispresent = true;
@@ -209,6 +208,7 @@ public class IlluminaRegexReader
 		}
 		else //EntrezGene 
 		{
+
 				//if there exists a set of values in the barcode1hashmap for the geneID
 				if(barcode1hashmap.containsKey(defaultid))
 				{
@@ -238,6 +238,7 @@ public class IlluminaRegexReader
 	 */
 	public static void compareConditions()
 	{
+
 		// for every entry in proteinhashmap
 		for (Map.Entry<String, String> entryFromProteinHashmap : AffymetrixRegexReader.getProteinhashmap().entrySet())
 		{

@@ -346,11 +346,8 @@ public class Controller extends JFrame implements ActionListener{
 						inputFile2Illumina = illuminaview.getInputcondition2field().getText();
 						// read the conditions and compare them
 						IlluminaRegexReader.file1Reader(inputFile1Illumina);
-						JOptionPane.showMessageDialog(new JFrame(),"first file read","Success", JOptionPane.WARNING_MESSAGE);
 						IlluminaRegexReader.file2Reader(inputFile2Illumina);
-						JOptionPane.showMessageDialog(new JFrame(),"second file read","Success", JOptionPane.WARNING_MESSAGE);
 						IlluminaRegexReader.compareConditions();
-						JOptionPane.showMessageDialog(new JFrame(),"node suppressed","Success", JOptionPane.WARNING_MESSAGE);
 						
 						// create new SIF
 						//TODO: If can please create a separate method here
@@ -609,6 +606,7 @@ public class Controller extends JFrame implements ActionListener{
 							+mainframe.getSigmolsourcetextfield().getText() + "\n"
 							+mainframe.getSigmoltargettextfield().getText() +"\n", "Success", JOptionPane.INFORMATION_MESSAGE);
 					
+					//Blocage ici avec le .jar
 					sgex = new SubgraphExtraction(mainframe);
 													
 //					sgex.readGeneSourceFile();
