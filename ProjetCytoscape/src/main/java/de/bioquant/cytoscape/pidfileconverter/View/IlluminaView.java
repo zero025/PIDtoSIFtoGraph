@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class IlluminaView extends JFrame
@@ -17,14 +19,15 @@ public class IlluminaView extends JFrame
 	private JPanel titlepanel = new JPanel();
 	private JPanel toppanel = new JPanel();
 	private JLabel titlelabel = new JLabel();
-	private JLabel condition1label = new JLabel("Condition 1");
-	private JLabel condition2label = new JLabel("Condition 2");
-	private JTextField inputcondition1field = new JTextField(20);
-	private JTextField inputcondition2field = new JTextField(20);
-	private JButton browsecondition1button = new JButton("Browse");
-	private JButton browsecondition2button = new JButton("Browse");
+	private JLabel fileLabel = new JLabel("File : ");
+	private JLabel conditionsLabel = new JLabel("Conditions : ");
+	private JTextField inputFileField = new JTextField(20);
+	private JTextField inputconditionsField = new JTextField(20);
+	private JButton browseFileButton = new JButton("Browse");
 	private JButton applyfilterbutton = new JButton("Apply Filter");
 	private JButton helpbutton = new JButton("?");
+	private JScrollPane conditionsscrollpane;
+	private JTextArea conditionsTextArea = new JTextArea();
 	
 	//TODO: this view has yet to be defined -> Ask carito!
 	/**
@@ -47,7 +50,7 @@ public class IlluminaView extends JFrame
 		GridBagConstraints c = new GridBagConstraints();
 		/* ------------------------------------------------------ */
 		// setting the titlelabel and adding it to titlepanel
-		titlelabel.setText("Import normalized file and 2 conditions.");
+		titlelabel.setText("Import normalized file and conditions.");
 		titlelabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		c.fill = GridBagConstraints.HORIZONTAL;
 	    c.ipady = 30;      //make this component tall
@@ -58,54 +61,59 @@ public class IlluminaView extends JFrame
 	    c.gridy = 0;
 	    titlepanel.add(titlelabel, c);
 		/* ------------------------------------------------------ */
-	    // adding the condition1label label to toppanel
+	    // adding the filelabel label to toppanel
 		c.weightx = 0.5;
 		c.gridwidth = 1;
 		c.ipady = 5;
 		c.ipadx = 5;
 		c.gridx = 0;
 		c.gridy = 0;
-		toppanel.add(condition1label, c);
+		toppanel.add(fileLabel, c);
 		/* ------------------------------------------------------ */
-		// adding the inputcondition1field to toppanel
+		// adding the inputFileField to toppanel
 		c.gridx = 1;
 		c.gridy = 0;
-		toppanel.add(inputcondition1field, c);
+		toppanel.add(inputFileField, c);
 		/* ------------------------------------------------------ */
-		// adding the browsecondition1button to toppanel and adding action commands/listener
+		// adding the browseFileButton to toppanel and adding action commands/listener
 		c.gridx = 2;
 		c.gridy = 0;
-		toppanel.add(browsecondition1button, c);
-		browsecondition1button.setActionCommand("Illumina Browse Condition 1");
-		browsecondition1button.addActionListener(controller);
+		toppanel.add(browseFileButton, c);
+		browseFileButton.setActionCommand("Illumina Browse File");
+		browseFileButton.addActionListener(controller);
+		/*------------------------------------------------------- */
+		// adding the conditions text area to toppannel 
+		conditionsTextArea.setSize(7, 10);
+	    conditionsscrollpane = new JScrollPane(conditionsTextArea);
+	    conditionsTextArea.setRows(3);
+		c.ipady = 50;
+	    c.gridx = 1;
+		c.gridy = 1;
+		toppanel.add(conditionsscrollpane, c);
+		
 		/* ------------------------------------------------------ */
-		// adding the condition2label label to toppanel
+		// adding the conditionslabel label to toppanel
+		c.ipady = 15;
+		c.ipadx = 15;
 		c.gridx = 0;
 		c.gridy = 1;
-		toppanel.add(condition2label, c);
+		toppanel.add(conditionsLabel, c);
 		/* ------------------------------------------------------ */
-		// adding the inputcondition2field label to toppanel
+		// adding the inputconditionsField label to toppanel
 		c.gridx = 1;
 		c.gridy = 1;
-		toppanel.add(inputcondition2field, c);
-		/* ------------------------------------------------------ */
-		// adding the browsecondition2button to toppanel and adding action commands/listener
-		c.gridx = 2;
-		c.gridy = 1;
-		toppanel.add(browsecondition2button, c);
-		browsecondition2button.setActionCommand("Illumina Browse Condition 2");
-		browsecondition2button.addActionListener(controller);
+		toppanel.add(inputconditionsField, c);
 		/* ------------------------------------------------------ */
 		// adding the applyfilterbutton to toppanel and adding action commands/listener
 		c.gridx = 2;
-		c.gridy = 2;
+		c.gridy = 3;
 		toppanel.add(applyfilterbutton, c);
 		applyfilterbutton.setActionCommand("Illumina Apply Filter");
 		applyfilterbutton.addActionListener(controller);
 		/* ------------------------------------------------------ */
-		// adding the browsecondition2button to toppanel and adding action commands/listener
+		// adding the help button to toppanel and adding action commands/listener
 		c.gridx = 3;
-		c.gridy = 2;
+		c.gridy = 3;
 		toppanel.add(helpbutton, c);
 		helpbutton.setActionCommand("Illumina Help");
 		helpbutton.addActionListener(controller);
@@ -131,29 +139,34 @@ public class IlluminaView extends JFrame
 	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);		
 	}
 	
-	public void setInput1FieldText(String arg)
+	public void setInputFileFieldText(String arg)
 	{
-		this.inputcondition1field.setText(arg);
+		this.inputFileField.setText(arg);
 	}
 
-	public void setInput2FieldText(String arg)
+	public void setInputConditionsFieldText(String arg)
 	{
-		this.inputcondition2field.setText(arg);
+		this.inputconditionsField.setText(arg);
 	}
 
-	public JTextField getInputcondition1field() {
-		return inputcondition1field;
+	public JTextField getInputFileField() {
+		return inputFileField;
 	}
 
-	public void setInputcondition1field(JTextField inputcondition1field) {
-		this.inputcondition1field = inputcondition1field;
+	public void setInputFileField(JTextField inputFileField) {
+		this.inputFileField = inputFileField;
 	}
 
-	public JTextField getInputcondition2field() {
-		return inputcondition2field;
+	public JTextField getInputconditionsField() {
+		return inputconditionsField;
 	}
 
-	public void setInputcondition2field(JTextField inputcondition2field) {
-		this.inputcondition2field = inputcondition2field;
+	public void setInputconditionsField(JTextField inputconditionsField) {
+		this.inputconditionsField = inputconditionsField;
+	}
+	
+	public JTextArea getConditionsTextArea()
+	{
+		return conditionsTextArea;
 	}
 }

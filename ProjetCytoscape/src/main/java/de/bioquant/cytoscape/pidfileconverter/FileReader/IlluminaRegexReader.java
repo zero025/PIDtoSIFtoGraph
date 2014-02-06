@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,10 +29,7 @@ public class IlluminaRegexReader
 	private static ArrayList<String> nodeIDtobedeleted = new ArrayList<String>();
 	
 	// the hashmap for the first barcode values. Key=GeneID, Value=true(expressed) or false(not expressed)
-	private static HashMap<String, Boolean> barcode1hashmap = new HashMap<String, Boolean>();
-
-	// the hashmap for the second barcode values. Key=GeneID, Value=true(expressed) or false(not expressed)
-	private static HashMap<String, Boolean> barcode2hashmap = new HashMap<String, Boolean>();
+	private static HashMap<String, Boolean> barcodehashmap = new HashMap<String, Boolean>();
 
 	public IlluminaRegexReader()
 	{
@@ -43,114 +41,67 @@ public class IlluminaRegexReader
 	 * @param barcodefilepath
 	 * @throws IOException 
 	 */
-	public static void file1Reader(String barcodefilepath) throws IOException
-	{
+	public static void fileReader(String barcodefilepath, String inputConditionsText) throws IOException
+	{	
 		BufferedReader reader = null;
+		BufferedReader conditionsReader = null;
 		try
 		{
-			reader = new BufferedReader(new FileReader(barcodefilepath));
-			String line=reader.readLine(); //Do not read the first line
-			while((line = reader.readLine()) != null)
+			conditionsReader = new BufferedReader(new StringReader(inputConditionsText));
+			ArrayList<String> conditions= new ArrayList<String>();
+			String l;
+			while ((l = conditionsReader.readLine()) != null)
 			{
-				String geneIDvalue;
-				ArrayList<Float> conditionsMeans = new ArrayList<Float>();
-				ArrayList<Float> conditionsP = new ArrayList<Float>();		
-				String[] splittedString = line.split("\t"); // splits the line at the tab sign; also force split into 2 parts only
-				//The "DD" column corresponds to the GeneID : 26*4+4=108
+				conditions.add("\""+l.trim()+".mean\"");
+			}
+
+			reader = new BufferedReader(new FileReader(barcodefilepath));
 			
-				if (splittedString.length>107)
-				{
-					geneIDvalue = splittedString[107].trim();
-					//The conditions are from column "C" to "CT" : from 3 to 26*2+20=72. We keem the ".mean" and ".p" values : first and third values of each set of four columns
-					for (int i=2;i<72;i+=4)
-					{
-						conditionsMeans.add(Float.valueOf(splittedString[i].trim()));
-						conditionsP.add(Float.valueOf(splittedString[i+2].trim()));
-					}
-					if (geneIDvalue != "NA")
-					{
-						//If the molecule cannot be found on a previous line or it can be found on a previous line with a false:
-						if (barcode1hashmap.get(geneIDvalue) == null)
-						{
-							barcode1hashmap.put(geneIDvalue, true);
-							for (int i=0;i<conditionsMeans.size();i++)
-							{
-								//If one of the two conditions for the presence to be true is not respected (see Report ElKoursi&Lavergne)
-								if (conditionsMeans.get(i)<150 || conditionsP.get(i)>0.01)
-								{
-									barcode1hashmap.put(geneIDvalue, false);
-									break;
-								}
-							}
-							
-						}
-					}
-				}
-	
-			}
-		}
-		catch (IOException e)
-		{
-			JOptionPane
-			.showMessageDialog(new JFrame(),
-					"File read exception in field 'Control'. Make sure you have selected a valid Illumina formatted file",
-					"Warning", JOptionPane.WARNING_MESSAGE);
-		}
-		finally
-		{
-			if(reader != null)
-			{
-				reader.close();
-			}
-		}
-	}
-	
-	public static void file2Reader(String barcodefilepath) throws IOException
-	{
-		BufferedReader reader = null;
-		try
-		{
-			reader = new BufferedReader(new FileReader(barcodefilepath));
-			String line=reader.readLine(); //Do not read the first line
+			//First line
+			String line=reader.readLine();
+			String[] conditionsNames = line.split("\t");
+			
 			while((line = reader.readLine()) != null)
 			{
-				
-				//TODO : adapt this part for Illumina
 				String geneIDvalue;
 				ArrayList<Float> conditionsMeans = new ArrayList<Float>();
 				ArrayList<Float> conditionsP = new ArrayList<Float>();		
 				String[] splittedString = line.split("\t"); // splits the line at the tab sign; also force split into 2 parts only
 				//The "DD" column corresponds to the GeneID : 26*4+4=108
+
 				if (splittedString.length>107)
 				{
 					geneIDvalue = splittedString[107].trim();
-					//The conditions are from column "C" to "CT" : from 3 to 26*2+20=72. We keem the ".mean" and ".p" values : first and third values of each set of four columns
+					//The conditions are from column "C" to "CT" : from 3 to 26*2+20=72. We keep the ".mean" and ".p" values : first and third values of each set of four columns
 					for (int i=2;i<72;i+=4)
 					{
-						conditionsMeans.add(Float.valueOf(splittedString[i].trim()));
-						conditionsP.add(Float.valueOf(splittedString[i+2].trim()));
+						if (inputConditionsText.equals("")|| conditions.contains(conditionsNames[i].trim()))
+						{
+							conditionsMeans.add(Float.valueOf(splittedString[i].trim()));
+							conditionsP.add(Float.valueOf(splittedString[i+2].trim()));
+						}
 					}
 					if (geneIDvalue != "NA")
 					{
 						//If the molecule cannot be found on a previous line or it can be found on a previous line with a false:
-						if (barcode2hashmap.get(geneIDvalue) == null)
+						if (barcodehashmap.get(geneIDvalue) == null)
 						{
-							barcode2hashmap.put(geneIDvalue, true);
+							barcodehashmap.put(geneIDvalue, true);
 							for (int i=0;i<conditionsMeans.size();i++)
 							{
 								//If one of the two conditions for the presence to be true is not respected (see Report ElKoursi&Lavergne)
 								if (conditionsMeans.get(i)<150 || conditionsP.get(i)>0.01)
 								{
-									barcode2hashmap.put(geneIDvalue, false);
+									barcodehashmap.put(geneIDvalue, false);
 									break;
 								}
 							}
-							
+
 						}
 					}
 				}
-				
 			}
+
 		}
 		catch (IOException e)
 		{
@@ -188,43 +139,27 @@ public class IlluminaRegexReader
 				String geneID = uniprottogeneid;
 				
 				//if there exists a set of values in the barcode1hashmap for the geneID
-				if(barcode1hashmap.containsKey(geneID))
+				if(barcodehashmap.containsKey(geneID))
 				{
-					// check for corresponding existence in the barcode2 hashmap
-					if(barcode2hashmap.containsKey(geneID))
+					// if both barcode files give 0 for the geneID,
+					if(barcodehashmap.get(geneID) == false)
 					{
-						// if both barcode files give 0 for the geneID,
-						if(barcode1hashmap.get(geneID) == false)
-						{
-
-							if (barcode2hashmap.get(geneID) == false)
-							{
-								ispresent = true;
-							}
-						}
+						ispresent = true;
 					}
 				}
 			}
 		}
 		else //EntrezGene 
 		{
-
-				//if there exists a set of values in the barcode1hashmap for the geneID
-				if(barcode1hashmap.containsKey(defaultid))
+			//if there exists a set of values in the barcode1hashmap for the geneID
+			if(barcodehashmap.containsKey(defaultid))
+			{
+				// if both barcode files give 0 for the affyID,
+				if(barcodehashmap.get(defaultid) == false)
 				{
-					// check for corresponding existence in the barcode2 hashmap
-					if(barcode2hashmap.containsKey(defaultid))
-					{
-						// if both barcode files give 0 for the affyID,
-						if(barcode1hashmap.get(defaultid) == false)
-						{
-							if (barcode2hashmap.get(defaultid) == false)
-							{
-								ispresent = true;
-							}
-						}
-					}
+					ispresent = true;
 				}
+			}
 		}
 		return ispresent;
 	}
@@ -446,8 +381,9 @@ public class IlluminaRegexReader
 	 */
 	public static void clearBarcodeHashMaps()
 	{
-		barcode1hashmap.clear();
-		barcode2hashmap.clear();
+		barcodehashmap.clear();
 		nodeIDtobedeleted.clear();
 	}
+	
+	
 }
