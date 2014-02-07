@@ -83,9 +83,9 @@ public class IlluminaView extends JFrame
 		browseFileButton.addActionListener(controller);
 		/*------------------------------------------------------- */
 		// adding the conditions text area to toppannel 
-		conditionsTextArea.setSize(7, 10);
+		conditionsTextArea.setSize(7, 50);
 	    conditionsscrollpane = new JScrollPane(conditionsTextArea);
-	    conditionsTextArea.setRows(3);
+	    //conditionsTextArea.setRows(3);
 		c.ipady = 50;
 	    c.gridx = 1;
 		c.gridy = 1;

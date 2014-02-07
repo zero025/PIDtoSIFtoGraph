@@ -532,99 +532,7 @@ public class Controller extends JFrame implements ActionListener{
 		}
 		if (command.equals("Subgraph"))
 		{
-			if(!isConverted)
-			{
-				JOptionPane
-				.showMessageDialog(new JFrame(),
-						"Please convert first in Step 1 above before continuing.",
-						"Warning", JOptionPane.WARNING_MESSAGE);
-			}
-			if(isConverted)
-			{
-				// check the source and target fields for emptiness
-				if(mainframe.getSigmolsourcetextfield().getText().trim().equals("")&&
-						//						mainframe.getGenesourcetextfield().getText().trim().equals("")&&
-						mainframe.getCytoidSourceTextArea().getText().trim().equals(""))
-				{
-					JOptionPane
-					.showMessageDialog(new JFrame(),
-							"Please enter at least one file in SOURCE",
-							"Warning", JOptionPane.WARNING_MESSAGE);
-				}
-				else if(mainframe.getGenetargettextfield().getText().trim().equals("")&&
-						mainframe.getSigmoltargettextfield().getText().trim().equals("")&&
-						mainframe.getCytoidTargetTextArea().getText().trim().equals(""))
-				{
-					JOptionPane
-					.showMessageDialog(new JFrame(),
-							"Please enter at least one file in TARGET",
-							"Warning", JOptionPane.WARNING_MESSAGE);
-				}
-				else
-				{
-					SplashFrame sp = new SplashFrame();
-					sp.setTitle("Please Wait a Moment...");
-					sp.setLocation(100, 100);
-					sp.setSize(500, 100);
-					sp.setResizable(false);
-					sp.setVisible(true);
-					//setfocus on the splash frame
-					//sp.requestFocus();
-
-					//TODO: instead of getting targetSIFpath, get actual network worked upon
-					String currentNetworkFilepath = targetSIFpath;
-
-					SubgraphExtraction sgex;
-
-					JOptionPane
-					.showMessageDialog(new JFrame(),
-							mainframe.getCytoidSourceTextArea().getText() + "\n"
-									+mainframe.getCytoidTargetTextArea().getText() + "\n"
-									+mainframe.getGenesourcetextfield().getText() + "\n"
-									+mainframe.getGenesourcetextfield().getText() + "\n"
-									+mainframe.getSigmolsourcetextfield().getText() + "\n"
-									+mainframe.getSigmoltargettextfield().getText() +"\n", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-					//Blocage ici avec le .jar
-					sgex = new SubgraphExtraction(mainframe);
-
-					//					sgex.readGeneSourceFile();
-					sgex.readGeneTargetFile(currentNetworkFilepath, targetNODE_TYPEpath);
-					sgex.readSigmolSourceFile();	
-					sgex.readSigmolTargetFile();
-					sgex.readCytoSourceText();
-					sgex.readCytoTargetText();
-
-					//then draw the graph from the read files/text
-					sgex.drawJungGraph();
-
-					try
-					{					
-						sgex.SIFreaderAndNewCreator(currentNetworkFilepath);
-						String[] temporarypath = currentNetworkFilepath.split(".sif");
-						targetsubgraphedSIFpath = temporarypath[0].concat(SUBGRAPHED+".sif");
-						//draw graph of new SIF and create a network
-						Cytoscape.createNetworkFromFile(targetsubgraphedSIFpath);// load the NODE_TYPE .NA file
-
-						// load the VIZMAP props file
-						mapVisually(VIZMAP_PROPS_FILE_NAME);
-						JOptionPane
-						.showMessageDialog(new JFrame(),
-								"Subgraph successful! Files converted are located in the directory:"
-										+ "\n" + targetsubgraphedSIFpath,
-										"Success", JOptionPane.INFORMATION_MESSAGE);
-					}
-					catch (IOException e1)
-					{
-						e1.printStackTrace();
-					}
-					finally
-					{
-						//delete the splashframe
-						sp.dispose();						
-					}
-				}
-			}
+			subgraph();
 		}
 		if (command.equals("Gene Source Browse"))
 		{
@@ -1589,5 +1497,110 @@ public class Controller extends JFrame implements ActionListener{
 	public static String getSubgraphed() {
 		return SUBGRAPHED;
 	}
+	
+	public synchronized void subgraph(){
+		try {
 
+			if(!isConverted)
+			{
+				JOptionPane
+				.showMessageDialog(new JFrame(),
+						"Please convert first in Step 1 above before continuing.",
+						"Warning", JOptionPane.WARNING_MESSAGE);
+			}
+			if(isConverted)
+			{
+				// check the source and target fields for emptiness
+				if(mainframe.getSigmolsourcetextfield().getText().trim().equals("")&&
+						//						mainframe.getGenesourcetextfield().getText().trim().equals("")&&
+						mainframe.getCytoidSourceTextArea().getText().trim().equals(""))
+				{
+					JOptionPane
+					.showMessageDialog(new JFrame(),
+							"Please enter at least one file in SOURCE",
+							"Warning", JOptionPane.WARNING_MESSAGE);
+				}
+				else if(mainframe.getGenetargettextfield().getText().trim().equals("")&&
+						mainframe.getSigmoltargettextfield().getText().trim().equals("")&&
+						mainframe.getCytoidTargetTextArea().getText().trim().equals(""))
+				{
+					JOptionPane
+					.showMessageDialog(new JFrame(),
+							"Please enter at least one file in TARGET",
+							"Warning", JOptionPane.WARNING_MESSAGE);
+				}
+				else
+				{
+					SplashFrame sp = new SplashFrame();
+					sp.setTitle("Please Wait a Moment...");
+					sp.setLocation(100, 100);
+					sp.setSize(500, 100);
+					sp.setResizable(false);
+					sp.setVisible(true);
+					//setfocus on the splash frame
+					//sp.requestFocus();
+
+					//TODO: instead of getting targetSIFpath, get actual network worked upon
+					String currentNetworkFilepath = targetSIFpath;
+
+					SubgraphExtraction sgex;
+
+					JOptionPane
+					.showMessageDialog(new JFrame(),
+							mainframe.getCytoidSourceTextArea().getText() + "\n"
+									+mainframe.getCytoidTargetTextArea().getText() + "\n"
+									+mainframe.getGenesourcetextfield().getText() + "\n"
+									+mainframe.getGenesourcetextfield().getText() + "\n"
+									+mainframe.getSigmolsourcetextfield().getText() + "\n"
+									+mainframe.getSigmoltargettextfield().getText() +"\n", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+
+					//Blocage ici avec le .jar
+					sgex = new SubgraphExtraction(mainframe);
+
+					//					sgex.readGeneSourceFile();
+					sgex.readGeneTargetFile(currentNetworkFilepath, targetNODE_TYPEpath);
+					sgex.readSigmolSourceFile();	
+					sgex.readSigmolTargetFile();
+					sgex.readCytoSourceText();
+					sgex.readCytoTargetText();
+
+					//then draw the graph from the read files/text
+					sgex.drawJungGraph();
+
+					try
+					{					
+						sgex.SIFreaderAndNewCreator(currentNetworkFilepath);
+						String[] temporarypath = currentNetworkFilepath.split(".sif");
+						targetsubgraphedSIFpath = temporarypath[0].concat(SUBGRAPHED+".sif");
+						//draw graph of new SIF and create a network
+						Cytoscape.createNetworkFromFile(targetsubgraphedSIFpath);// load the NODE_TYPE .NA file
+
+						// load the VIZMAP props file
+						mapVisually(VIZMAP_PROPS_FILE_NAME);
+						JOptionPane
+						.showMessageDialog(new JFrame(),
+								"Subgraph successful! Files converted are located in the directory:"
+										+ "\n" + targetsubgraphedSIFpath,
+										"Success", JOptionPane.INFORMATION_MESSAGE);
+					}
+					catch (IOException e1)
+					{
+						e1.printStackTrace();
+					}
+					finally
+					{
+						//delete the splashframe
+						sp.dispose();						
+					}
+				}
+			}
+		}catch (Exception ex){
+			JOptionPane
+			.showMessageDialog(new JFrame(),
+					"Error :  "+ex.getClass().getName(),
+					"Warning", JOptionPane.WARNING_MESSAGE);
+		} 
+
+	}
 }
