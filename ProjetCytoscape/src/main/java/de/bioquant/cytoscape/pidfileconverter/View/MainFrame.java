@@ -60,7 +60,7 @@ public class MainFrame extends JFrame{
 	private JScrollPane cytoidtargetscrollpane;
 	private JButton browsebutton = new JButton("Browse");
 	private JButton outputbutton = new JButton("Output");
-	private JButton convertbutton = new JButton("Convert");
+	private JButton convertbutton = new JButton("Convert/Show");
 	private JButton choosebutton = new JButton("Choose");
 	private JButton genesourcebrowsebutton = new JButton("Browse");
 	private JButton genetargetbrowsebutton = new JButton("Browse");
@@ -263,7 +263,7 @@ public class MainFrame extends JFrame{
 	    bottompanel.add(targetlabel, c);
 	    /* ------------------------------------------------------ */
 	    // setting the genelabel and adding it to bottompanel
-	    genelabel.setText("Genes (UniProtID):");
+	    genelabel.setText("Genes (UniProtID//EntrezGeneID):");
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    c.ipady = 10;
 	    c.ipadx = 10;
@@ -311,7 +311,7 @@ public class MainFrame extends JFrame{
 	    genetargetbrowsebutton.addActionListener(controller);
 	    /* ------------------------------------------------------ */
 	    // setting the sigmollabel and adding it to bottompanel
-	    sigmollabel.setText("Signalling Molecules (UniProtID):");
+	    sigmollabel.setText("Signalling Molecules (UniProtID//EntrezGeneID):");
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    c.ipady = 10;
 	    c.ipadx = 10;

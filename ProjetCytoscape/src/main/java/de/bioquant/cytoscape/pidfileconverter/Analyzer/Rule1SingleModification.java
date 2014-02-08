@@ -7,7 +7,7 @@ import java.util.Collection;
 
 import de.bioquant.cytoscape.pidfileconverter.Model.InteractionComponent;
 import de.bioquant.cytoscape.pidfileconverter.Model.InteractionNode;
-import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorUniprotWithModification;
+import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorIDWithModification;
 import de.bioquant.cytoscape.pidfileconverter.Naming.NameCreator;
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.InconsistentOntologyException;
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.UnknownOntologyException;
@@ -20,7 +20,7 @@ import de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.EdgeTypeOntol
 public class Rule1SingleModification implements Rule {
 
 	public final static String RULENAME="Rule1SingleModification";
-	private NameCreator naming = CreatorUniprotWithModification.getInstance();
+	private NameCreator naming = CreatorIDWithModification.getInstance();
 
 	/*
 	 * (non-Javadoc)

@@ -76,7 +76,7 @@ public class ModificationExtractor {
 			if (!mod.isEmpty())
 			{
 				MoleculeNode memberMolecule=member.getMolecule();
-				String id=CreatorUniprotWithModification.getInstance().getId(memberMolecule);
+				String id=CreatorIDWithModification.getInstance().getId(memberMolecule);
 				string.append(id);
 				if (memberMolecule.hasPreferredSymbol())
 						string.append("("+memberMolecule.getPreferredSymbol()+")");

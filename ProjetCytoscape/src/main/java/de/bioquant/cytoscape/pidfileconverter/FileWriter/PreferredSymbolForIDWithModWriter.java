@@ -2,16 +2,16 @@ package de.bioquant.cytoscape.pidfileconverter.FileWriter;
 
 import de.bioquant.cytoscape.pidfileconverter.Model.CompMolMember;
 
-public final class PreferredSymbolForUniprotWithModWriter extends AbstractPreferredSymbolWriter implements FileWriter {
+public final class PreferredSymbolForIDWithModWriter extends AbstractPreferredSymbolWriter implements FileWriter {
 
-	private static PreferredSymbolForUniprotWithModWriter instance = null;
+	private static PreferredSymbolForIDWithModWriter instance = null;
 	
-	private PreferredSymbolForUniprotWithModWriter() {
+	private PreferredSymbolForIDWithModWriter() {
 	}
 
-	public static PreferredSymbolForUniprotWithModWriter getInstance() {
+	public static PreferredSymbolForIDWithModWriter getInstance() {
 		if (null == instance)
-			instance = new PreferredSymbolForUniprotWithModWriter();
+			instance = new PreferredSymbolForIDWithModWriter();
 		return instance;
 	}
 

@@ -75,7 +75,7 @@ public class AffymetrixView extends JFrame
 		c.gridx = 2;
 		c.gridy = 0;
 		toppanel.add(browsecondition1button, c);
-		browsecondition1button.setActionCommand("Browse Condition 1");
+		browsecondition1button.setActionCommand("Affymetrix Browse Condition 1");
 		browsecondition1button.addActionListener(controller);
 		/* ------------------------------------------------------ */
 		// adding the condition2label label to toppanel
@@ -92,21 +92,21 @@ public class AffymetrixView extends JFrame
 		c.gridx = 2;
 		c.gridy = 1;
 		toppanel.add(browsecondition2button, c);
-		browsecondition2button.setActionCommand("Browse Condition 2");
+		browsecondition2button.setActionCommand("Affymetrix Browse Condition 2");
 		browsecondition2button.addActionListener(controller);
 		/* ------------------------------------------------------ */
 		// adding the applyfilterbutton to toppanel and adding action commands/listener
 		c.gridx = 2;
 		c.gridy = 2;
 		toppanel.add(applyfilterbutton, c);
-		applyfilterbutton.setActionCommand("Apply Filter");
+		applyfilterbutton.setActionCommand("Affymetrix Apply Filter");
 		applyfilterbutton.addActionListener(controller);
 		/* ------------------------------------------------------ */
 		// adding the browsecondition2button to toppanel and adding action commands/listener
 		c.gridx = 3;
 		c.gridy = 2;
 		toppanel.add(helpbutton, c);
-		helpbutton.setActionCommand("BarcodeHelp");
+		helpbutton.setActionCommand("Affymetrix Help");
 		helpbutton.addActionListener(controller);
 		/* ------------------------------------------------------ */
 		// Add top title panel into the main panel

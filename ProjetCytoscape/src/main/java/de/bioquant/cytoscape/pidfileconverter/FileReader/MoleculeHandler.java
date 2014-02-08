@@ -88,7 +88,6 @@ public class MoleculeHandler {
 			String long_name = atts.getValue("long_name_type");
 			if (name_type != null && long_name != null) {
 				String value = atts.getValue("value");
-				value =  StringUtils.replace(value, "+", "plus");
 				if (name_type.equals("UP") && long_name.equals("UniProt")) {
 					handleUniProtId(value);
 					return;
@@ -124,7 +123,6 @@ public class MoleculeHandler {
 	public void handleEntrezGeneId(final String value)
 			throws UnknownOntologyException, InconsistentOntologyException,
 			InvalidUniProtId, InvalidEntrezGeneId {
-
 		if (currentMolecule.isProtein() || currentMolecule.isRna()) {
 			if (value.matches("([0-9])+")) {
 				this.hasEntrezGene= true;

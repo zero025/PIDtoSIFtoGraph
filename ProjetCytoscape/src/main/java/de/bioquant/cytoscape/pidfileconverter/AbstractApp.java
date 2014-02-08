@@ -29,9 +29,9 @@ import de.bioquant.cytoscape.pidfileconverter.FileWriter.ExtPreferredSymbolWrite
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.FileWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.IdWithPreferredSymbolWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.ModificationsWriter;
-import de.bioquant.cytoscape.pidfileconverter.FileWriter.NodeTypeAttributeForUniprotWithModWriter;
-import de.bioquant.cytoscape.pidfileconverter.FileWriter.PidForUniprotWithModWriter;
-import de.bioquant.cytoscape.pidfileconverter.FileWriter.PreferredSymbolForUniprotWithModWriter;
+import de.bioquant.cytoscape.pidfileconverter.FileWriter.NodeTypeAttributeForIDWithModWriter;
+import de.bioquant.cytoscape.pidfileconverter.FileWriter.PidForIDWithModWriter;
+import de.bioquant.cytoscape.pidfileconverter.FileWriter.PreferredSymbolForIDWithModWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.SifFileWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.UniprotIdForUniprotWithModWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.EntrezGeneIdforEntrezGeneWithModWriter;
@@ -166,7 +166,7 @@ public abstract class AbstractApp {
 //			e.printStackTrace();
 //		}
 //
-//		FileWriter pWriter = PreferredSymbolForUniprotWithModWriter
+//		FileWriter pWriter = PreferredSymbolForIDWithModWriter
 //				.getInstance();
 //		try {
 //			pWriter.write(path + "PREFERRED_SYMBOL.NA", manager);
@@ -183,7 +183,7 @@ public abstract class AbstractApp {
 //			e.printStackTrace();
 //		}
 //
-//		FileWriter pidWriter = PidForUniprotWithModWriter.getInstance();
+//		FileWriter pidWriter = PidForIDWithModWriter.getInstance();
 //		try {
 //			pidWriter.write(path + "PID.NA", manager);
 //		} catch (FileNotFoundException e) {

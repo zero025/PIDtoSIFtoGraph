@@ -8,7 +8,7 @@ import de.bioquant.cytoscape.pidfileconverter.Model.CompMolMember;
 import de.bioquant.cytoscape.pidfileconverter.Model.ComponentModification;
 import de.bioquant.cytoscape.pidfileconverter.Model.InteractionComponent;
 import de.bioquant.cytoscape.pidfileconverter.Model.MoleculeNode;
-import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorUniprotWithModification;
+import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorIDWithModification;
 import de.bioquant.cytoscape.pidfileconverter.Naming.ModificationExtractor;
 import de.bioquant.cytoscape.pidfileconverter.Naming.NameCreator;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
@@ -17,7 +17,7 @@ public final class ModificationsWriter extends AbstractNodeAttributeWriter imple
 		FileWriter {
 
 	private static ModificationsWriter instance = null;
-	private NameCreator naming = CreatorUniprotWithModification.getInstance();
+	private NameCreator naming = CreatorIDWithModification.getInstance();
 
 	private ModificationsWriter() {
 	}
@@ -55,7 +55,7 @@ public final class ModificationsWriter extends AbstractNodeAttributeWriter imple
 				String memberString = ModificationExtractor
 						.getDetailledModificatonStringForComplexMolecules(
 								members,
-								CreatorUniprotWithModification.FAMSEPERATOR);
+								CreatorIDWithModification.FAMSEPERATOR);
 				TupelWriter.printTupel(writer, id, memberString);
 			}
 
@@ -64,7 +64,7 @@ public final class ModificationsWriter extends AbstractNodeAttributeWriter imple
 				String memberString = ModificationExtractor
 						.getDetailledModificatonStringForComplexMolecules(
 								members,
-								CreatorUniprotWithModification.COMPLEXSEPERATOR);
+								CreatorIDWithModification.COMPLEXSEPERATOR);
 				TupelWriter.printTupel(writer, id, memberString);
 
 			}

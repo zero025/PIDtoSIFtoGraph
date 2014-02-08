@@ -8,7 +8,7 @@ import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidInteractionIdExc
 import de.bioquant.cytoscape.pidfileconverter.Model.InteractionComponent;
 import de.bioquant.cytoscape.pidfileconverter.Model.InteractionNode;
 import de.bioquant.cytoscape.pidfileconverter.Model.PathwayNode;
-import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorUniprotWithModification;
+import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorIDWithModification;
 import de.bioquant.cytoscape.pidfileconverter.Naming.NameCreator;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.InteractionNodeManager;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
@@ -22,7 +22,7 @@ import de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.EdgeTypeOntol
 public final class SifFileWriter implements FileWriter {
 
 	private static SifFileWriter instance = null;
-	private NameCreator naming = CreatorUniprotWithModification.getInstance();
+	private NameCreator naming = CreatorIDWithModification.getInstance();
 
 	private SifFileWriter() {
 	}

@@ -7,23 +7,23 @@ import de.bioquant.cytoscape.pidfileconverter.Model.InteractionComponent;
 import de.bioquant.cytoscape.pidfileconverter.Model.InteractionNode;
 import de.bioquant.cytoscape.pidfileconverter.Model.MoleculeNode;
 import de.bioquant.cytoscape.pidfileconverter.Model.PathwayNode;
-import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorUniprotWithModification;
+import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorIDWithModification;
 import de.bioquant.cytoscape.pidfileconverter.Naming.NameCreator;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 import de.bioquant.cytoscape.pidfileconverter.Ontology.OntologyElement;
 
-public final class NodeTypeAttributeForUniprotWithModWriter extends
+public final class NodeTypeAttributeForIDWithModWriter extends
 		AbstractNodeAttributeWriter {
 
-	private static NodeTypeAttributeForUniprotWithModWriter instance = null;
-	private NameCreator naming = CreatorUniprotWithModification.getInstance();
+	private static NodeTypeAttributeForIDWithModWriter instance = null;
+	private NameCreator naming = CreatorIDWithModification.getInstance();
 
-	private NodeTypeAttributeForUniprotWithModWriter() {
+	private NodeTypeAttributeForIDWithModWriter() {
 	}
 
-	public static NodeTypeAttributeForUniprotWithModWriter getInstance() {
+	public static NodeTypeAttributeForIDWithModWriter getInstance() {
 		if (instance == null)
-			instance = new NodeTypeAttributeForUniprotWithModWriter();
+			instance = new NodeTypeAttributeForIDWithModWriter();
 		return instance;
 	}
 
