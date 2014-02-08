@@ -12,24 +12,24 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class IlluminaView extends JFrame
 {
 	private JPanel mainpanel = new JPanel();
-	private JPanel titlepanel = new JPanel();
-	private JPanel toppanel = new JPanel();
-	private JLabel titlelabel = new JLabel();
-	private JLabel fileLabel = new JLabel("File : ");
-	private JLabel conditionsLabel = new JLabel("Conditions : ");
+	private JPanel filepanel = new JPanel();
+	private JPanel conditionspanel = new JPanel();
+	private JLabel insertNameslabel = new JLabel("Insert the names of 2 conditions.",SwingConstants.LEFT);
+	private JLabel fileLabel = new JLabel("Select Normalized Illumina file (.CSV)");
+	private JLabel condition1Label = new JLabel("Condition 1",SwingConstants.LEFT);
+	private JLabel condition2Label = new JLabel("Condition 2",SwingConstants.LEFT);
 	private JTextField inputFileField = new JTextField(20);
-	private JTextField inputconditionsField = new JTextField(20);
+	private JTextField inputcondition1Field = new JTextField(20);
+	private JTextField inputcondition2Field = new JTextField(20);
 	private JButton browseFileButton = new JButton("Browse");
 	private JButton applyfilterbutton = new JButton("Apply Filter");
 	private JButton helpbutton = new JButton("?");
-	private JScrollPane conditionsscrollpane;
-	private JTextArea conditionsTextArea = new JTextArea();
 	
-	//TODO: this view has yet to be defined -> Ask carito!
 	/**
 	 * This constructor is responsible to build the frame of this class,
 	 * as well as setting the labels, text areas and the buttons,
@@ -43,94 +43,92 @@ public class IlluminaView extends JFrame
 		
 		// set the layouts for the different panels
 		mainpanel.setLayout(new GridBagLayout());
-		titlepanel.setLayout(new GridBagLayout());
-		toppanel.setLayout(new GridBagLayout());
+		filepanel.setLayout(new GridBagLayout());
+		conditionspanel.setLayout(new GridBagLayout());
 		
 		// call a new set of gridbagconstraints
 		GridBagConstraints c = new GridBagConstraints();
-		/* ------------------------------------------------------ */
-		// setting the titlelabel and adding it to titlepanel
-		titlelabel.setText("Import normalized file and conditions.");
-		titlelabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
-		c.fill = GridBagConstraints.HORIZONTAL;
-	    c.ipady = 30;      //make this component tall
-	    c.ipadx = 20;
-	    c.weightx = 0.0;
-	    c.gridwidth = 4;
-	    c.gridx = 0;
-	    c.gridy = 0;
-	    titlepanel.add(titlelabel, c);
-		/* ------------------------------------------------------ */
-	    // adding the filelabel label to toppanel
-		c.weightx = 0.5;
-		c.gridwidth = 1;
+	    /* ------------------------------------------------------ */
+	    // adding the filelabel label to filepanel
 		c.ipady = 5;
 		c.ipadx = 5;
 		c.gridx = 0;
 		c.gridy = 0;
-		toppanel.add(fileLabel, c);
+		filepanel.add(fileLabel, c);
 		/* ------------------------------------------------------ */
-		// adding the inputFileField to toppanel
+		// adding the inputFileField to filepanel
 		c.gridx = 1;
 		c.gridy = 0;
-		toppanel.add(inputFileField, c);
+		filepanel.add(inputFileField, c);
 		/* ------------------------------------------------------ */
-		// adding the browseFileButton to toppanel and adding action commands/listener
+		// adding the browseFileButton to filepanel and adding action commands/listener
 		c.gridx = 2;
 		c.gridy = 0;
-		toppanel.add(browseFileButton, c);
+		filepanel.add(browseFileButton, c);
 		browseFileButton.setActionCommand("Illumina Browse File");
 		browseFileButton.addActionListener(controller);
-		/*------------------------------------------------------- */
-		// adding the conditions text area to toppannel 
-		conditionsTextArea.setSize(7, 50);
-	    conditionsscrollpane = new JScrollPane(conditionsTextArea);
-	    //conditionsTextArea.setRows(3);
-		c.ipady = 50;
-	    c.gridx = 1;
-		c.gridy = 1;
-		toppanel.add(conditionsscrollpane, c);
-		
 		/* ------------------------------------------------------ */
-		// adding the conditionslabel label to toppanel
-		c.ipady = 15;
-		c.ipadx = 15;
+		// setting the insertNameslabel and adding it to conditionspanel
+		insertNameslabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
+	    //c.ipady = 30;      //make this component tall
+	    //c.ipadx = 20;
+	    c.anchor = GridBagConstraints.WEST;
+	    c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+	    c.gridy = 0;
+	    conditionspanel.add(insertNameslabel, c);	
+		/* ------------------------------------------------------ */
+		// adding the condition1label label to conditionspanel
+		//c.ipady = 15;
+		//c.ipadx = 15;
+	    c.weightx = 0.5;
+		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 1;
-		toppanel.add(conditionsLabel, c);
+		conditionspanel.add(condition1Label, c);
 		/* ------------------------------------------------------ */
-		// adding the inputconditionsField label to toppanel
+		// adding the condition2label label to conditionspanel
+		//c.ipady = 15;
+		//c.ipadx = 15;
+		c.gridx = 0;
+		c.gridy = 2;
+		conditionspanel.add(condition2Label, c);
+		/* ------------------------------------------------------ */
+		// adding the inputcondition1Field label to conditionspanel
 		c.gridx = 1;
 		c.gridy = 1;
-		toppanel.add(inputconditionsField, c);
+		conditionspanel.add(inputcondition1Field, c);
 		/* ------------------------------------------------------ */
-		// adding the applyfilterbutton to toppanel and adding action commands/listener
-		c.gridx = 2;
+		// adding the inputcondition1Field label to conditionspanel
+		c.gridx = 1;
+		c.gridy = 2;
+		conditionspanel.add(inputcondition2Field, c);
+		/* ------------------------------------------------------ */
+		// adding the applyfilterbutton to conditionspanel and adding action commands/listener
+		c.gridx = 3;
 		c.gridy = 3;
-		toppanel.add(applyfilterbutton, c);
+		conditionspanel.add(applyfilterbutton, c);
 		applyfilterbutton.setActionCommand("Illumina Apply Filter");
 		applyfilterbutton.addActionListener(controller);
 		/* ------------------------------------------------------ */
-		// adding the help button to toppanel and adding action commands/listener
+		// adding the help button to conditionspanel and adding action commands/listener
 		c.gridx = 3;
-		c.gridy = 3;
-		toppanel.add(helpbutton, c);
+		c.gridy = 4;
+		conditionspanel.add(helpbutton, c);
 		helpbutton.setActionCommand("Illumina Help");
 		helpbutton.addActionListener(controller);
 		/* ------------------------------------------------------ */
-		// Add top title panel into the main panel
-	    c.ipady = 10;
+		// Add filepanel into the main panel
+		c.ipady = 10;
 	    c.ipadx = 10;
-	    c.gridx = 0;
+		c.gridx = 0;
 	    c.gridy = 0;
-		mainpanel.add(titlepanel, c);
+		mainpanel.add(filepanel, c);
 		/* ------------------------------------------------------ */
-		// Add top panel into the main panel
-	    c.ipady = 10;
-	    c.ipadx = 10;
+		// Add conditionspanel into the main panel
 	    c.gridx = 0;
 	    c.gridy = 1;
-		mainpanel.add(toppanel, c);
+		mainpanel.add(conditionspanel, c);
 	    /* ------------------------------------------------------ */
 		
 		// add the main panel to the content pane
@@ -144,9 +142,14 @@ public class IlluminaView extends JFrame
 		this.inputFileField.setText(arg);
 	}
 
-	public void setInputConditionsFieldText(String arg)
+	public void setInputCondition1FieldText(String arg)
 	{
-		this.inputconditionsField.setText(arg);
+		this.inputcondition1Field.setText(arg);
+	}
+	
+	public void setInputCondition2FieldText(String arg)
+	{
+		this.inputcondition2Field.setText(arg);
 	}
 
 	public JTextField getInputFileField() {
@@ -157,16 +160,11 @@ public class IlluminaView extends JFrame
 		this.inputFileField = inputFileField;
 	}
 
-	public JTextField getInputconditionsField() {
-		return inputconditionsField;
-	}
-
-	public void setInputconditionsField(JTextField inputconditionsField) {
-		this.inputconditionsField = inputconditionsField;
+	public JTextField getInputcondition1Field() {
+		return inputcondition1Field;
 	}
 	
-	public JTextArea getConditionsTextArea()
-	{
-		return conditionsTextArea;
+	public JTextField getInputcondition2Field() {
+		return inputcondition2Field;
 	}
 }

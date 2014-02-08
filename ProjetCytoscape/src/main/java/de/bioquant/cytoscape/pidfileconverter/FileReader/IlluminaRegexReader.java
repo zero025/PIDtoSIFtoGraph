@@ -41,19 +41,13 @@ public class IlluminaRegexReader
 	 * @param barcodefilepath
 	 * @throws IOException 
 	 */
-	public static void fileReader(String barcodefilepath, String inputConditionsText) throws IOException
+	public static void fileReader(String barcodefilepath, String inputCondition1Text, String inputCondition2Text) throws IOException
 	{	
 		BufferedReader reader = null;
-		BufferedReader conditionsReader = null;
 		try
 		{
-			conditionsReader = new BufferedReader(new StringReader(inputConditionsText));
-			ArrayList<String> conditions= new ArrayList<String>();
-			String l;
-			while ((l = conditionsReader.readLine()) != null)
-			{
-				conditions.add("\""+l.trim()+".mean\"");
-			}
+			String condition1 = "\""+inputCondition1Text+".mean";
+			String condition2 = "\""+inputCondition2Text+".mean";
 
 			reader = new BufferedReader(new FileReader(barcodefilepath));
 			
@@ -75,7 +69,7 @@ public class IlluminaRegexReader
 					//The conditions are from column "C" to "CT" : from 3 to 26*2+20=72. We keep the ".mean" and ".p" values : first and third values of each set of four columns
 					for (int i=2;i<72;i+=4)
 					{
-						if (inputConditionsText.equals("")|| conditions.contains(conditionsNames[i].trim()))
+						if ((inputCondition1Text.equals("") && inputCondition1Text.equals("")) || condition1.equals(conditionsNames[i].trim()) || condition2.equals(conditionsNames[i].trim()) )
 						{
 							conditionsMeans.add(Float.valueOf(splittedString[i].trim()));
 							conditionsP.add(Float.valueOf(splittedString[i+2].trim()));

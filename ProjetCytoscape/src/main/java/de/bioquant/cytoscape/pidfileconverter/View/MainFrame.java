@@ -60,7 +60,7 @@ public class MainFrame extends JFrame{
 	private JScrollPane cytoidtargetscrollpane;
 	private JButton browsebutton = new JButton("Browse");
 	private JButton outputbutton = new JButton("Output");
-	private JButton convertbutton = new JButton("Convert");
+	private JButton convertbutton = new JButton("Convert/Show");
 	private JButton choosebutton = new JButton("Choose");
 	private JButton genesourcebrowsebutton = new JButton("Browse");
 	private JButton genetargetbrowsebutton = new JButton("Browse");

@@ -326,7 +326,7 @@ public class Controller extends JFrame implements ActionListener{
 					//read the inputfield
 					inputFileIllumina = illuminaview.getInputFileField().getText();
 					// read the fil and compare the conditions 
-					IlluminaRegexReader.fileReader(inputFileIllumina, illuminaview.getConditionsTextArea().getText());
+					IlluminaRegexReader.fileReader(inputFileIllumina, illuminaview.getInputcondition1Field().getText(), illuminaview.getInputcondition2Field().getText());
 					IlluminaRegexReader.compareConditions();
 
 					// create new SIF
@@ -610,7 +610,7 @@ public class Controller extends JFrame implements ActionListener{
 		if(isilluminachecked && !isaffymetrixchecked)
 		{
 			illuminaview = new IlluminaView(this);
-			illuminaview.setTitle("Import files");
+			illuminaview.setTitle("Illumina View");
 			illuminaview.setLocation(80, 80);
 			illuminaview.setSize(400, 300);
 			illuminaview.setResizable(false);
