@@ -1,5 +1,6 @@
 package de.bioquant.cytoscape.pidfileconverter.Analyzer;
 
+@SuppressWarnings("serial")
 public class ConcurrentRenamingException extends Exception {
 
 	public ConcurrentRenamingException() {
@@ -21,7 +22,4 @@ public class ConcurrentRenamingException extends Exception {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-
 }

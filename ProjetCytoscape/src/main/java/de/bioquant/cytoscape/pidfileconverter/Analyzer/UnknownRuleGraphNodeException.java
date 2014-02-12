@@ -1,5 +1,6 @@
 package de.bioquant.cytoscape.pidfileconverter.Analyzer;
 
+@SuppressWarnings("serial")
 public class UnknownRuleGraphNodeException extends Exception {
 
 	public UnknownRuleGraphNodeException() {
@@ -21,7 +22,4 @@ public class UnknownRuleGraphNodeException extends Exception {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-
 }

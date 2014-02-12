@@ -1,4 +1,5 @@
 /**
+ * @author Florian Dittmann
  * 
  */
 package de.bioquant.cytoscape.pidfileconverter.Analyzer;
@@ -18,13 +19,10 @@ import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.InconsistentOn
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.UnknownOntologyException;
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.EdgeTypeOntology;
 
-/**
- * @author Florian Dittmann
- * 
- */
 public class Rule2ImportantComplexModification implements Rule {
 
 	public final static String RULENAME = "Rule2ImportantComplexModification";
+
 	private NameCreator naming = CreatorIDWithModification.getInstance();
 
 	/*
@@ -41,11 +39,13 @@ public class Rule2ImportantComplexModification implements Rule {
 		try {
 			Collection<InteractionComponent> outgoing = interaction
 					.getSpecialEdgeInteractionComponents(EdgeTypeOntology.OUTPUT);
-			if (outgoing.size() != 1)
+			if (outgoing.size() != 1) {
 				return false;
+			}
 			InteractionComponent out = outgoing.iterator().next();
-			if (!out.getMolecule().hasComplexComponents())
+			if (!out.getMolecule().hasComplexComponents()) {
 				return false;
+			}
 			Collection<InteractionComponent> incoming = interaction
 					.getSpecialEdgeInteractionComponents(EdgeTypeOntology.INCOMINGNAME);
 
@@ -53,13 +53,14 @@ public class Rule2ImportantComplexModification implements Rule {
 					.getMolecule().getComplexComponents());
 			Set<CompMolMember> inComps = this.decomposeIntCompList(incoming);
 			outComps.removeAll(inComps);
-			if (outComps.size() != 1)
+			if (outComps.size() != 1) {
 				return false;
+			}
 			CompMolMember outMem = outComps.iterator().next();
 			if (this.containsMemberWithDifferentModification(inComps, outMem)) {
 				String newName = naming.getNameForCompMolMember(outMem);
 				graph.getNodeForName(naming.getNameForCompMolMember(out))
-						.setName(newName);
+				.setName(newName);
 				return true;
 			}
 			return false;
@@ -78,10 +79,12 @@ public class Rule2ImportantComplexModification implements Rule {
 			Collection<InteractionComponent> incoming) {
 		Set<CompMolMember> result = new TreeSet<CompMolMember>();
 		for (CompMolMember intComp : incoming) {
-			if (intComp.getMolecule().hasComplexComponents())
+			if (intComp.getMolecule().hasComplexComponents()){
 				result.addAll(intComp.getMolecule().getComplexComponents());
-			else
+			}
+			else {
 				result.add(intComp);
+			}
 		}
 		return result;
 	}
@@ -92,21 +95,25 @@ public class Rule2ImportantComplexModification implements Rule {
 		for (CompMolMember compMem : collection) {
 			if (compMem.getMolecule().equals(member.getMolecule())) {
 				Modification compMod=this.getModificationsFromMember(compMem);
-				if (memMod!=null)
+				if (memMod!=null) {
 					return !memMod.equals(compMod);
-				else
-					if (compMod!=null)
+				}
+				else {
+					if (compMod!=null) {
 						return true;
+					}
+				}
 			}
 		}
 		return false;
 	}
-	
+
 	private Modification getModificationsFromMember(CompMolMember member){
 		if (member.hasModification()){
 			ComponentModification compMod=member.getModification();
-			if (compMod.hasAnyModifications())
+			if (compMod.hasAnyModifications()) {
 				return compMod.getModification();
+			}
 		}
 		return null;
 	}
@@ -120,5 +127,4 @@ public class Rule2ImportantComplexModification implements Rule {
 	public String getRuleName() {
 		return RULENAME;
 	}
-
 }

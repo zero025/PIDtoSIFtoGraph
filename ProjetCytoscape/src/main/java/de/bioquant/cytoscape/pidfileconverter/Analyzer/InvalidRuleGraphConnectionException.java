@@ -1,12 +1,10 @@
 /**
- * 
- */
-package de.bioquant.cytoscape.pidfileconverter.Analyzer;
-
-/**
  * @author Florian Ditmann
  *
  */
+package de.bioquant.cytoscape.pidfileconverter.Analyzer;
+
+@SuppressWarnings("serial")
 public class InvalidRuleGraphConnectionException extends Exception {
 
 	public InvalidRuleGraphConnectionException() {
@@ -28,7 +26,4 @@ public class InvalidRuleGraphConnectionException extends Exception {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-
 }

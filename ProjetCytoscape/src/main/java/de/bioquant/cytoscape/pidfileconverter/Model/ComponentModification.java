@@ -1,3 +1,10 @@
+/**
+ * This class represents the modification of a component (of an interaction, a family or complex)
+ * 
+ * @author Florian Dittmann
+ * 
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.Model;
 
 import java.util.Collections;
@@ -5,13 +12,6 @@ import java.util.List;
 
 import de.bioquant.cytoscape.pidfileconverter.Ontology.OntologyElement;
 
-/**
- * This class represents the modification of a component (of an interaction, a
- * family or complex)
- * 
- * @author Florian Dittmann
- * 
- */
 public class ComponentModification implements Comparable<ComponentModification> {
 
 	private Modification modification = new Modification();
@@ -22,10 +22,13 @@ public class ComponentModification implements Comparable<ComponentModification> 
 	 * @return the activityState
 	 */
 	public final String getActivityState() {
-		if (null == activityState)
+		if (null == activityState) {
 			return "";
-		else
+		}
+		else {
 			return activityState.getName();
+			
+		}
 	}
 
 	/**
@@ -37,20 +40,24 @@ public class ComponentModification implements Comparable<ComponentModification> 
 	}
 
 	public boolean hasSpecifiedActivityState() {
-		if (activityState == null)
+		if (activityState == null) {
 			return false;
-		else
+		}
+		else {
 			return true;
+		}
 	}
 
 	/**
 	 * @return the location
 	 */
 	public final String getLocation() {
-		if (null == location)
+		if (null == location) {
 			return "";
-		else
+		}
+		else {
 			return location.getName();
+		}
 	}
 
 	/**
@@ -62,10 +69,12 @@ public class ComponentModification implements Comparable<ComponentModification> 
 	}
 
 	public boolean hasSpecifiedLocation() {
-		if (location == null)
+		if (location == null) {
 			return false;
-		else
+		}
+		else {
 			return true;
+		}
 	}
 
 	public boolean addModification(PTMterm term) {
@@ -74,8 +83,9 @@ public class ComponentModification implements Comparable<ComponentModification> 
 	}
 
 	public boolean hasAnyModifications() {
-		if (modification!=null)
+		if (modification != null) {
 			return modification.hasAnyModifications();
+		}
 		return false;
 	}
 
@@ -96,12 +106,9 @@ public class ComponentModification implements Comparable<ComponentModification> 
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((activityState == null) ? 0 : activityState.hashCode());
-		result = prime * result
-				+ ((location == null) ? 0 : location.hashCode());
-		result = prime * result
-				+ ((modification == null) ? 0 : modification.hashCode());
+		result = prime * result + ((activityState == null) ? 0 : activityState.hashCode());
+		result = prime * result + ((location == null) ? 0 : location.hashCode());
+		result = prime * result + ((modification == null) ? 0 : modification.hashCode());
 		return result;
 	}
 
@@ -169,10 +176,12 @@ public class ComponentModification implements Comparable<ComponentModification> 
 		if (null != activityState && null != o.activityState)
 			result = activityState.compareTo(o.activityState);
 		else {
-			if (null == activityState)
+			if (null == activityState) {
 				result = -1;
-			else
+			}
+			else {
 				result = 1;
+			}
 
 		}
 		if (0 != result)
@@ -180,12 +189,13 @@ public class ComponentModification implements Comparable<ComponentModification> 
 		if (null != location && null != o.location)
 			result = location.compareTo(o.location);
 		else {
-			if (null == location)
+			if (null == location) {
 				result = -1;
-			else
+			}
+			else {
 				result = 1;
+			}
 		}
 		return result;
 	}
-
 }

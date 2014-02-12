@@ -1,5 +1,6 @@
 package de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions;
 
+@SuppressWarnings("serial")
 public class UnknownOntologyElementException extends Exception {
 
 	public UnknownOntologyElementException() {
@@ -12,13 +13,10 @@ public class UnknownOntologyElementException extends Exception {
 
 	public UnknownOntologyElementException(String message) {
 		super(message);
-		
+
 	}
 
 	public UnknownOntologyElementException(Throwable cause) {
 		super(cause);
 	}
-	
-	
-
 }

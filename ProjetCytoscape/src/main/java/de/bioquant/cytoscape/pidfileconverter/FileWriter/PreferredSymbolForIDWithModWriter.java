@@ -5,13 +5,14 @@ import de.bioquant.cytoscape.pidfileconverter.Model.CompMolMember;
 public final class PreferredSymbolForIDWithModWriter extends AbstractPreferredSymbolWriter implements FileWriter {
 
 	private static PreferredSymbolForIDWithModWriter instance = null;
-	
+
 	private PreferredSymbolForIDWithModWriter() {
 	}
 
 	public static PreferredSymbolForIDWithModWriter getInstance() {
-		if (null == instance)
+		if (null == instance) {
 			instance = new PreferredSymbolForIDWithModWriter();
+		}
 		return instance;
 	}
 
@@ -24,5 +25,4 @@ public final class PreferredSymbolForIDWithModWriter extends AbstractPreferredSy
 	public String getPreferredSymbol(CompMolMember molMember) {
 		return molMember.getMolecule().getPreferredSymbol();
 	}
-
 }

@@ -1,6 +1,7 @@
 package de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions;
 
-public class InvalidParentException extends Exception{
+@SuppressWarnings("serial")
+public class InvalidParentException extends Exception {
 
 	public InvalidParentException() {
 		super();
@@ -17,7 +18,4 @@ public class InvalidParentException extends Exception{
 	public InvalidParentException(Throwable cause) {
 		super(cause);
 	}
-	
-	
-
 }

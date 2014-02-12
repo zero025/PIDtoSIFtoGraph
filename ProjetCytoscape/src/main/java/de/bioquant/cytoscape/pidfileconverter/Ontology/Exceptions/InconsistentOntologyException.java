@@ -1,5 +1,6 @@
 package de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions;
 
+@SuppressWarnings("serial")
 public class InconsistentOntologyException extends Exception {
 
 	public InconsistentOntologyException() {
@@ -17,6 +18,4 @@ public class InconsistentOntologyException extends Exception {
 	public InconsistentOntologyException(Throwable cause) {
 		super(cause);
 	}
-	
-	
 }

@@ -13,14 +13,16 @@ import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 public final class PidForIDWithModWriter extends AbstractNodeAttributeWriter implements FileWriter {
 
 	private static PidForIDWithModWriter instance = null;
+	
 	private NameCreator naming = CreatorIDWithModification.getInstance();
 
 	private PidForIDWithModWriter() {
 	}
 
 	public static PidForIDWithModWriter getInstance() {
-		if (null == instance)
+		if (null == instance) {
 			instance = new PidForIDWithModWriter();
+		}
 		return instance;
 	}
 
@@ -36,21 +38,17 @@ public final class PidForIDWithModWriter extends AbstractNodeAttributeWriter imp
 			String name = naming.getNameForInteraction(inter);
 			TupelWriter.printTupel(writer, name, inter.getFullPid());
 		}
-		Collection<InteractionComponent> components = manager
-				.getAllInteractionComponents();
+		Collection<InteractionComponent> components = manager.getAllInteractionComponents();
 		for (InteractionComponent node : components) {
 			String id = naming.getNameForCompMolMember(node);
 			TupelWriter.printTupel(writer, id, node.getFullPid());
 
 		}
-		
-		Collection<PathwayNode> pathways=manager.getAllPathways();
-		for (PathwayNode pathway:pathways)
-		{
-			String name=naming.getNameForPathway(pathway);
+
+		Collection<PathwayNode> pathways = manager.getAllPathways();
+		for (PathwayNode pathway : pathways) {
+			String name = naming.getNameForPathway(pathway);
 			TupelWriter.printTupel(writer, name, pathway.getFullPid());
 		}
-		
 	}
-
 }

@@ -1,3 +1,15 @@
+/**
+ * Represents one rule graph which contains all the output information for
+ * writing sif-files. It contains only the nodes and and their incoming/outgoing
+ * edges, represented by their name. This graph doesn't contain any additional
+ * information about the nodes or from which type they are. To manage the nodes
+ * more easily the graph contains a mapping of the node names to the graph
+ * objects.
+ * 
+ * @author Florian Dittmann
+ * 
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.Analyzer;
 
 import java.util.ArrayList;
@@ -20,21 +32,12 @@ import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.InconsistentOn
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.UnknownOntologyException;
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.EdgeTypeOntology;
 
-/**
- * Represents one rule graph which contains all the output information for
- * writing sif-files. It contains only the nodes and and their incoming/outgoing
- * edges, represented by their name. This graph doesn't contain any additional
- * information about the nodes or from which type they are. To manage the nodes
- * more easily the graph contains a mapping of the node names to the graph
- * objects.
- * 
- * @author Florian Dittmann
- * 
- */
 public class RuleGraph {
 
 	private NameCreator naming = CreatorIDWithModification.getInstance();
+	
 	private Map<String, RuleGraphNode> nodes = new HashMap<String, RuleGraphNode>();
+	
 	private Collection<String> nodesToDelete = new ArrayList<String>();
 
 	/**
@@ -69,7 +72,8 @@ public class RuleGraph {
 		if (nodes.containsKey(name)) {
 			System.out.println("Rule graph already contains key: " + name);
 			return false;
-		} else {
+		} 
+		else {
 			nodes.put(name, node);
 			return true;
 		}
@@ -91,8 +95,9 @@ public class RuleGraph {
 	 */
 	public boolean addConnection(String startNode, String connection,
 			String endNode) {
-		if (!nodes.containsKey(startNode) || !nodes.containsKey(endNode))
+		if (!nodes.containsKey(startNode) || !nodes.containsKey(endNode)) {
 			return false;
+		}
 		RuleGraphNode start = nodes.get(startNode);
 		RuleGraphNode end = nodes.get(endNode);
 		start.addOutgoingConnection(end, connection);
@@ -115,8 +120,10 @@ public class RuleGraph {
 			nodes.get(name).deleteAllConnections();
 			this.nodesToDelete.add(name);
 			return true;
-		} else
+		} 
+		else {
 			return false;
+		}
 	}
 
 	/**
@@ -127,8 +134,9 @@ public class RuleGraph {
 		for (String delNode : nodesToDelete) {
 			RuleGraphNode node = nodes.get(delNode);
 			if (null != node) {
-				if (node.hasConnections())
+				if (node.hasConnections()) {
 					node.deleteAllConnections();
+				}
 				this.nodes.remove(delNode);
 			}
 		}
@@ -157,8 +165,9 @@ public class RuleGraph {
 			this.addRuleGraphNode(name);
 			if (interaction.hasPosCondition()) {
 				String posCond = interaction.getPosCondition();
-				if (!nodes.containsKey(posCond))
+				if (!nodes.containsKey(posCond)) {
 					this.addRuleGraphNode(posCond);
+				}
 			}
 		}
 
@@ -218,15 +227,16 @@ public class RuleGraph {
 							for (OntologyElement role : roles) {
 								String roleString = role.getName();
 								if (eOnto.isSpecialEdge(role,
-										EdgeTypeOntology.INCOMINGNAME))
+										EdgeTypeOntology.INCOMINGNAME)) {
 									this.addConnection(component, roleString,
 											interID);
+								}
 								else
+								{
 									this.addConnection(interID, roleString,
 											component);
-
+								}
 							}
-
 						}
 					}
 				}
@@ -285,12 +295,11 @@ public class RuleGraph {
 	 *         these nodes
 	 */
 	public final String getConnectionForNodes(String start, String end) {
-		if (!nodes.containsKey(start) || !nodes.containsKey(end))
+		if (!nodes.containsKey(start) || !nodes.containsKey(end)) {
 			return null;
+		}
 		RuleGraphNode startNode = nodes.get(start);
 		RuleGraphNode endNode = nodes.get(end);
 		return startNode.outgoingConnections.get(endNode);
-
 	}
-
 }

@@ -2,11 +2,11 @@ package de.bioquant.cytoscape.pidfileconverter.Ontology;
 
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.InvalidParentException;
 
-public class OntologyElement implements Comparable<OntologyElement>{
+public class OntologyElement implements Comparable<OntologyElement> {
 
 	private int id;
 	private int parentId;
-	private OntologyElement parent=null;
+	private OntologyElement parent = null;
 	private String name;
 
 	public OntologyElement(int id, int parentId, String name) {
@@ -47,13 +47,13 @@ public class OntologyElement implements Comparable<OntologyElement>{
 	public final String getName() {
 		return name;
 	}
-	
-	public void setParent(OntologyElement parent) throws InvalidParentException
-	{
-		if (null==parent || parentId!=parent.getId())
+
+	public void setParent(OntologyElement parent) throws InvalidParentException {
+		if (null == parent || parentId != parent.getId()) {
 			throw new InvalidParentException();
-		this.parent=parent;
-		
+		}
+		this.parent = parent;
+
 	}
 
 	/**
@@ -63,7 +63,9 @@ public class OntologyElement implements Comparable<OntologyElement>{
 		return parent;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -76,32 +78,40 @@ public class OntologyElement implements Comparable<OntologyElement>{
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (!(obj instanceof OntologyElement))
+		}
+		if (!(obj instanceof OntologyElement))  {
 			return false;
+		}
 		OntologyElement other = (OntologyElement) obj;
-		if (id != other.id)
+		if (id != other.id) {
 			return false;
+		}
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (parentId != other.parentId)
+		if (parentId != other.parentId)  {
 			return false;
+		}
 		return true;
 	}
 
 	/**
-	 * @param parentId the parentId to set
+	 * @param parentId
+	 *            the parentId to set
 	 */
 	public final void setParentId(int parentId) {
 		this.parentId = parentId;
@@ -111,17 +121,13 @@ public class OntologyElement implements Comparable<OntologyElement>{
 	public int compareTo(OntologyElement o) {
 		return ((Integer) id).compareTo(o.getId());
 	}
-	
-	public boolean isRootChild()
-	{
-		if (null==parent)
-			return false;
-		else
-			return parent.isRoot();
-	}
-	
-	
-	
-	
 
+	public boolean isRootChild() {
+		if (null == parent) {
+			return false;
+		}
+		else {
+			return parent.isRoot();
+		}
+	}
 }

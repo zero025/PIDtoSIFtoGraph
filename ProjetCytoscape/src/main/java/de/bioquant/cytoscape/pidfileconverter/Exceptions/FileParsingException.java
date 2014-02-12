@@ -1,5 +1,6 @@
 package de.bioquant.cytoscape.pidfileconverter.Exceptions;
 
+@SuppressWarnings("serial")
 public class FileParsingException extends Exception {
 	
 	public FileParsingException(){
@@ -14,5 +15,4 @@ public class FileParsingException extends Exception {
 	{
 		super(message, cause);
 	}
-
 }

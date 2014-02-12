@@ -22,6 +22,7 @@ import de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.EdgeTypeOntol
 public final class SifFileWriter implements FileWriter {
 
 	private static SifFileWriter instance = null;
+	
 	private NameCreator naming = CreatorIDWithModification.getInstance();
 
 	private SifFileWriter() {
@@ -34,8 +35,7 @@ public final class SifFileWriter implements FileWriter {
 	}
 
 	@Override
-	public void write(String path, NodeManagerImpl manager)
-			throws FileNotFoundException {
+	public void write(String path, NodeManagerImpl manager) throws FileNotFoundException {
 		PrintWriter writer = new PrintWriter(path);
 
 		try {
@@ -47,13 +47,10 @@ public final class SifFileWriter implements FileWriter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		writer.close();
-
 	}
 
-	public void writeInteractions(PrintWriter out,
-			InteractionNodeManager manager)
+	public void writeInteractions(PrintWriter out, InteractionNodeManager manager)
 			throws InconsistentOntologyException, UnknownOntologyException {
 		Collection<InteractionNode> interactions = manager.getAllInteractions();
 		for (InteractionNode inter : interactions) {
@@ -62,33 +59,28 @@ public final class SifFileWriter implements FileWriter {
 				String interID = naming.getNameForInteraction(inter);
 				String interPid = inter.getFullPid();
 
-				Ontology onto = OntologyManager.getInstance().getOntology(
-						EdgeTypeOntology.NAME);
+				Ontology onto = OntologyManager.getInstance().getOntology(EdgeTypeOntology.NAME);
 				if (onto != null) {
 					if (onto.getClass() == EdgeTypeOntology.class) {
 
 						EdgeTypeOntology eOnto = (EdgeTypeOntology) onto;
 
-						Collection<InteractionComponent> intComponents = inter
-								.getInteractionComponents();
+						Collection<InteractionComponent> intComponents = inter.getInteractionComponents();
 						for (InteractionComponent node : intComponents) {
-							String component = naming
-									.getNameForCompMolMember(node);
+							String component = naming.getNameForCompMolMember(node);
 							Collection<OntologyElement> roles;
 
 							roles = node.getRolesTypeForInteraction(interPid);
 
 							for (OntologyElement role : roles) {
 								String roleString = role.getName();
-								if (eOnto.isSpecialEdge(role, EdgeTypeOntology.INCOMINGNAME))
-									TupelWriter.printTriple(out, component,
-											roleString, interID);
-								else
-									TupelWriter.printTriple(out, interID,
-											roleString, component);
-
+								if (eOnto.isSpecialEdge(role, EdgeTypeOntology.INCOMINGNAME))  {
+									TupelWriter.printTriple(out, component, roleString, interID);
+								}
+								else {
+									TupelWriter.printTriple(out, interID, roleString, component);
+								}
 							}
-
 						}
 					}
 				}
@@ -107,25 +99,10 @@ public final class SifFileWriter implements FileWriter {
 					String right = interID;
 					TupelWriter.printTriple(out, left, middle, right);
 				}
-/*
-				if (inter.isCellularProcess()) {
-					String left = interID;
-					String middle = ProcessTypeOntology.CELL_PROCESS;
-					String right = inter.getType().getName();
-					TupelWriter.printTriple(out, left, middle, right);
-				}
-
-				if (inter.isBiologicalProcess()) {
-					String left = interID;
-					String middle = ProcessTypeOntology.BIOLOGICAL_PROCESS;
-					String right = inter.getType().getName();
-					TupelWriter.printTriple(out, left, middle, right);
-				}*/
 			} catch (InvalidInteractionIdException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
-
 }

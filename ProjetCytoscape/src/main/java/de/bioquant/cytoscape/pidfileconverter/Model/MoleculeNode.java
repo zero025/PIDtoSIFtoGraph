@@ -1,3 +1,13 @@
+/**
+ * An object of this class represents a molecule WITHOUT any modifications. To It is characterized by his pid. (To create a molecule with
+ * modifications {@link de.bioquant.cytoscape.pidfileconverter.Model.CompMolMemberImpl CompMolMemberImpl}). It can have a Uniprot and a preferred
+ * symbol. If it is a complex/family, it contains the complex components / family members. If it is a part of another molecule, then it contains this
+ * part relation.
+ * 
+ * @author Florian Dittmann
+ * @contributor Yamei & Thomas
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.Model;
 
 import java.util.ArrayList;
@@ -12,17 +22,6 @@ import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.InconsistentOn
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.UnknownOntologyException;
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.MoleculeTypeOntology;
 
-/**
- * An object of this class represents a molecule WITHOUT any modifications. To
- * It is characterized by his pid. (To create a molecule with modifications
- * {@link de.bioquant.cytoscape.pidfileconverter.Model.CompMolMemberImpl
- * CompMolMemberImpl}). It can have a Uniprot and a preferred symbol. If it is a
- * complex/family, it contains the complex components / family members. If it is
- * a part of another molecule, then it contains this part relation.
- * 
- * @author Florian Dittmann
- * 
- */
 public class MoleculeNode extends AbstractGraphNode {
 
 	public final static String PREFIX = "pid_m_";
@@ -67,20 +66,24 @@ public class MoleculeNode extends AbstractGraphNode {
 	 * @return the uniProdID
 	 */
 	public String getUniProdID() {
-		if (null == uniProdID)
+		if (null == uniProdID) {
 			return "";
-		else
+		}
+		else {
 			return uniProdID.getId();
+		}
 	}
-	
+
 	/**
 	 * @return the entrezGeneID
 	 */
 	public String getEntrezGeneID() {
-		if (null == entrezGeneID)
+		if (null == entrezGeneID) {
 			return "";
-		else
+		}
+		else {
 			return entrezGeneID.getId();
+		}
 	}
 
 	/**
@@ -93,7 +96,7 @@ public class MoleculeNode extends AbstractGraphNode {
 	public void setUniProdID(String id) throws InvalidArgumentException {
 		this.uniProdID = new UniprotID(id, false);
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -110,26 +113,24 @@ public class MoleculeNode extends AbstractGraphNode {
 	 * @param id
 	 *            Uniprot ID to set, must not be null
 	 * @param partmolecule
-	 *            true - part tag will be added to Uniprot; false - normal id
-	 *            will be set as uniprot
-	 * @throws InvalidArgumentException thrown if id is null
+	 *            true - part tag will be added to Uniprot; false - normal id will be set as uniprot
+	 * @throws InvalidArgumentException
+	 *             thrown if id is null
 	 */
-	public void setUniProdID(String id, boolean partmolecule)
-			throws InvalidArgumentException {
+	public void setUniProdID(String id, boolean partmolecule) throws InvalidArgumentException {
 		this.uniProdID = new UniprotID(id, partmolecule);
 	}
-	
+
 	/**
 	 * 
 	 * @param id
 	 *            EntrezGene ID to set, must not be null
 	 * @param partmolecule
-	 *            true - part tag will be added to EntrezGene; false - normal id
-	 *            will be set as entrezGene
-	 * @throws InvalidArgumentException thrown if id is null
+	 *            true - part tag will be added to EntrezGene; false - normal id will be set as entrezGene
+	 * @throws InvalidArgumentException
+	 *             thrown if id is null
 	 */
-	public void setEntrezGeneID(String id, boolean partmolecule)
-			throws InvalidArgumentException {
+	public void setEntrezGeneID(String id, boolean partmolecule) throws InvalidArgumentException {
 		this.entrezGeneID = new EntrezGeneID(id, partmolecule);
 	}
 
@@ -141,19 +142,17 @@ public class MoleculeNode extends AbstractGraphNode {
 	 * @throws InconsistentOntologyException
 	 *             if MoleculeTypeOntology is inconsistent
 	 */
-	public boolean isProtein() throws UnknownOntologyException,
-			InconsistentOntologyException {
-		Ontology onto = AbstractGraphNode.ONTOMANAGER
-				.getOntology(MoleculeTypeOntology.NAME);
-		if (onto == null)
-			throw new UnknownOntologyException(
-					"Molecule type ontology is not known!");
+	public boolean isProtein() throws UnknownOntologyException, InconsistentOntologyException {
+		Ontology onto = AbstractGraphNode.ONTOMANAGER.getOntology(MoleculeTypeOntology.NAME);
+		if (onto == null) {
+			throw new UnknownOntologyException("Molecule type ontology is not known!");
+		}
 		else if (onto.getClass() == MoleculeTypeOntology.class) {
 			MoleculeTypeOntology newOnto = (MoleculeTypeOntology) onto;
 			return newOnto.isProtein(type);
-		} else
-			throw new UnknownOntologyException(
-					"Molecule type ontology is not known!");
+		} else  {
+			throw new UnknownOntologyException("Molecule type ontology is not known!");
+		}
 	}
 
 	/**
@@ -164,33 +163,32 @@ public class MoleculeNode extends AbstractGraphNode {
 	 * @throws InconsistentOntologyException
 	 *             if MoleculeTypeOntology is inconsistent
 	 */
-	public boolean isRna() throws UnknownOntologyException,
-			InconsistentOntologyException {
-		Ontology onto = AbstractGraphNode.ONTOMANAGER
-				.getOntology(MoleculeTypeOntology.NAME);
-		if (onto == null)
-			throw new UnknownOntologyException(
-					"Molecule type ontology is not known!");
+	public boolean isRna() throws UnknownOntologyException, InconsistentOntologyException {
+		Ontology onto = AbstractGraphNode.ONTOMANAGER.getOntology(MoleculeTypeOntology.NAME);
+		if (onto == null) {
+			throw new UnknownOntologyException("Molecule type ontology is not known!");
+		}
 		else if (onto.getClass() == MoleculeTypeOntology.class) {
 			MoleculeTypeOntology newOnto = (MoleculeTypeOntology) onto;
 			return newOnto.isRna(type);
-		} else
-			throw new UnknownOntologyException(
-					"Molecule type ontology is not known!");
+		} else {
+			throw new UnknownOntologyException("Molecule type ontology is not known!");
+		}
 	}
-	
+
 	public boolean hasPreferredSymbol() {
-		if (preferredSymbol != null && !preferredSymbol.isEmpty())
+		if (preferredSymbol != null && !preferredSymbol.isEmpty()) {
 			return true;
-		else
+		}
+		else {
 			return false;
+		}
 	}
 
 	/**
 	 * @return the preferredSymbol
 	 */
 	public String getPreferredSymbol() {
-
 		return preferredSymbol;
 	}
 
@@ -201,16 +199,15 @@ public class MoleculeNode extends AbstractGraphNode {
 	 * @throws InvalidArgumentException
 	 *             thrown if parameter is null
 	 */
-	public void setPreferredSymbol(String preferredSymbol)
-			throws InvalidArgumentException {
-		if (null == preferredSymbol)
+	public void setPreferredSymbol(String preferredSymbol) throws InvalidArgumentException {
+		if (null == preferredSymbol) {
 			throw new InvalidArgumentException();
+		}
 		this.preferredSymbol = preferredSymbol;
 	}
 
 	/**
-	 * @return returns an unmodifiable list of all part relations of this
-	 *         molecule
+	 * @return returns an unmodifiable list of all part relations of this molecule
 	 */
 	public final List<PartRelation> getPartRelations() {
 		return Collections.unmodifiableList(partRelations);
@@ -222,8 +219,9 @@ public class MoleculeNode extends AbstractGraphNode {
 	 * @param partRelation
 	 */
 	public final void addPartRelation(PartRelation partRelation) {
-		if (null == partRelations)
+		if (null == partRelations) {
 			partRelations = new ArrayList<PartRelation>();
+		}
 		this.partRelations.add(partRelation);
 	}
 
@@ -232,9 +230,9 @@ public class MoleculeNode extends AbstractGraphNode {
 	 * @return
 	 */
 	public boolean hasUniprot() {
-		if (uniProdID != null)
-			if (!uniProdID.getId().isEmpty())
+		if (uniProdID != null && !uniProdID.getId().isEmpty()){
 				return true;
+		}
 		return false;
 	}
 
@@ -243,12 +241,12 @@ public class MoleculeNode extends AbstractGraphNode {
 	 * @return
 	 */
 	public boolean hasEntrezGene() {
-		if (entrezGeneID != null)
-			if (!entrezGeneID.getId().isEmpty())
+		if (entrezGeneID != null && (!entrezGeneID.getId().isEmpty())){
 				return true;
+		}
 		return false;
 	}
-	
+
 	/**
 	 * @return an unmodifiable list of all complex components of this molecule
 	 */
@@ -264,54 +262,54 @@ public class MoleculeNode extends AbstractGraphNode {
 	}
 
 	/**
-	 * Adds a new complex component and also the connection from the component
-	 * to this molecule.
+	 * Adds a new complex component and also the connection from the component to this molecule.
 	 * 
 	 * @param component
 	 *            complex component to add
 	 * @return true - if member is successfully added; false - else
 	 */
 	public boolean addComplexComponent(CompMolMember component) {
-		if (null == complexComponents)
+		if (null == complexComponents) {
 			complexComponents = new ArrayList<CompMolMember>();
-		if (complexComponents.add(component))
+		}
+		if (complexComponents.add(component)) {
 			return component.addComplexConnection(this.getFullPid());
-		else
+		}
+		else {
 			return false;
+		}
 	}
 
 	/**
-	 * Adds a new family member and also the connection from the member to this
-	 * molecule.
+	 * Adds a new family member and also the connection from the member to this molecule.
 	 * 
 	 * @param member
 	 *            family member to add
 	 * @return true - if member is successfully added; false - else
 	 */
 	public boolean addFamilyMember(CompMolMember member) {
-		if (null == familyMembers)
+		if (null == familyMembers) {
 			familyMembers = new ArrayList<CompMolMember>();
-		if (familyMembers.add(member))
+		}
+		if (familyMembers.add(member)) {
 			return member.addFamilyConnection(this.getFullPid());
-		else
+		}
+		else {
 			return false;
-
+		}
 	}
 
 	public boolean hasComplexComponents() {
-		if (null == complexComponents)
+		if (null == complexComponents || complexComponents.isEmpty()) {
 			return false;
-		if (complexComponents.isEmpty())
-			return false;
+		}
 		return true;
 	}
 
 	public boolean hasFamilyMembers() {
-		if (null == familyMembers)
+		if (null == familyMembers ||familyMembers.isEmpty() ) {
 			return false;
-		if (familyMembers.isEmpty())
-			return false;
+		}
 		return true;
 	}
-
 }

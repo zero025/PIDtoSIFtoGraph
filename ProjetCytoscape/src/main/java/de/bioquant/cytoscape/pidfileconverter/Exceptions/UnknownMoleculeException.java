@@ -1,5 +1,6 @@
 package de.bioquant.cytoscape.pidfileconverter.Exceptions;
 
+@SuppressWarnings("serial")
 public class UnknownMoleculeException extends Exception {
 
 	public UnknownMoleculeException(String id) {
@@ -16,7 +17,4 @@ public class UnknownMoleculeException extends Exception {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-
 }

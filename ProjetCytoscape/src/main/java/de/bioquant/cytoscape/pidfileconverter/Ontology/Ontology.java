@@ -1,3 +1,9 @@
+/**
+ * 
+ * @author Florian Dittmann
+ * 
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.Ontology;
 
 import java.util.Collection;
@@ -7,12 +13,6 @@ import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidArgumentExceptio
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.InconsistentOntologyException;
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.InvalidParentException;
 
-
-/**
- * 
- * @author Florian Dittmann
- *
- */
 public class Ontology {
 
 	private int id;
@@ -39,10 +39,12 @@ public class Ontology {
 				try {
 					el.setParent(parent);
 				} catch (InvalidParentException e) {
-					//throw new InconsistentOntologyException(el.getName()+ "is not connected to ontology graph of "+name+". will be added to root...");
-					//TODO replace dirty bug fix
-					System.out.println(el.getName()+ " is not connected to ontology graph of "+name+". will be added to root...");
-					parent=getRoot();
+					// throw new InconsistentOntologyException(el.getName()+
+					// "is not connected to ontology graph of "+name+". will be added to root...");
+					// TODO replace dirty bug fix
+					System.out.println(el.getName() + " is not connected to ontology graph of " + name
+							+ ". will be added to root...");
+					parent = getRoot();
 					el.setParentId(parent.getId());
 					try {
 						el.setParent(getRoot());
@@ -56,8 +58,7 @@ public class Ontology {
 		}
 	}
 
-	public boolean addElement(OntologyElement element)
-			throws InvalidArgumentException {
+	public boolean addElement(OntologyElement element) throws InvalidArgumentException {
 		if (null == element)
 			throw new InvalidArgumentException("Element mustn't be null!");
 		if (onto.containsKey(element.getId()))
@@ -68,8 +69,9 @@ public class Ontology {
 			return false;
 		} else {
 			OntologyElement parent = onto.get(element.getParentId());
-			if (null == parent)
+			if (null == parent) {
 				connectedTree = false;
+			}
 			else
 				try {
 					element.setParent(parent);
@@ -88,49 +90,55 @@ public class Ontology {
 	public OntologyElement getElement(String elementName) {
 		Collection<OntologyElement> elements = onto.values();
 		for (OntologyElement el : elements) {
-			if (elementName.equals(el.getName()))
+			if (elementName.equals(el.getName())) {
 				return el;
+			}
 		}
 		return null;
 	}
 
-	public boolean isParentOf(int parent, int child)
-			throws InconsistentOntologyException {
+	public boolean isParentOf(int parent, int child) throws InconsistentOntologyException {
 
 		this.connectOntologyElements();
 		OntologyElement childElement = onto.get(child);
-		if (null == childElement)
+		if (null == childElement) {
 			return false;
-		if (parent == child)
+		}
+		if (parent == child) {
 			return true;
+		}
 
 		do {
 			int parentID = childElement.getParentId();
-			if (parentID == parent)
+			if (parentID == parent) {
 				return true;
+			}
 			childElement = childElement.getParent();
-			if (null == childElement)
+			if (null == childElement) {
 				throw new InconsistentOntologyException();
+			}
 		} while (!childElement.isRoot());
 		return false;
 	}
 
-	public boolean isParentOf(String idOfParent, String idOfChild)
-			throws InconsistentOntologyException {
+	public boolean isParentOf(String idOfParent, String idOfChild) throws InconsistentOntologyException {
 
 		this.connectOntologyElements();
 		int cId = Integer.valueOf(idOfChild).intValue();
 		OntologyElement childElement = onto.get(cId);
 		int pID = Integer.valueOf(idOfParent).intValue();
-		if (null == childElement)
+		if (null == childElement) {
 			return false;
-		if (pID == cId)
+		}
+		if (pID == cId) {
 			return true;
+		}
 
 		do {
 			int parentID = childElement.getParentId();
-			if (parentID == pID)
+			if (parentID == pID) {
 				return true;
+			}
 			childElement = onto.get(parentID);
 			// if (null == childElement)
 			// throw new InconsistentOntologyException();
@@ -159,8 +167,9 @@ public class Ontology {
 	public OntologyElement getElementByName(String name) {
 		Collection<OntologyElement> allOntos = onto.values();
 		for (OntologyElement el : allOntos) {
-			if (el.getName().equals(name))
+			if (el.getName().equals(name)) {
 				return el;
+			}
 		}
 		return null;
 	}
@@ -168,30 +177,29 @@ public class Ontology {
 	public OntologyElement getRoot() {
 		Collection<OntologyElement> allOntos = onto.values();
 		for (OntologyElement el : allOntos) {
-			if (el.isRoot())
+			if (el.isRoot()) {
 				return el;
+			}
 		}
 		return null;
 	}
 
-	public boolean addInvalidElementToRoot(String element)
-			throws InconsistentOntologyException {
+	public boolean addInvalidElementToRoot(String element) throws InconsistentOntologyException {
 		OntologyElement root = this.getRoot();
-		if (null == root)
-			throw new InconsistentOntologyException("Ontology '" + name
-					+ "' has no root!");
+		if (null == root) {
+			throw new InconsistentOntologyException("Ontology '" + name + "' has no root!");
+		}
 		try {
 			for (int i = 0; i < 1000; i++) {
-				OntologyElement newElement = new OntologyElement(inValidIds,
-						root.getId(), element);
+				OntologyElement newElement = new OntologyElement(inValidIds, root.getId(), element);
 				inValidIds--;
-				if (this.addElement(newElement))
+				if (this.addElement(newElement)) {
 					return true;
+				}
 			}
 		} catch (InvalidArgumentException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-
 }

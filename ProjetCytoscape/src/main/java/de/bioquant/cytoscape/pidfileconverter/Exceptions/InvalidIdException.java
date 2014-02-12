@@ -1,5 +1,6 @@
 package de.bioquant.cytoscape.pidfileconverter.Exceptions;
 
+@SuppressWarnings("serial")
 public class InvalidIdException extends Exception{
 
 	public InvalidIdException() {
@@ -17,9 +18,4 @@ public class InvalidIdException extends Exception{
 	public InvalidIdException(Throwable cause) {
 		super(cause);
 	}
-	
-	
-	
-	
-
 }

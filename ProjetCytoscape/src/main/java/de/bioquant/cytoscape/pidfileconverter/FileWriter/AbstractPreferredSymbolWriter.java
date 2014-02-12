@@ -11,8 +11,7 @@ import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorIDWithModification;
 import de.bioquant.cytoscape.pidfileconverter.Naming.NameCreator;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 
-public abstract class AbstractPreferredSymbolWriter extends
-		AbstractNodeAttributeWriter {
+public abstract class AbstractPreferredSymbolWriter extends AbstractNodeAttributeWriter {
 
 	private NameCreator naming = CreatorIDWithModification.getInstance();
 
@@ -21,31 +20,30 @@ public abstract class AbstractPreferredSymbolWriter extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.FileWriter.
-	 * AbstractNodeAttributeWriter#writeAttributes(java.io.PrintWriter,
+	 * @see de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.FileWriter. AbstractNodeAttributeWriter#writeAttributes(java.io.PrintWriter,
 	 * de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.NodeManager.NodeManagerImpl)
 	 */
 	@Override
 	public void writeAttributes(PrintWriter writer, NodeManagerImpl manager) {
-		Collection<InteractionComponent> components = manager
-				.getAllInteractionComponents();
+		Collection<InteractionComponent> components = manager.getAllInteractionComponents();
 		for (CompMolMember node : components) {
 			String id = naming.getNameForCompMolMember(node);
 
 			String symbol = getPreferredSymbol(node);
 
 			TupelWriter.printTupel(writer, id, symbol);
-
 		}
 
 		Collection<InteractionNode> interactions = manager.getAllInteractions();
 		for (InteractionNode inter : interactions) {
 			String symbol = naming.getNameForInteraction(inter);
-			if (symbol.equals(inter.getFullPid()))
+			if (symbol.equals(inter.getFullPid())) {
 				TupelWriter.printTupel(writer, symbol, "");
-			else
+			}
+			else {
 				TupelWriter.printTupel(writer, symbol, symbol);
-			
+			}
+
 			if (inter.hasPosCondition()) {
 				String posCond = inter.getPosCondition();
 				TupelWriter.printTupel(writer, posCond, posCond);
@@ -57,7 +55,5 @@ public abstract class AbstractPreferredSymbolWriter extends
 			String left = naming.getNameForPathway(pathway);
 			TupelWriter.printTupel(writer, left, left);
 		}
-
 	}
-
 }

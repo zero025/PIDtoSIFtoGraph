@@ -9,12 +9,10 @@ import de.bioquant.cytoscape.pidfileconverter.Ontology.OntologyManager;
  * @author Florian Dittmann
  * 
  */
-public abstract class AbstractGraphNode implements
-		Comparable<AbstractGraphNode>, PidNode {
+public abstract class AbstractGraphNode implements Comparable<AbstractGraphNode>, PidNode {
 
 	private final String pid;
-	protected final static OntologyManager ONTOMANAGER = OntologyManager
-			.getInstance();
+	protected final static OntologyManager ONTOMANAGER = OntologyManager.getInstance();
 
 	/**
 	 * Initializes a an object with the given pid.
@@ -28,7 +26,6 @@ public abstract class AbstractGraphNode implements
 		if (pid == null || pid.isEmpty())
 			throw new InvalidIdException();
 		this.pid = this.getClearID(pid);
-
 	}
 
 	@Override
@@ -63,8 +60,7 @@ public abstract class AbstractGraphNode implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.Model.PidNode#getFullPid()
+	 * @see de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.Model.PidNode#getFullPid()
 	 */
 	@Override
 	public String getFullPid() {
@@ -97,5 +93,4 @@ public abstract class AbstractGraphNode implements
 		}
 		return true;
 	}
-
 }

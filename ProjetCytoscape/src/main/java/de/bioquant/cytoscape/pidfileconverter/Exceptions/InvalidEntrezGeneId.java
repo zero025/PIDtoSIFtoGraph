@@ -1,5 +1,9 @@
+/**
+ * @author Yamei & Thomas
+ */
 package de.bioquant.cytoscape.pidfileconverter.Exceptions;
 
+@SuppressWarnings("serial")
 public class InvalidEntrezGeneId extends Exception {
 
 	public InvalidEntrezGeneId(String id) {
@@ -16,5 +20,5 @@ public class InvalidEntrezGeneId extends Exception {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
-		
+
 }

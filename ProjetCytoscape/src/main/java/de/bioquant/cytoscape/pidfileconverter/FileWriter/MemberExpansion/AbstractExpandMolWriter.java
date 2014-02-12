@@ -32,8 +32,7 @@ public abstract class AbstractExpandMolWriter implements FileWriter {
 	protected boolean duplicateExclude = true;
 
 	@Override
-	public void write(String path, NodeManagerImpl manager)
-			throws FileNotFoundException {
+	public void write(String path, NodeManagerImpl manager) throws FileNotFoundException {
 		java.io.FileWriter wr;
 		PrintWriter writer = null;
 		try {
@@ -41,24 +40,18 @@ public abstract class AbstractExpandMolWriter implements FileWriter {
 			writer = new PrintWriter(wr);
 			IntCompAnalyzer analyzer = IntCompAnalyzerImpl.getInstance();
 
-			Collection<InteractionComponent> intComps = manager
-					.getAllInteractionComponents();
+			Collection<InteractionComponent> intComps = manager.getAllInteractionComponents();
 			for (InteractionComponent intComp : intComps) {
-				if (!analyzer.hasPredecessors(intComp)
-						&& intComp.isConnectedToMolecule()) {
+				if (!analyzer.hasPredecessors(intComp) && intComp.isConnectedToMolecule()) {
 					MoleculeNode molecule = intComp.getMolecule();
 					if (molecule.hasFamilyMembers()) {
-						Collection<CompMolMember> members = molecule
-								.getFamilyMembers();
-						writeMembers(writer, intComp, members,
-								FAMMEMBERCONNECTOR);
+						Collection<CompMolMember> members = molecule.getFamilyMembers();
+						writeMembers(writer, intComp, members, FAMMEMBERCONNECTOR);
 
 					}
 					if (molecule.hasComplexComponents()) {
-						Collection<CompMolMember> members = molecule
-								.getComplexComponents();
-						writeMembers(writer, intComp, members,
-								COMPCOMPONENTCONNECTOR);
+						Collection<CompMolMember> members = molecule.getComplexComponents();
+						writeMembers(writer, intComp, members, COMPCOMPONENTCONNECTOR);
 					}
 				}
 			}
@@ -76,11 +69,10 @@ public abstract class AbstractExpandMolWriter implements FileWriter {
 			if (null != writer)
 				writer.close();
 		}
-
 	}
 
-	private void writeMembers(PrintWriter writer, CompMolMember intComp,
-			Collection<CompMolMember> members, String connector) {
+	private void writeMembers(PrintWriter writer, CompMolMember intComp, Collection<CompMolMember> members,
+			String connector) {
 		String interCompString = naming.getNameForCompMolMember(intComp);
 		for (CompMolMember member : members) {
 			String memberString = naming.getNameForCompMolMember(member);
@@ -90,24 +82,18 @@ public abstract class AbstractExpandMolWriter implements FileWriter {
 				continue;
 			writtenLines.add(fullString);
 			writeLine(writer, memberString, connector, interCompString);
-			
+
 			MoleculeNode molecule = member.getMolecule();
 			if (molecule.hasComplexComponents() || molecule.hasFamilyMembers()) {
-				if (molecule.hasComplexComponents())
-					writeMembers(writer, member,
-							molecule.getComplexComponents(),
-							COMPCOMPONENTCONNECTOR);
-				if (molecule.hasFamilyMembers())
-					writeMembers(writer, member, molecule.getFamilyMembers(),
-							FAMMEMBERCONNECTOR);
-
+				if (molecule.hasComplexComponents()) {
+					writeMembers(writer, member, molecule.getComplexComponents(), COMPCOMPONENTCONNECTOR);
+				}
+				if (molecule.hasFamilyMembers()) {
+					writeMembers(writer, member, molecule.getFamilyMembers(), FAMMEMBERCONNECTOR);
+				}
 			}
-
 		}
-
 	}
 
-	protected abstract void writeLine(PrintWriter writer, String string1,
-			String string2, String string3);
-
+	protected abstract void writeLine(PrintWriter writer, String string1, String string2, String string3);
 }

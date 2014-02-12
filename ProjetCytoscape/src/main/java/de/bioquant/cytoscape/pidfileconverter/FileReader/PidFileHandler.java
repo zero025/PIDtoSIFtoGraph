@@ -58,15 +58,12 @@ public class PidFileHandler extends DefaultHandler {
 
 	MoleculeHandler molHandler;
 
-	public PidFileHandler(final InteractionNodeManager iManager,
-			final MoleculeNodeManager mManager,
-			final PathwayNodeManager pManager,
-			final ModificationManager modiManager,
-			final InteractionComponentManager intCompMan)
-			throws NoValidManagerSetException {
-		if (null == iManager || mManager == null || pManager == null
-				|| modiManager == null)
+	public PidFileHandler(final InteractionNodeManager iManager, final MoleculeNodeManager mManager,
+			final PathwayNodeManager pManager, final ModificationManager modiManager,
+			final InteractionComponentManager intCompMan) throws NoValidManagerSetException {
+		if (null == iManager || mManager == null || pManager == null || modiManager == null) {
 			throw new NoValidManagerSetException();
+		}
 		this.iManager = iManager;
 		this.molHandler = new MoleculeHandler(mManager, modiManager, intCompMan);
 		this.mManager = mManager;
@@ -87,67 +84,58 @@ public class PidFileHandler extends DefaultHandler {
 		return attr.getValue("role_type");
 	}
 
-	private String getInteractionComponentMoleculeIdFromAttr(
-			final Attributes attr) {
+	private String getInteractionComponentMoleculeIdFromAttr(final Attributes attr) {
 		return attr.getValue("molecule_idref");
 	}
 
-	private void handleInteraction(Attributes atts) throws InvalidIdException,
-			InvalidArgumentException, UnknownOntologyException,
-			UnknownOntologyElementException {
+	private void handleInteraction(Attributes atts) throws InvalidIdException, InvalidArgumentException,
+			UnknownOntologyException, UnknownOntologyElementException {
 		if (PidTags.INTERACTIONLIST.isIn()) {
 			final String id = this.getInteractionIdFromAttr(atts);
 			final String type = this.getInteractionTypeFromAttr(atts);
-			final InteractionNode newInteraction = new InteractionNode(
-					InteractionNode.PREFIX + id);
+			final InteractionNode newInteraction = new InteractionNode(InteractionNode.PREFIX + id);
 			if (iManager.addInteraction(newInteraction)) {
 				currentInter = newInteraction;
 			} else {
-				currentInter = iManager
-						.getEqualInteractionNodeInManager(newInteraction);
+				currentInter = iManager.getEqualInteractionNodeInManager(newInteraction);
 			}
 			currentInter.setType(type);
 		}
 	}
 
-	private void handleInteractionComponent(Attributes atts)
-			throws InvalidIdException, InvalidArgumentException,
+	private void handleInteractionComponent(Attributes atts) throws InvalidIdException, InvalidArgumentException,
 			UnknownMoleculeException {
 		if (PidTags.INTERACTIONLIST.isIn() && PidTags.INTERACTION.isIn()) {
 			final String role_type = getInteractionComponentRoleTypeFromAttr(atts);
 			final String mol_id = getInteractionComponentMoleculeIdFromAttr(atts);
-			Ontology onto = OntologyManager.getInstance().getOntology(
-					EdgeTypeOntology.NAME);
+			Ontology onto = OntologyManager.getInstance().getOntology(EdgeTypeOntology.NAME);
 			if (mol_id != null) {
-				MoleculeNode molNode = new MoleculeNode(MoleculeNode.PREFIX
-						+ mol_id);
+				MoleculeNode molNode = new MoleculeNode(MoleculeNode.PREFIX + mol_id);
 				molNode = mManager.getEqualMoleculeNodeInManager(molNode);
 
 				if (null != molNode) {
 
-					InteractionComponent newIntComp = new InteractionComponentImpl(
-							molNode);
-					OntologyElement roleType=onto.getElement(role_type);
-					newIntComp.setRoleTypeForInteraction(currentInter.getFullPid(),roleType);
+					InteractionComponent newIntComp = new InteractionComponentImpl(molNode);
+					OntologyElement roleType = onto.getElement(role_type);
+					newIntComp.setRoleTypeForInteraction(currentInter.getFullPid(), roleType);
 					this.currComponent = newIntComp;
-				} else
+				} else {
 					throw new UnknownMoleculeException(mol_id);
+				}
 
 			}
 		}
 	}
 
-	private void handleAbstraction(Attributes atts) throws InvalidIdException,
-			InvalidArgumentException, UnknownOntologyElementException {
+	private void handleAbstraction(Attributes atts) throws InvalidIdException, InvalidArgumentException,
+			UnknownOntologyElementException {
 		if (PidTags.INTERACTIONLIST.isIn() && PidTags.INTERACTION.isIn()) {
 			final String pathwayID = atts.getValue("pathway_idref");
 			final String pathwayName = atts.getValue("pathway_name");
 			if (pathwayID != null) {
-				PathwayNode newPathway = new PathwayNode(PathwayNode.PREFIX
-						+ pathwayID);
+				PathwayNode newPathway = new PathwayNode(PathwayNode.PREFIX + pathwayID);
 				if (!pManager.addPathway(newPathway)) {
-					newPathway = pManager
-							.getEqualPathwayNodeInManager(newPathway);
+					newPathway = pManager.getEqualPathwayNodeInManager(newPathway);
 				}
 				newPathway.setName(pathwayName);
 				this.currentInter.addPathway(newPathway);
@@ -162,87 +150,87 @@ public class PidFileHandler extends DefaultHandler {
 		}
 	}
 
-	private void handleLabelType(Attributes atts)
-			throws UnknownOntologyException {
+	private void handleLabelType(Attributes atts) throws UnknownOntologyException {
 		if (PidTags.LABELTYPE.isIn()) {
 			final String name = atts.getValue("name");
 			final String id = atts.getValue("id");
 			final OntologyManager man = OntologyManager.getInstance();
-			final Ontology onto = OntologyManager.getInstance().getOntology(
-					name);
+			final Ontology onto = OntologyManager.getInstance().getOntology(name);
 			if (null == onto) {
-				Ontology newOnto = SpecialOntologies.getValue(name)
-						.newSpecialOntology(id, name);
-				if (man.addOntology(newOnto))
+				Ontology newOnto = SpecialOntologies.getValue(name).newSpecialOntology(id, name);
+				if (man.addOntology(newOnto)) {
 					currentOnto = newOnto;
-			} else
+				}
+			} else {
 				currentOnto = onto;
+			}
 		}
 
 	}
-	
-	private void handleLabelTypeEnd() throws InconsistentOntologyException{
-		if (currentOnto!=null)
-		{
+
+	private void handleLabelTypeEnd() throws InconsistentOntologyException {
+		if (currentOnto != null) {
 			currentOnto.connectOntologyElements();
 		}
 	}
 
-	private void handleLabelValue(Attributes atts)
-			throws InvalidArgumentException, UnknownOntologyElementException {
+	private void handleLabelValue(Attributes atts) throws InvalidArgumentException, UnknownOntologyElementException {
 		if (PidTags.LABELTYPE.isIn() && PidTags.LABELVALUELIST.isIn()) {
 			String name = atts.getValue("name");
 			String id = atts.getValue("id");
 			String parentID = atts.getValue("parent_idref");
 			OntologyElement newElement = new OntologyElement(id, parentID, name);
-			if (null == currentOnto)
-				throw new UnknownOntologyElementException("Ontology element "
-						+ name + " could not be added!");
+			if (null == currentOnto) {
+				throw new UnknownOntologyElementException("Ontology element " + name + " could not be added!");
+			}
 			currentOnto.addElement(newElement);
 		}
 	}
 
 	private void handleLabel(Attributes atts) {
 		OntologyManager ontoManager = OntologyManager.getInstance();
-		Ontology onto = ontoManager
-				.getOntology(atts.getValue("label_type"));
+		Ontology onto = ontoManager.getOntology(atts.getValue("label_type"));
 		if (onto != null) {
-			if (null == currModification)
+			if (null == currModification) {
 				currModification = new ComponentModification();
-			OntologyElement element = onto.getElement(atts
-					.getValue("value"));
+			}
+			OntologyElement element = onto.getElement(atts.getValue("value"));
 			if (onto.getClass() == LocationOntology.class) {
-				if (PidTags.INTERACTIONCOMPONENT.isIn())
+				if (PidTags.INTERACTIONCOMPONENT.isIn()) {
 					currModification.setLocation(element);
-				else if (PidTags.MOLECULE.isIn())
-					molHandler.setLocation(element);				
-					
+				}
+				else if (PidTags.MOLECULE.isIn()) {
+					molHandler.setLocation(element);
+				}
+
 			} else if (onto.getClass() == ActivityStateOntology.class) {
-				if (PidTags.INTERACTIONCOMPONENT.isIn())
+				if (PidTags.INTERACTIONCOMPONENT.isIn()) {
 					currModification.setActivityState(element);
-				else if (PidTags.MOLECULE.isIn())
+				}
+				else if (PidTags.MOLECULE.isIn()) {
 					molHandler.setActivityState(element);
+				}
 			}
 		}
-		 
 
 	}
 
-	private PTMterm getPTMterm(Attributes atts)
-			throws UnknownOntologyElementException, InvalidArgumentException, InconsistentOntologyException {
+	private PTMterm getPTMterm(Attributes atts) throws UnknownOntologyElementException, InvalidArgumentException,
+			InconsistentOntologyException {
 		if (PidTags.PTMEXPRESSION.isIn() && PidTags.PTMTERM.isIn()) {
 			OntologyManager ontoManager = OntologyManager.getInstance();
 			Ontology onto = ontoManager.getOntology(PtmOntology.NAME);
 			if (onto != null) {
 				String mod = atts.getValue("modification");
-				if (null == mod || mod.isEmpty())
+				if (null == mod || mod.isEmpty()) {
 					throw new UnknownOntologyElementException(
 							"PTM-Term is declared, but there is no modification specified - will be ignored");
+				}
 				OntologyElement modification = onto.getElement(mod);
-				if (null == modification)
-				{
-					System.out.println("Modification '"+mod+"' is not known in '"+onto.getName()+"' Ontology! Will be automatically added to root...");
-					//TODO Logger output for unknown ontology element
+				if (null == modification) {
+					System.out.println("Modification '" + mod + "' is not known in '" + onto.getName()
+							+ "' Ontology! Will be automatically added to root...");
+					// TODO Logger output for unknown ontology element
 					onto.addInvalidElementToRoot(mod);
 					modification = onto.getElement(mod);
 				}
@@ -254,8 +242,7 @@ public class PidFileHandler extends DefaultHandler {
 		return null;
 	}
 
-	private void handlePtmTerm(Attributes atts)
-			throws UnknownOntologyException, UnknownOntologyElementException,
+	private void handlePtmTerm(Attributes atts) throws UnknownOntologyException, UnknownOntologyElementException,
 			InvalidArgumentException, InconsistentOntologyException {
 		if (PidTags.INTERACTIONCOMPONENT.isIn()) {
 			if (null == currModification)
@@ -266,8 +253,7 @@ public class PidFileHandler extends DefaultHandler {
 		}
 	}
 
-	public void startElement(String uri, String localName, String qName,
-			Attributes atts) throws SAXException {
+	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
 		try {
 			PidTags tag = PidTags.getValue(qName);
 			tag.setIn(true);
@@ -339,22 +325,18 @@ public class PidFileHandler extends DefaultHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
-	private void handleInteractionComponentEnd()
-			throws InvalidArgumentException, InvalidInteractionIdException {
+	private void handleInteractionComponentEnd() throws InvalidArgumentException, InvalidInteractionIdException {
 		if (null != currModification) {
 			String id = currComponent.getFullPid();
-			Modification modification=currModification.getModification();
-			if (modiManager.containsModification(id, modification))
-			{
-			
+			Modification modification = currModification.getModification();
+			if (modiManager.containsModification(id, modification)) {
+
 				currModification.setModification(modiManager.getEqualModification(id, modification));
-			}
-			else
+			} else
 				modiManager.addModificationforPid(id, modification);
-			
+
 			currComponent.setModification(currModification);
 		}
 		this.intCompMan.addInteractionComponent(currComponent);
@@ -365,12 +347,10 @@ public class PidFileHandler extends DefaultHandler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.xml.sax.helpers.DefaultHandler#endElement(java.lang.String,
-	 * java.lang.String, java.lang.String)
+	 * @see org.xml.sax.helpers.DefaultHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void endElement(String uri, String localName, String qName)
-			throws SAXException {
+	public void endElement(String uri, String localName, String qName) throws SAXException {
 		PidTags tag = PidTags.getValue(qName);
 		try {
 			switch (tag) {
@@ -417,5 +397,4 @@ public class PidFileHandler extends DefaultHandler {
 	public final Map<String, Collection<CompMolMember>> getFamilyMembers() {
 		return molHandler.getFamilyMembers();
 	}
-
 }

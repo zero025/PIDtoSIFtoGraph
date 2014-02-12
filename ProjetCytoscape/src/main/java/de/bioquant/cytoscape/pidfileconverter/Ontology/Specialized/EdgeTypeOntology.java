@@ -23,13 +23,12 @@ public class EdgeTypeOntology extends Ontology {
 		super(id, NAME);
 	}
 
-	public boolean isSpecialEdge(OntologyElement edge, String name)
-			throws UnknownOntologyException, InconsistentOntologyException {
+	public boolean isSpecialEdge(OntologyElement edge, String name) throws UnknownOntologyException,
+			InconsistentOntologyException {
 		OntologyElement element = this.getElement(name);
-		if (element == null)
-			throw new UnknownOntologyException("'" + name
-					+ "' is not known in edgeType ontology!");
+		if (element == null) {
+			throw new UnknownOntologyException("'" + name + "' is not known in edgeType ontology!");
+		}
 		return this.isParentOf(element.getId(), edge.getId());
 	}
-
 }

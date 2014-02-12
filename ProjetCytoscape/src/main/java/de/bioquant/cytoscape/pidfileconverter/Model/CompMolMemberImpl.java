@@ -1,6 +1,10 @@
 /**
+ * This class is the implemenation of a complex component or family member. It contains the molec
+ * 
+ * @author Florian Dittmann
  * 
  */
+
 package de.bioquant.cytoscape.pidfileconverter.Model;
 
 import java.util.ArrayList;
@@ -11,15 +15,7 @@ import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidIdException;
 import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorIDWithModification;
 import de.bioquant.cytoscape.pidfileconverter.Naming.NameCreator;
 
-/**
- * This class is the implemenation of a complex component or family member. It
- * contains the molec
- * 
- * @author Florian Dittmann
- * 
- */
-public class CompMolMemberImpl extends AbstractGraphNode implements
-		CompMolMember {
+public class CompMolMemberImpl extends AbstractGraphNode implements CompMolMember {
 
 	private MoleculeNode molecule;
 	private ComponentModification modification;
@@ -39,12 +35,10 @@ public class CompMolMemberImpl extends AbstractGraphNode implements
 	}
 
 	/**
-	 * Initializes a new complex component / family member with the given
-	 * molecule. Id of molecule will be equal to id of this object.
+	 * Initializes a new complex component / family member with the given molecule. Id of molecule will be equal to id of this object.
 	 * 
 	 * @param molecule
-	 *            which should be connected to this complex component / family
-	 *            member
+	 *            which should be connected to this complex component / family member
 	 * @throws InvalidIdException
 	 *             thrown if id is invalid
 	 */
@@ -61,8 +55,7 @@ public class CompMolMemberImpl extends AbstractGraphNode implements
 	 *            modification of the molecule
 	 * @throws InvalidIdException
 	 */
-	public CompMolMemberImpl(String pid, ComponentModification modification)
-			throws InvalidIdException {
+	public CompMolMemberImpl(String pid, ComponentModification modification) throws InvalidIdException {
 		super(pid);
 		this.setModification(modification);
 	}
@@ -70,14 +63,12 @@ public class CompMolMemberImpl extends AbstractGraphNode implements
 	/**
 	 * 
 	 * @param molecule
-	 *            which should be connected to this complex component / family
-	 *            member
+	 *            which should be connected to this complex component / family member
 	 * @param modification
 	 *            modification of the molecule
 	 * @throws InvalidIdException
 	 */
-	public CompMolMemberImpl(MoleculeNode molecule,
-			ComponentModification modification) throws InvalidIdException {
+	public CompMolMemberImpl(MoleculeNode molecule, ComponentModification modification) throws InvalidIdException {
 		super(molecule.getFullPid());
 		this.setMolecule(molecule);
 		this.setModification(modification);
@@ -127,10 +118,8 @@ public class CompMolMemberImpl extends AbstractGraphNode implements
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result
-				+ ((modification == null) ? 0 : modification.hashCode());
-		result = prime * result
-				+ ((molecule == null) ? 0 : molecule.hashCode());
+		result = prime * result + ((modification == null) ? 0 : modification.hashCode());
+		result = prime * result + ((molecule == null) ? 0 : molecule.hashCode());
 		return result;
 	}
 
@@ -147,31 +136,31 @@ public class CompMolMemberImpl extends AbstractGraphNode implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.Model.AbstractGraphObject
-	 * #getPid()
+	 * @see de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.Model.AbstractGraphObject #getPid()
 	 */
 	@Override
 	public String getPid() {
-		if (isConnectedToMolecule())
+		if (isConnectedToMolecule())  {
 			return this.molecule.getPid();
-		else
+		}
+		else {
 			return super.getPid();
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.Model.AbstractGraphObject
-	 * #getFullPid()
+	 * @see de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.Model.AbstractGraphObject #getFullPid()
 	 */
 	@Override
 	public String getFullPid() {
-		if (isConnectedToMolecule())
+		if (isConnectedToMolecule())  {
 			return molecule.getFullPid();
-		else
+		}
+		else {
 			return getPrefix() + getPid();
+		}
 	}
 
 	public boolean hasModification() {
@@ -180,8 +169,9 @@ public class CompMolMemberImpl extends AbstractGraphNode implements
 
 	@Override
 	public boolean addFamilyConnection(final String parent) {
-		if (this.familyParents.contains(parent))
+		if (this.familyParents.contains(parent)) {
 			return false;
+		}
 		return familyParents.add(parent);
 	}
 
@@ -192,8 +182,9 @@ public class CompMolMemberImpl extends AbstractGraphNode implements
 
 	@Override
 	public boolean addComplexConnection(String parent) {
-		if (this.complexParents.contains(parent))
+		if (this.complexParents.contains(parent)) {
 			return false;
+		}
 		return complexParents.add(parent);
 	}
 
@@ -205,20 +196,19 @@ public class CompMolMemberImpl extends AbstractGraphNode implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.Model.AbstractGraphObject
-	 * #compareTo
+	 * @see de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.Model.AbstractGraphObject #compareTo
 	 * (de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.Model.AbstractGraphObject)
 	 */
 	@Override
 	public int compareTo(AbstractGraphNode compObject) {
 		int result = super.compareTo(compObject);
-		if (0 != result)
+		if (0 != result) {
 			return result;
+		}
 		if (compObject instanceof CompMolMember) {
-			NameCreator naming=CreatorIDWithModification.getInstance();
-			String name2=naming.getNameForCompMolMemberManagement((CompMolMember)compObject);
-			result=naming.getNameForCompMolMemberManagement(this).compareTo(name2);
+			NameCreator naming = CreatorIDWithModification.getInstance();
+			String name2 = naming.getNameForCompMolMemberManagement((CompMolMember) compObject);
+			result = naming.getNameForCompMolMemberManagement(this).compareTo(name2);
 		}
 		return result;
 	}
@@ -246,11 +236,7 @@ public class CompMolMemberImpl extends AbstractGraphNode implements
 			}
 		} else if (!modification.equals(other.modification)) {
 			return false;
-		}/*
-		 * if (molecule == null) { if (other.molecule != null) { return false; }
-		 * } else if (!molecule.equals(other.molecule)) { return false; }
-		 */
+		}
 		return true;
 	}
-
 }

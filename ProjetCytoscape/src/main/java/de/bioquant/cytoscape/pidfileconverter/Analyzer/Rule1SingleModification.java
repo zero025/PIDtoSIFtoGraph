@@ -1,4 +1,5 @@
 /**
+ * @author Florian Dittmann
  * 
  */
 package de.bioquant.cytoscape.pidfileconverter.Analyzer;
@@ -13,10 +14,6 @@ import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.InconsistentOn
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.UnknownOntologyException;
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.EdgeTypeOntology;
 
-/**
- * @author Florian Dittmann
- * 
- */
 public class Rule1SingleModification implements Rule {
 
 	public final static String RULENAME="Rule1SingleModification";
@@ -30,36 +27,34 @@ public class Rule1SingleModification implements Rule {
 	 * (de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.Model.InteractionNode,
 	 * de.bioquant.cytoscape.ConnectOwlAndXmlOfPID.Analyzer.RuleGraph)
 	 */
-
 	@Override
 	public boolean processModificationsIFConditionFullfilled(
 			InteractionNode interaction, RuleGraph graph) {
 		try {
 			Collection<InteractionComponent> outgoing = interaction
 					.getSpecialEdgeInteractionComponents(EdgeTypeOntology.OUTPUT);
-			if (outgoing.size() != 1)
+			if (outgoing.size() != 1) {
 				return false;
+			}
 			InteractionComponent out = outgoing.iterator().next();
 			Collection<InteractionComponent> input = interaction
 					.getSpecialEdgeInteractionComponents(EdgeTypeOntology.INPUT);
 			Collection<InteractionComponent> agents = interaction
 					.getSpecialEdgeInteractionComponents(EdgeTypeOntology.AGENTNAME);
 			for (InteractionComponent inter : input) {
-				if (inter.getInteractionsIds().size() == 1)
-					if (out.getMolecule().equals(inter.getMolecule()))
-						if (out.hasModification())
-							if (!out.getModification().equals(
-									inter.getModification())) {
-								setNewAgents(graph, interaction, agents, out);
-								String intName = naming
-										.getNameForInteraction(interaction);
-								graph.deleteNodeFromGraph(intName);
-								graph.deleteNodeFromGraph(naming
-										.getNameForCompMolMember(inter));
-
-								return true;
-							}
-
+				if (inter.getInteractionsIds().size() == 1
+						&& out.getMolecule().equals(inter.getMolecule())
+						&& out.hasModification()
+						&& !out.getModification().equals(inter.getModification())) {
+					setNewAgents(graph, interaction, agents, out);
+					String intName = naming
+							.getNameForInteraction(interaction);
+					graph.deleteNodeFromGraph(intName);
+					graph.deleteNodeFromGraph(naming
+							.getNameForCompMolMember(inter));
+					
+					return true;
+				}
 			}
 			return false;
 		} catch (UnknownOntologyException e) {
@@ -92,5 +87,4 @@ public class Rule1SingleModification implements Rule {
 	public String getRuleName() {
 		return RULENAME;
 	}
-
 }
