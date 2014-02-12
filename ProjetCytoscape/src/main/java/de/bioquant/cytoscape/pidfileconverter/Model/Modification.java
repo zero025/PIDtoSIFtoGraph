@@ -1,16 +1,16 @@
+/**
+ * This class represents all the modifications (ptm-terms) of one single molecule. Additionally each object of this class has an unique id.
+ * 
+ * @author Florian Dittmann
+ * 
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.Model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * This class represents all the modifications (ptm-terms) of one single
- * molecule. Additionally each object of this class has an unique id.
- * 
- * @author Florian Dittmann
- * 
- */
 public class Modification implements Comparable<Modification> {
 
 	private ArrayList<PTMterm> modifications = new ArrayList<PTMterm>();
@@ -23,8 +23,7 @@ public class Modification implements Comparable<Modification> {
 	}
 
 	/**
-	 * Returns an unmodifiable list of the modifications represented by the
-	 * ptm-terms.
+	 * Returns an unmodifiable list of the modifications represented by the ptm-terms.
 	 * 
 	 * @return the modifications
 	 */
@@ -56,8 +55,7 @@ public class Modification implements Comparable<Modification> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((modifications == null) ? 0 : modifications.hashCode());
+		result = prime * result + ((modifications == null) ? 0 : modifications.hashCode());
 		return result;
 	}
 
@@ -92,5 +90,4 @@ public class Modification implements Comparable<Modification> {
 	public int compareTo(Modification o) {
 		return ((Long) modID).compareTo(o.getModID());
 	}
-
 }

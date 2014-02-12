@@ -3,7 +3,6 @@ package de.bioquant.cytoscape.pidfileconverter.Naming;
 public final class CreatorIDWithModification extends AbstractNameCreatorWithModification {
 
 	private static CreatorIDWithModification instance = null;
-	
 
 	private CreatorIDWithModification() {
 	}
@@ -13,7 +12,4 @@ public final class CreatorIDWithModification extends AbstractNameCreatorWithModi
 			instance = new CreatorIDWithModification();
 		return instance;
 	}
-
-	
-
 }

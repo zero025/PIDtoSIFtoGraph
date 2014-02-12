@@ -16,16 +16,16 @@ import de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.EdgeTypeOntol
 public final class IntCompAnalyzerImpl implements IntCompAnalyzer {
 
 	private static IntCompAnalyzerImpl instance=null;
-	
+
 	private IntCompAnalyzerImpl(){}
-	
+
 	public static IntCompAnalyzerImpl getInstance(){
-		if (null==instance)
+		if (null==instance) {
 			instance=new IntCompAnalyzerImpl();
+		}
 		return instance;
 	}
-	
-	
+
 	@Override
 	public boolean hasPredecessors(InteractionComponent intComp)
 			throws InconsistentOntologyException, UnknownOntologyException {
@@ -35,8 +35,9 @@ public final class IntCompAnalyzerImpl implements IntCompAnalyzer {
 		EdgeTypeOntology eOnto = this.getOntology();
 		for (Collection<OntologyElement> rolesForInter : roles) {
 			for (OntologyElement role : rolesForInter) {
-				if (eOnto.isSpecialEdge(role, EdgeTypeOntology.OUTGOINGNAME))
+				if (eOnto.isSpecialEdge(role, EdgeTypeOntology.OUTGOINGNAME)) {
 					return true;
+				}
 			}
 		}
 		return false;
@@ -56,7 +57,6 @@ public final class IntCompAnalyzerImpl implements IntCompAnalyzer {
 					predecessors.add(interaction.getKey());
 					break;
 				}
-
 			}
 		}
 		return predecessors;
@@ -71,8 +71,9 @@ public final class IntCompAnalyzerImpl implements IntCompAnalyzer {
 		EdgeTypeOntology eOnto = this.getOntology();
 		for (Collection<OntologyElement> rolesForInter : roles) {
 			for (OntologyElement role : rolesForInter) {
-				if (eOnto.isSpecialEdge(role, EdgeTypeOntology.INCOMINGNAME))
+				if (eOnto.isSpecialEdge(role, EdgeTypeOntology.INCOMINGNAME)) {
 					return true;
+				}
 			}
 		}
 		return false;
@@ -107,10 +108,10 @@ public final class IntCompAnalyzerImpl implements IntCompAnalyzer {
 		Ontology onto = OntologyManager.getInstance().getOntology(
 				EdgeTypeOntology.NAME);
 		if (onto != null) {
-			if (onto.getClass() == EdgeTypeOntology.class)
+			if (onto.getClass() == EdgeTypeOntology.class) {
 				return (EdgeTypeOntology) onto;
+			}
 		}
 		throw new UnknownOntologyException("Edge-Type ontology is not set!");
 	}
-
 }

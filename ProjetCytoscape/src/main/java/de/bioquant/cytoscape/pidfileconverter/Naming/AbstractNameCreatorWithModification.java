@@ -10,8 +10,7 @@ import de.bioquant.cytoscape.pidfileconverter.Model.MoleculeNode;
 import de.bioquant.cytoscape.pidfileconverter.Model.PathwayNode;
 import de.bioquant.cytoscape.pidfileconverter.Ontology.OntologyElement;
 
-public abstract class AbstractNameCreatorWithModification implements
-		NameCreator {
+public abstract class AbstractNameCreatorWithModification implements NameCreator {
 
 	public final static String FAMSEPERATOR = "::";
 	public final static String COMPLEXSEPERATOR = ":";
@@ -21,41 +20,40 @@ public abstract class AbstractNameCreatorWithModification implements
 		if (null == interaction)
 			return null;
 		OntologyElement type = interaction.getType();
-		if (type.isRootChild())
+		if (type.isRootChild()) {
 			return interaction.getFullPid();
-		else
+		}
+		else {
 			return type.getName().replaceAll(" ", "_");
+		}
 	}
 
 	@Override
 	public String getNameForCompMolMember(final CompMolMember component) {
-		if (null == component)
+		if (null == component) { 
 			return null;
+		}
 		if (component.isConnectedToMolecule()) {
 			MoleculeNode molecule = component.getMolecule();
 
-			StringBuffer string = new StringBuffer(
-					this.getNameForMolecule(molecule));
+			StringBuffer string = new StringBuffer(this.getNameForMolecule(molecule));
 			if (component.hasModification()) {
-				string.append(ModificationExtractor
-						.getModificationString(component.getModification()));
+				string.append(ModificationExtractor.getModificationString(component.getModification()));
 			}
 			return string.toString().replaceAll(" ", "_");
 		}
 		return "";
-
 	}
 
 	@Override
-	public String getNameForCompMolMemberManagement(
-			final CompMolMember component) {
-		if (null == component)
+	public String getNameForCompMolMemberManagement(final CompMolMember component) {
+		if (null == component) {
 			return null;
+		}
 
 		StringBuffer string = new StringBuffer(component.getFullPid());
 		if (component.hasModification()) {
-			string.append(ModificationExtractor.getModificationString(component
-					.getModification()));
+			string.append(ModificationExtractor.getModificationString(component.getModification()));
 		}
 		return string.toString().replaceAll(" ", "_");
 	}
@@ -63,19 +61,24 @@ public abstract class AbstractNameCreatorWithModification implements
 	@Override
 	public String getNameForPathway(final PathwayNode pathway) {
 		String name = pathway.getName();
-		if (name.isEmpty())
+		if (name.isEmpty())  {
 			return pathway.getFullPid();
-		else
+		}
+		else {
 			return name.replaceAll(" ", "_");
+		}
 	}
 
 	public String getId(final MoleculeNode molecule) {
-		if (molecule.hasUniprot())
+		if (molecule.hasUniprot()) {
 			return molecule.getUniProdID();
-		else if (molecule.hasEntrezGene())
+		}
+		else if (molecule.hasEntrezGene()) {
 			return molecule.getEntrezGeneID();
-		else
+		}
+		else {
 			return molecule.getFullPid();
+		}
 	}
 
 	private String getMemberString(List<CompMolMember> list, String sepString) {
@@ -88,8 +91,7 @@ public abstract class AbstractNameCreatorWithModification implements
 			memberString.append(getId(molecule));
 			if (member.hasModification()) {
 				ComponentModification mod = member.getModification();
-				memberString.append(ModificationExtractor
-						.getModificationString(mod));
+				memberString.append(ModificationExtractor.getModificationString(mod));
 			}
 			String finalMmber = memberString.toString();
 			if (!memberStrings.contains(finalMmber)) {
@@ -98,8 +100,9 @@ public abstract class AbstractNameCreatorWithModification implements
 				result.append(sepString);
 			}
 		}
-		if (result.length() == 0)
+		if (result.length() == 0)  {
 			return "";
+		}
 		return result.substring(0, result.length() - 1);
 	}
 
@@ -107,24 +110,24 @@ public abstract class AbstractNameCreatorWithModification implements
 	public String getNameForMolecule(MoleculeNode molecule) {
 		StringBuffer string = new StringBuffer();
 		if (molecule.hasComplexComponents()) {
-			if (string.length() == 0)
+			if (string.length() == 0) {
 				string.append("[");
-			string.append(getMemberString(molecule.getComplexComponents(),
-					COMPLEXSEPERATOR));
+			}
+			string.append(getMemberString(molecule.getComplexComponents(), COMPLEXSEPERATOR));
 		}
 		if (molecule.hasFamilyMembers()) {
-			if (string.length() == 0)
+			if (string.length() == 0) {
 				string.append("[");
-			string.append(getMemberString(molecule.getFamilyMembers(),
-					FAMSEPERATOR));
+			}
+			string.append(getMemberString(molecule.getFamilyMembers(), FAMSEPERATOR));
 		}
 
-		if (string.length() == 0)
+		if (string.length() == 0) {
 			string.append(getId(molecule));
-		else
+		}
+		else {
 			string.append("]");
+		}
 		return string.toString().replaceAll(" ", "_");
-
 	}
-
 }

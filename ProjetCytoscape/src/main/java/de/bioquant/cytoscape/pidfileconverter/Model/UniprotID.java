@@ -6,8 +6,7 @@ import java.util.Map;
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidArgumentException;
 
 /**
- * This class represents one Uniprot ID. It handles also the part molecules
- * which have the same ID like their parent
+ * This class represents one Uniprot ID. It handles also the part molecules which have the same ID like their parent
  * 
  * @author Florian Dittmann
  */
@@ -17,8 +16,7 @@ public class UniprotID {
 	private static Map<String, Long> partMolCounter = new HashMap<String, Long>();
 
 	/**
-	 * Creates a new Uniprot ID object with specified Uniprot ID. For part
-	 * molecules "-P" and a consecutive number is added to have a unique
+	 * Creates a new Uniprot ID object with specified Uniprot ID. For part molecules "-P" and a consecutive number is added to have a unique
 	 * Uniprot-ID for each molecule.
 	 * 
 	 * @param uniprotID
@@ -27,8 +25,7 @@ public class UniprotID {
 	 * @throws InvalidArgumentException
 	 *             thrown if first parameter is null
 	 */
-	public UniprotID(String uniprotID, boolean partmolecule)
-			throws InvalidArgumentException {
+	public UniprotID(String uniprotID, boolean partmolecule) throws InvalidArgumentException {
 		if (null == uniprotID)
 			throw new InvalidArgumentException("Uniprot-ID must not be null!");
 		if (partmolecule) {
@@ -36,13 +33,11 @@ public class UniprotID {
 				long count = partMolCounter.get(uniprotID) + 1;
 				this.setUniProtPart(uniprotID, count);
 				partMolCounter.put(uniprotID, count);
-
 			} else {
 				long startValue = 1;
 				partMolCounter.put(uniprotID, startValue);
 				this.setUniProtPart(uniprotID, startValue);
 			}
-
 		} else {
 			id = uniprotID;
 		}
@@ -98,5 +93,4 @@ public class UniprotID {
 		}
 		return true;
 	}
-
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -20,13 +19,11 @@ import de.bioquant.cytoscape.pidfileconverter.Model.MoleculeNode;
 import de.bioquant.cytoscape.pidfileconverter.Model.PathwayNode;
 import de.bioquant.cytoscape.pidfileconverter.Ontology.OntologyManager;
 
-public final class NodeManagerImpl implements InteractionNodeManager,
-		PathwayNodeManager, MoleculeNodeManager, ModificationManager,
-		InteractionComponentManager, GraphConnector {
+public final class NodeManagerImpl implements InteractionNodeManager, PathwayNodeManager, MoleculeNodeManager,
+		ModificationManager, InteractionComponentManager, GraphConnector {
 
 	private static NodeManagerImpl instance = null;
-	protected final static OntologyManager ONTOMANAGER = OntologyManager
-			.getInstance();
+	protected final static OntologyManager ONTOMANAGER = OntologyManager.getInstance();
 
 	private Map<String, InteractionNode> interactions = new HashMap<String, InteractionNode>();
 	private Map<String, PathwayNode> pathways = new HashMap<String, PathwayNode>();
@@ -38,8 +35,9 @@ public final class NodeManagerImpl implements InteractionNodeManager,
 	}
 
 	public static NodeManagerImpl getInstance() {
-		if (instance == null)
+		if (instance == null) {
 			instance = new NodeManagerImpl();
+		}
 		return instance;
 	}
 
@@ -52,9 +50,9 @@ public final class NodeManagerImpl implements InteractionNodeManager,
 	@Override
 	public boolean addPathway(PathwayNode newPathway) {
 		String id = newPathway.getPid();
-		if (pathways.containsKey(id))
+		if (pathways.containsKey(id)) {
 			return false;
-		else {
+		} else {
 			pathways.put(id, newPathway);
 			return true;
 		}
@@ -69,9 +67,9 @@ public final class NodeManagerImpl implements InteractionNodeManager,
 	@Override
 	public boolean addInteraction(InteractionNode newInteraction) {
 		String id = newInteraction.getPid();
-		if (interactions.containsKey(id))
+		if (interactions.containsKey(id)) {
 			return false;
-		else {
+		} else {
 			interactions.put(id, newInteraction);
 			return true;
 		}
@@ -79,8 +77,7 @@ public final class NodeManagerImpl implements InteractionNodeManager,
 
 	@Override
 	public boolean deleteInteraction(final InteractionNode interactionToDelete) {
-		InteractionNode node = interactions
-				.remove(interactionToDelete.getPid());
+		InteractionNode node = interactions.remove(interactionToDelete.getPid());
 		return node != null;
 	}
 
@@ -107,8 +104,7 @@ public final class NodeManagerImpl implements InteractionNodeManager,
 	}
 
 	@Override
-	public InteractionNode getEqualInteractionNodeInManager(
-			final InteractionNode interaction) {
+	public InteractionNode getEqualInteractionNodeInManager(final InteractionNode interaction) {
 		return interactions.get(interaction.getPid());
 	}
 
@@ -130,9 +126,9 @@ public final class NodeManagerImpl implements InteractionNodeManager,
 	@Override
 	public boolean addMolecule(MoleculeNode newMolecule) {
 		String id = newMolecule.getPid();
-		if (molecules.containsKey(id))
+		if (molecules.containsKey(id)) {
 			return false;
-		else {
+		} else {
 			molecules.put(id, newMolecule);
 			return true;
 		}
@@ -150,8 +146,7 @@ public final class NodeManagerImpl implements InteractionNodeManager,
 	}
 
 	@Override
-	public MoleculeNode getEqualMoleculeNodeInManager(
-			final MoleculeNode molecule) {
+	public MoleculeNode getEqualMoleculeNodeInManager(final MoleculeNode molecule) {
 		return molecules.get(molecule.getPid());
 	}
 
@@ -184,10 +179,11 @@ public final class NodeManagerImpl implements InteractionNodeManager,
 	public boolean addModificationforPid(String pid, Modification modification) {
 		if (modifications.containsKey(pid)) {
 			ArrayList<Modification> list = modifications.get(pid);
-			if (list.contains(modification))
+			if (list.contains(modification)) {
 				return false;
-			else
+			} else {
 				return list.add(modification);
+			}
 		} else {
 			ArrayList<Modification> list = new ArrayList<Modification>();
 			modifications.put(pid, list);
@@ -196,8 +192,7 @@ public final class NodeManagerImpl implements InteractionNodeManager,
 	}
 
 	@Override
-	public Modification getEqualModification(String pid,
-			Modification modification) {
+	public Modification getEqualModification(String pid, Modification modification) {
 		if (modifications.containsKey(pid)) {
 			ArrayList<Modification> list = modifications.get(pid);
 			for (Modification mod : list) {
@@ -213,35 +208,35 @@ public final class NodeManagerImpl implements InteractionNodeManager,
 		if (modifications.containsKey(pid)) {
 			ArrayList<Modification> list = modifications.get(pid);
 			for (Modification mod : list) {
-				if (mod.equals(modification))
+				if (mod.equals(modification)) {
 					return true;
+				}
 			}
 		}
 		return false;
 	}
 
 	@Override
-	public boolean addInteractionComponent(InteractionComponent component)
-			throws InvalidInteractionIdException, InvalidArgumentException {
-		if (!containsInteractionComponent(component))
+	public boolean addInteractionComponent(InteractionComponent component) throws InvalidInteractionIdException,
+			InvalidArgumentException {
+		if (!containsInteractionComponent(component)) {
 			return interComps.add(component);
-		else {
+		} else {
 			InteractionComponent oldComp = getEqualInteractionComponent(component);
 			for (String comp : component.getComplexes())
 				oldComp.addComplexConnection(comp);
 			for (String comp : component.getFamilies())
 				oldComp.addFamilyConnection(comp);
-			return oldComp.setRoleTypesForInteractions(component
-					.getRolesForInteraction());
+			return oldComp.setRoleTypesForInteractions(component.getRolesForInteraction());
 		}
 	}
 
 	@Override
 	public boolean containsInteractionComponent(InteractionComponent component) {
 		for (InteractionComponent intComp : interComps)
-			if (intComp.equals(component))
+			if (intComp.equals(component)) {
 				return true;
-		// return interComps.contains(component);
+			}
 		return false;
 	}
 
@@ -267,69 +262,57 @@ public final class NodeManagerImpl implements InteractionNodeManager,
 	}
 
 	@Override
-	public void connectIntCompsToMolecules(MoleculeNodeManager molManager,
-			InteractionComponentManager intCompManager) {
-		Collection<InteractionComponent> intComps = intCompManager
-				.getAllInteractionComponents();
+	public void connectIntCompsToMolecules(MoleculeNodeManager molManager, InteractionComponentManager intCompManager) {
+		Collection<InteractionComponent> intComps = intCompManager.getAllInteractionComponents();
 		for (InteractionComponent intComp : intComps) {
 			try {
-				MoleculeNode memMolecule = new MoleculeNode(
-						intComp.getFullPid());
-				memMolecule = molManager
-						.getEqualMoleculeNodeInManager(memMolecule);
-				if (null == memMolecule)
-					System.out
-							.println("InteractionComponent could not be connected to molecule "
-									+ intComp.getFullPid()
-									+ " Molecule is not known!");
+				MoleculeNode memMolecule = new MoleculeNode(intComp.getFullPid());
+				memMolecule = molManager.getEqualMoleculeNodeInManager(memMolecule);
+				if (null == memMolecule) {
+					System.out.println("InteractionComponent could not be connected to molecule "
+							+ intComp.getFullPid() + " Molecule is not known!");
+				}
 				intComp.setMolecule(memMolecule);
 			} catch (InvalidIdException e) {
 				e.printStackTrace();
 			}
-
 		}
 	}
 
 	@Override
-	public void connectInteractionsToInteractionComponents(
-			InteractionComponentManager intCompManager,
+	public void connectInteractionsToInteractionComponents(InteractionComponentManager intCompManager,
 			InteractionNodeManager interactionManager) {
-		Collection<InteractionComponent> intComps = intCompManager
-				.getAllInteractionComponents();
+		Collection<InteractionComponent> intComps = intCompManager.getAllInteractionComponents();
 		for (InteractionComponent intComp : intComps) {
 			Collection<String> interIds = intComp.getInteractionsIds();
 			for (String id : interIds) {
 				InteractionNode interaction = this.interactions.get(id);
 				try {
-					if (null == interaction)
-						System.out
-								.println("InteractionComponent could not be connected to interaction "
-										+ id + "! Interaction is not known!");
-					else
+					if (null == interaction) {
+						System.out.println("InteractionComponent could not be connected to interaction " + id
+								+ "! Interaction is not known!");
+					} else {
 						interaction.addInteractionComponent(intComp);
+					}
 				} catch (InvalidArgumentException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-
 		}
-
 	}
 
 	@Override
-	public InteractionComponent getEqualInteractionComponent(
-			InteractionComponent component) {
+	public InteractionComponent getEqualInteractionComponent(InteractionComponent component) {
 		/*
-		 * SortedSet<InteractionComponent> comps=interComps.tailSet(component);
-		 * if (comps.first().equals(component)) return comps.first(); else
-		 * return null;
+		 * SortedSet<InteractionComponent> comps=interComps.tailSet(component); if (comps.first().equals(component)) return comps.first(); else return
+		 * null;
 		 */
 		for (InteractionComponent intComp : interComps) {
-			if (intComp.equals(component))
+			if (intComp.equals(component)) {
 				return intComp;
+			}
 		}
 		return null;
 	}
-
 }

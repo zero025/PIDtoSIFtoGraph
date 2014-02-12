@@ -1,5 +1,6 @@
 package de.bioquant.cytoscape.pidfileconverter.Exceptions;
 
+@SuppressWarnings("serial")
 public class InvalidArgumentException extends Exception {
 	
 	public InvalidArgumentException(){
@@ -10,9 +11,7 @@ public class InvalidArgumentException extends Exception {
 		super(message);		
 	}
 	
-	public InvalidArgumentException(String message, Throwable cause)
-	{
+	public InvalidArgumentException(String message, Throwable cause){
 		super(message, cause);
 	}
-
 }

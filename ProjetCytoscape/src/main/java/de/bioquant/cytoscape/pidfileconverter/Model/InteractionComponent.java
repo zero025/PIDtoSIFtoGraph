@@ -1,3 +1,10 @@
+/**
+ * This interface represents a component of an interaction.
+ * 
+ * @author Florian Dittmann
+ * 
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.Model;
 
 import java.util.Collection;
@@ -8,28 +15,19 @@ import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidInteractionIdExc
 import de.bioquant.cytoscape.pidfileconverter.Ontology.OntologyElement;
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.UnknownOntologyElementException;
 
-/**
- * This interface represents a component of an interaction.
- * 
- * @author Florian Dittmann
- * 
- */
 public interface InteractionComponent extends CompMolMember {
 
 	/**
-	 * Returns the roles of this interaction component for a special
-	 * interaction.
+	 * Returns the roles of this interaction component for a special interaction.
 	 * 
 	 * @param interactionID
-	 * @return empty - if there is no such connected interaction for this
-	 *         component; else - all roles for specified connection
+	 * @return empty - if there is no such connected interaction for this component; else - all roles for specified connection
 	 */
-	public Collection<OntologyElement> getRolesTypeForInteraction(
-			final String interactionID) throws InvalidInteractionIdException;
+	public Collection<OntologyElement> getRolesTypeForInteraction(final String interactionID)
+			throws InvalidInteractionIdException;
 
 	/**
-	 * Sets the role type of this interaction component for a special
-	 * interaction.
+	 * Sets the role type of this interaction component for a special interaction.
 	 * 
 	 * @param interactionID
 	 * @param roleType
@@ -39,26 +37,22 @@ public interface InteractionComponent extends CompMolMember {
 	 * @throws InvalidInteractionIdException
 	 *             if interactionID is invalid
 	 */
-	public boolean setRoleTypeForInteraction(final String interactionID,
-			final OntologyElement roleType) throws InvalidArgumentException,
-			InvalidInteractionIdException;
+	public boolean setRoleTypeForInteraction(final String interactionID, final OntologyElement roleType)
+			throws InvalidArgumentException, InvalidInteractionIdException;
 
 	/**
-	 * Sets the role type of this interaction component for multiple
-	 * interactions.
+	 * Sets the role type of this interaction component for multiple interactions.
 	 * 
 	 * @param roles
 	 * @return
 	 * @throws InvalidInteractionIdException
 	 * @throws InvalidArgumentException
 	 */
-	public boolean setRoleTypesForInteractions(
-			Map<String, Collection<OntologyElement>> roles)
+	public boolean setRoleTypesForInteractions(Map<String, Collection<OntologyElement>> roles)
 			throws InvalidInteractionIdException, InvalidArgumentException;
 
 	/**
-	 * Sets the role type of this interaction component for multiple
-	 * interactions.
+	 * Sets the role type of this interaction component for multiple interactions.
 	 * 
 	 * @param roleTypeName
 	 * @param interaction
@@ -68,9 +62,8 @@ public interface InteractionComponent extends CompMolMember {
 	 *             if an ontology element with roleTypeName is not available
 	 * @throws InvalidInteractionIdException
 	 */
-	public boolean setRoleType(final String roleTypeName,
-			final String interaction) throws InvalidArgumentException,
-			UnknownOntologyElementException, InvalidInteractionIdException;
+	public boolean setRoleType(final String roleTypeName, final String interaction) throws InvalidArgumentException,
+	UnknownOntologyElementException, InvalidInteractionIdException;
 
 	/**
 	 * Returns the IDs of all interactions the component is connected.
@@ -80,8 +73,7 @@ public interface InteractionComponent extends CompMolMember {
 	public Collection<String> getInteractionsIds();
 
 	/**
-	 * Returns an unmodifiable map of the roles of this interaction component.
-	 * The map contains the pid of the interactions mapped to a collection of
+	 * Returns an unmodifiable map of the roles of this interaction component. The map contains the pid of the interactions mapped to a collection of
 	 * roles.
 	 * 
 	 * @return

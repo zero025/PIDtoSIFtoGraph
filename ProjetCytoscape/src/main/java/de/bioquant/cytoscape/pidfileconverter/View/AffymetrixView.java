@@ -11,8 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class AffymetrixView extends JFrame
-{
+@SuppressWarnings("serial")
+public class AffymetrixView extends JFrame {
 	private JPanel mainpanel = new JPanel();
 	private JPanel titlepanel = new JPanel();
 	private JPanel toppanel = new JPanel();
@@ -25,23 +25,22 @@ public class AffymetrixView extends JFrame
 	private JButton browsecondition2button = new JButton("Browse");
 	private JButton applyfilterbutton = new JButton("Apply Filter");
 	private JButton helpbutton = new JButton("?");
-	
+
 	/**
-	 * This constructor is responsible to build the frame of this class,
-	 * as well as setting the labels, text areas and the buttons,
-	 * as well as their actioncommands&listeners.
+	 * This constructor is responsible to build the frame of this class, as well as setting the labels, text areas and the buttons, as well as their
+	 * actioncommands&listeners.
+	 * 
 	 * @param controller
 	 */
-	public AffymetrixView(Controller controller)
-	{
+	public AffymetrixView(Controller controller) {
 		// set the controller
 		controller = new Controller(this);
-		
+
 		// set the layouts for the different panels
 		mainpanel.setLayout(new GridBagLayout());
 		titlepanel.setLayout(new GridBagLayout());
 		toppanel.setLayout(new GridBagLayout());
-		
+
 		// call a new set of gridbagconstraints
 		GridBagConstraints c = new GridBagConstraints();
 		/* ------------------------------------------------------ */
@@ -49,15 +48,15 @@ public class AffymetrixView extends JFrame
 		titlelabel.setText("Import Barcode output from 2 conditions.");
 		titlelabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		c.fill = GridBagConstraints.HORIZONTAL;
-	    c.ipady = 30;      //make this component tall
-	    c.ipadx = 20;
-	    c.weightx = 0.0;
-	    c.gridwidth = 4;
-	    c.gridx = 0;
-	    c.gridy = 0;
-	    titlepanel.add(titlelabel, c);
+		c.ipady = 30; // make this component tall
+		c.ipadx = 20;
+		c.weightx = 0.0;
+		c.gridwidth = 4;
+		c.gridx = 0;
+		c.gridy = 0;
+		titlepanel.add(titlelabel, c);
 		/* ------------------------------------------------------ */
-	    // adding the condition1label label to toppanel
+		// adding the condition1label label to toppanel
 		c.weightx = 0.5;
 		c.gridwidth = 1;
 		c.ipady = 5;
@@ -110,33 +109,30 @@ public class AffymetrixView extends JFrame
 		helpbutton.addActionListener(controller);
 		/* ------------------------------------------------------ */
 		// Add top title panel into the main panel
-	    c.ipady = 10;
-	    c.ipadx = 10;
-	    c.gridx = 0;
-	    c.gridy = 0;
+		c.ipady = 10;
+		c.ipadx = 10;
+		c.gridx = 0;
+		c.gridy = 0;
 		mainpanel.add(titlepanel, c);
 		/* ------------------------------------------------------ */
 		// Add top panel into the main panel
-	    c.ipady = 10;
-	    c.ipadx = 10;
-	    c.gridx = 0;
-	    c.gridy = 1;
+		c.ipady = 10;
+		c.ipadx = 10;
+		c.gridx = 0;
+		c.gridy = 1;
 		mainpanel.add(toppanel, c);
-	    /* ------------------------------------------------------ */
-		
+		/* ------------------------------------------------------ */
 		// add the main panel to the content pane
 		getContentPane().add(mainpanel);
 		getContentPane().setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);		
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
-	
-	public void setInput1FieldText(String arg)
-	{
+
+	public void setInput1FieldText(String arg) {
 		this.inputcondition1field.setText(arg);
 	}
 
-	public void setInput2FieldText(String arg)
-	{
+	public void setInput2FieldText(String arg) {
 		this.inputcondition2field.setText(arg);
 	}
 

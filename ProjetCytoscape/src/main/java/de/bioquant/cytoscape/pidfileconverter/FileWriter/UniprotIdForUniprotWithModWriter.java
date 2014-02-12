@@ -9,8 +9,7 @@ import de.bioquant.cytoscape.pidfileconverter.Naming.CreatorIDWithModification;
 import de.bioquant.cytoscape.pidfileconverter.Naming.NameCreator;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 
-public final class UniprotIdForUniprotWithModWriter extends
-		AbstractNodeAttributeWriter implements FileWriter {
+public final class UniprotIdForUniprotWithModWriter extends AbstractNodeAttributeWriter implements FileWriter {
 
 	private static UniprotIdForUniprotWithModWriter instance = null;
 	private NameCreator naming = CreatorIDWithModification.getInstance();
@@ -19,8 +18,9 @@ public final class UniprotIdForUniprotWithModWriter extends
 	}
 
 	public static UniprotIdForUniprotWithModWriter getInstance() {
-		if (instance == null)
+		if (instance == null) {
 			instance = new UniprotIdForUniprotWithModWriter();
+		}
 		return instance;
 	}
 
@@ -31,8 +31,7 @@ public final class UniprotIdForUniprotWithModWriter extends
 
 	@Override
 	public void writeAttributes(PrintWriter writer, NodeManagerImpl manager) {
-		Collection<InteractionComponent> components = manager
-				.getAllInteractionComponents();
+		Collection<InteractionComponent> components = manager.getAllInteractionComponents();
 		for (InteractionComponent node : components) {
 
 			String id = naming.getNameForCompMolMember(node);
@@ -41,9 +40,6 @@ public final class UniprotIdForUniprotWithModWriter extends
 				String uniprot = mol.getUniProdID();
 				TupelWriter.printTupel(writer, id, uniprot);
 			}
-
 		}
-
 	}
-
 }

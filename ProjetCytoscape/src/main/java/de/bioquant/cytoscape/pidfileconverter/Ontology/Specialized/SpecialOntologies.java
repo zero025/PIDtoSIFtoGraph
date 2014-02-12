@@ -4,9 +4,13 @@ import de.bioquant.cytoscape.pidfileconverter.Ontology.Ontology;
 
 public enum SpecialOntologies {
 
-	ACTIVITYSTATE("activity-state"), EDGETYPE("edge-type"), MOLECULETYPE(
-			"molecule-type"), PROCESSTYPE("process-type"), LOCATION("location"), 
-			PTM("ptm"),UNKNOWN("");
+	ACTIVITYSTATE("activity-state"), 
+	EDGETYPE("edge-type"), 
+	MOLECULETYPE("molecule-type"), 
+	PROCESSTYPE("process-type"), 
+	LOCATION("location"), 
+	PTM("ptm"), 
+	UNKNOWN("");
 
 	private String name;
 
@@ -52,7 +56,6 @@ public enum SpecialOntologies {
 	}
 
 	public Ontology newSpecialOntology(String id, String name) {
-		return newSpecialOntology(Integer.valueOf(id).intValue(),name);
+		return newSpecialOntology(Integer.valueOf(id).intValue(), name);
 	}
-
 }

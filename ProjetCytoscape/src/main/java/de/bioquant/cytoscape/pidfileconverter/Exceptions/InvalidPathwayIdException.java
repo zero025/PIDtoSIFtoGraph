@@ -1,5 +1,6 @@
 package de.bioquant.cytoscape.pidfileconverter.Exceptions;
 
+@SuppressWarnings("serial")
 public class InvalidPathwayIdException extends InvalidIdException {
 
 	public InvalidPathwayIdException() {
@@ -17,7 +18,4 @@ public class InvalidPathwayIdException extends InvalidIdException {
 	public InvalidPathwayIdException(Throwable cause) {
 		super(cause);
 	}
-	
-	
-
 }

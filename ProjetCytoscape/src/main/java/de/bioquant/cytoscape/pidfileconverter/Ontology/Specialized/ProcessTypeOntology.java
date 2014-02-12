@@ -18,28 +18,23 @@ public class ProcessTypeOntology extends Ontology {
 		super(id, NAME);
 	}
 
-	public boolean isCellularProcess(OntologyElement edge)
-			throws InconsistentOntologyException {
+	public boolean isCellularProcess(OntologyElement edge) throws InconsistentOntologyException {
 		OntologyElement incomeElement = this.getElement(CELL_PROCESS);
-		if (null==incomeElement)
-		{
-			//TODO temporary bug fix
-			System.out.println(CELL_PROCESS+" is not known in '"+NAME+"'-Ontology!");
+		if (null == incomeElement) {
+			// TODO temporary bug fix
+			System.out.println(CELL_PROCESS + " is not known in '" + NAME + "'-Ontology!");
 			return false;
 		}
 		return this.isParentOf(incomeElement.getId(), edge.getId());
 	}
-	
-	public boolean isBiologicalProcess(OntologyElement edge)
-	throws InconsistentOntologyException {
+
+	public boolean isBiologicalProcess(OntologyElement edge) throws InconsistentOntologyException {
 		OntologyElement incomeElement = this.getElement(BIOLOGICAL_PROCESS);
-		if (null==incomeElement)
-		{
-			//TODO temporary bug fix
-			System.out.println(BIOLOGICAL_PROCESS+" is not knowsn in '"+NAME+"'-Ontology!");
+		if (null == incomeElement) {
+			// TODO temporary bug fix
+			System.out.println(BIOLOGICAL_PROCESS + " is not knowsn in '" + NAME + "'-Ontology!");
 			return false;
 		}
 		return this.isParentOf(incomeElement.getId(), edge.getId());
-}
-
+	}
 }

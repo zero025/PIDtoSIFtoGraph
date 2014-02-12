@@ -13,8 +13,7 @@ import de.bioquant.cytoscape.pidfileconverter.Naming.ModificationExtractor;
 import de.bioquant.cytoscape.pidfileconverter.Naming.NameCreator;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 
-public final class ModificationsWriter extends AbstractNodeAttributeWriter implements
-		FileWriter {
+public final class ModificationsWriter extends AbstractNodeAttributeWriter implements FileWriter {
 
 	private static ModificationsWriter instance = null;
 	private NameCreator naming = CreatorIDWithModification.getInstance();
@@ -23,8 +22,9 @@ public final class ModificationsWriter extends AbstractNodeAttributeWriter imple
 	}
 
 	public static ModificationsWriter getInstance() {
-		if (null == instance)
+		if (null == instance) {
 			instance = new ModificationsWriter();
+		}
 		return instance;
 	}
 
@@ -35,42 +35,31 @@ public final class ModificationsWriter extends AbstractNodeAttributeWriter imple
 
 	@Override
 	public void writeAttributes(PrintWriter writer, NodeManagerImpl manager) {
-		Collection<InteractionComponent> components = manager
-				.getAllInteractionComponents();
+		Collection<InteractionComponent> components = manager.getAllInteractionComponents();
 		for (InteractionComponent node : components) {
 			String id = naming.getNameForCompMolMember(node);
 			if (node.hasModification()) {
 				ComponentModification mod = node.getModification();
 				if (mod.hasAnyModifications()) {
-					String modis = ModificationExtractor
-							.getDetailedModifactionString(mod);
+					String modis = ModificationExtractor.getDetailedModifactionString(mod);
 					TupelWriter.printTupel(writer, id, modis);
 
 				}
 			}
-			// if (node.getComponent().getClass() == MoleculeNode.class) {
 			MoleculeNode molecule = node.getMolecule();
 			if (molecule.hasFamilyMembers()) {
 				List<CompMolMember> members = molecule.getFamilyMembers();
-				String memberString = ModificationExtractor
-						.getDetailledModificatonStringForComplexMolecules(
-								members,
-								CreatorIDWithModification.FAMSEPERATOR);
+				String memberString = ModificationExtractor.getDetailledModificatonStringForComplexMolecules(members,
+						CreatorIDWithModification.FAMSEPERATOR);
 				TupelWriter.printTupel(writer, id, memberString);
 			}
 
 			if (molecule.hasComplexComponents()) {
 				List<CompMolMember> members = molecule.getComplexComponents();
-				String memberString = ModificationExtractor
-						.getDetailledModificatonStringForComplexMolecules(
-								members,
-								CreatorIDWithModification.COMPLEXSEPERATOR);
+				String memberString = ModificationExtractor.getDetailledModificatonStringForComplexMolecules(members,
+						CreatorIDWithModification.COMPLEXSEPERATOR);
 				TupelWriter.printTupel(writer, id, memberString);
-
 			}
-
 		}
-
 	}
-
 }

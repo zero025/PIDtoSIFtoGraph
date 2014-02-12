@@ -1,4 +1,5 @@
 /**
+ * @author Florian Dittmann
  * 
  */
 package de.bioquant.cytoscape.pidfileconverter.Analyzer;
@@ -10,10 +11,6 @@ import java.util.List;
 import de.bioquant.cytoscape.pidfileconverter.Model.InteractionNode;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.InteractionNodeManager;
 
-/**
- * @author Florian Dittmann
- * 
- */
 public class RuleApplicator {
 
 	private List<Rule> rules = new ArrayList<Rule>();
@@ -58,5 +55,4 @@ public class RuleApplicator {
 			graph.persistDeletingNodes();
 		}
 	}
-
 }

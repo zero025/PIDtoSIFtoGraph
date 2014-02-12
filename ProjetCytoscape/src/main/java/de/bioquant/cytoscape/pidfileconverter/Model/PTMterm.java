@@ -1,15 +1,13 @@
 /**
+ * @author Florian Dittmann
  * 
  */
+ 
 package de.bioquant.cytoscape.pidfileconverter.Model;
 
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidArgumentException;
 import de.bioquant.cytoscape.pidfileconverter.Ontology.OntologyElement;
 
-/**
- * @author Florian Dittmann
- * 
- */
 public class PTMterm {
 
 	private String position = "";
@@ -17,16 +15,18 @@ public class PTMterm {
 	private OntologyElement modification;
 
 	/**
-	 * Initilizes a new PTM term object with the given position, site and
-	 * modification type.
+	 * Initilizes a new PTM term object with the given position, site and modification type.
 	 * 
-	 * @param position of the modification
-	 * @param aa side of the modification
-	 * @param modification type of the modification
-	 * @throws InvalidArgumentException throw if when of the arguments is null
+	 * @param position
+	 *            of the modification
+	 * @param aa
+	 *            side of the modification
+	 * @param modification
+	 *            type of the modification
+	 * @throws InvalidArgumentException
+	 *             throw if when of the arguments is null
 	 */
-	public PTMterm(String position, String aa, OntologyElement modification)
-			throws InvalidArgumentException {
+	public PTMterm(String position, String aa, OntologyElement modification) throws InvalidArgumentException {
 		if (position == null || aa == null || modification == null)
 			throw new InvalidArgumentException("Arguments must not be null!");
 		this.position = position;
@@ -89,10 +89,8 @@ public class PTMterm {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((aa == null) ? 0 : aa.hashCode());
-		result = prime * result
-				+ ((modification == null) ? 0 : modification.hashCode());
-		result = prime * result
-				+ ((position == null) ? 0 : position.hashCode());
+		result = prime * result + ((modification == null) ? 0 : modification.hashCode());
+		result = prime * result + ((position == null) ? 0 : position.hashCode());
 		return result;
 	}
 
@@ -136,5 +134,4 @@ public class PTMterm {
 		}
 		return true;
 	}
-
 }

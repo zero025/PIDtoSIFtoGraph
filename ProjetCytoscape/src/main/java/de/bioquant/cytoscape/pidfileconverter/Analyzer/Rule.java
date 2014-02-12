@@ -13,6 +13,4 @@ public interface Rule {
 	public boolean processModificationsIFConditionFullfilled(InteractionNode interaction, RuleGraph graph);
 	
 	public String getRuleName();
-	
-
 }

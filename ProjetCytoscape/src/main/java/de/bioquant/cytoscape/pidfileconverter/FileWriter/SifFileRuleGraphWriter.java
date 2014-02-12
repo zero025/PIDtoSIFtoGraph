@@ -18,36 +18,32 @@ import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.UnknownOntolog
 
 public final class SifFileRuleGraphWriter implements FileWriter {
 
-	private static SifFileRuleGraphWriter instance=null;
-	
+	private static SifFileRuleGraphWriter instance = null;
+
 	private SifFileRuleGraphWriter() {
 	}
-	
-	public static SifFileRuleGraphWriter getInstance(){
-		if (instance==null)
-			instance=new SifFileRuleGraphWriter();
+
+	public static SifFileRuleGraphWriter getInstance() {
+		if (instance == null)
+			instance = new SifFileRuleGraphWriter();
 		return instance;
 	}
-	
-	
-	
+
 	@Override
-	public void write(String path, NodeManagerImpl manager)
-			throws FileNotFoundException {
+	public void write(String path, NodeManagerImpl manager) throws FileNotFoundException {
 		PrintWriter writer = new PrintWriter(path);
 		try {
-			RuleGraph graph=new RuleGraph(manager);
-			RuleApplicator ruleMan= new RuleApplicator();
+			RuleGraph graph = new RuleGraph(manager);
+			RuleApplicator ruleMan = new RuleApplicator();
 			ruleMan.addRule(new Rule1SingleModification());
 			ruleMan.addRule(new Rule2ImportantComplexModification());
 			ruleMan.applyRulesOnGraph(manager, graph);
-			
-			
-			Collection<RuleGraphNode> nodes=graph.getAllNodes();
-			for (RuleGraphNode node:nodes){
-				Map<RuleGraphNode,String> connections=node.getOutgoingConnections();
-				Set<Entry<RuleGraphNode,String>> set=connections.entrySet();
-				for (Entry<RuleGraphNode,String> entry:set){
+
+			Collection<RuleGraphNode> nodes = graph.getAllNodes();
+			for (RuleGraphNode node : nodes) {
+				Map<RuleGraphNode, String> connections = node.getOutgoingConnections();
+				Set<Entry<RuleGraphNode, String>> set = connections.entrySet();
+				for (Entry<RuleGraphNode, String> entry : set) {
 					TupelWriter.printTriple(writer, node.getName(), entry.getValue(), entry.getKey().getName());
 				}
 			}
@@ -57,8 +53,7 @@ public final class SifFileRuleGraphWriter implements FileWriter {
 		} catch (UnknownOntologyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
 		writer.close();
 	}
-
 }

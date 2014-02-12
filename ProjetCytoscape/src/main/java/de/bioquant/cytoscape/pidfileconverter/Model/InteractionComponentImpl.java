@@ -1,3 +1,9 @@
+/**
+ * 
+ * @author Florian
+ * 
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.Model;
 
 import java.util.ArrayList;
@@ -15,45 +21,35 @@ import de.bioquant.cytoscape.pidfileconverter.Ontology.OntologyElement;
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Exceptions.UnknownOntologyElementException;
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.EdgeTypeOntology;
 
-/**
- * 
- * @author Florian
- *
- */
-public class InteractionComponentImpl extends CompMolMemberImpl implements InteractionComponent{
-	
-	private Map<String, Collection<OntologyElement>> interactions=new HashMap<String, Collection<OntologyElement>>();
-		
-	public InteractionComponentImpl(String pid) throws InvalidIdException
-	{
+public class InteractionComponentImpl extends CompMolMemberImpl implements InteractionComponent {
+
+	private Map<String, Collection<OntologyElement>> interactions = new HashMap<String, Collection<OntologyElement>>();
+
+	public InteractionComponentImpl(String pid) throws InvalidIdException {
 		super(pid);
 	}
-	
-	public InteractionComponentImpl(MoleculeNode node) throws InvalidIdException, InvalidArgumentException
-	{
+
+	public InteractionComponentImpl(MoleculeNode node) throws InvalidIdException, InvalidArgumentException {
 		super(node);
 	}
 
 	@Override
-	public Collection<OntologyElement> getRolesTypeForInteraction(
-			String interactionID) throws InvalidInteractionIdException {
-		String id =IdClearer.clearUpPidI(interactionID);
+	public Collection<OntologyElement> getRolesTypeForInteraction(String interactionID)
+			throws InvalidInteractionIdException {
+		String id = IdClearer.clearUpPidI(interactionID);
 		return interactions.get(id);
-		
 	}
 
 	@Override
-	public boolean setRoleTypeForInteraction(String interactionID,
-			OntologyElement roleType) throws InvalidArgumentException,
-			InvalidInteractionIdException {
-		String id =IdClearer.clearUpPidI(interactionID);
+	public boolean setRoleTypeForInteraction(String interactionID, OntologyElement roleType)
+			throws InvalidArgumentException, InvalidInteractionIdException {
+		String id = IdClearer.clearUpPidI(interactionID);
 		Collection<OntologyElement> roleList;
-		if (!interactions.containsKey(interactionID))
-		{
-			roleList=new ArrayList<OntologyElement>();
-			interactions.put(id,roleList);
-		}else
-			roleList=interactions.get(id);
+		if (!interactions.containsKey(interactionID)) {
+			roleList = new ArrayList<OntologyElement>();
+			interactions.put(id, roleList);
+		} else
+			roleList = interactions.get(id);
 		if (roleList.contains(roleType))
 			return false;
 		else
@@ -61,13 +57,11 @@ public class InteractionComponentImpl extends CompMolMemberImpl implements Inter
 	}
 
 	@Override
-	public boolean setRoleType(String roleTypeName, String interaction)
-			throws InvalidArgumentException, UnknownOntologyElementException,
-			InvalidInteractionIdException {
-		Ontology onto=AbstractGraphNode.ONTOMANAGER.getOntology(EdgeTypeOntology.NAME);
-		OntologyElement role=onto.getElement(roleTypeName);
+	public boolean setRoleType(String roleTypeName, String interaction) throws InvalidArgumentException,
+	UnknownOntologyElementException, InvalidInteractionIdException {
+		Ontology onto = AbstractGraphNode.ONTOMANAGER.getOntology(EdgeTypeOntology.NAME);
+		OntologyElement role = onto.getElement(roleTypeName);
 		return this.setRoleTypeForInteraction(interaction, role);
-		
 	}
 
 	@Override
@@ -81,20 +75,17 @@ public class InteractionComponentImpl extends CompMolMemberImpl implements Inter
 	}
 
 	@Override
-	public boolean setRoleTypesForInteractions(
-			Map<String, Collection<OntologyElement>> roles) throws InvalidInteractionIdException, InvalidArgumentException {
-		for (Entry<String, Collection<OntologyElement>> interaction:roles.entrySet())
-		{
-			String interactionId=interaction.getKey();
-			Collection<OntologyElement> currRoles=interaction.getValue();
-			for (OntologyElement role:currRoles)
-			{
-				if(!this.setRoleTypeForInteraction(InteractionNode.PREFIX+interactionId, role))
+	public boolean setRoleTypesForInteractions(Map<String, Collection<OntologyElement>> roles)
+			throws InvalidInteractionIdException, InvalidArgumentException {
+		for (Entry<String, Collection<OntologyElement>> interaction : roles.entrySet()) {
+			String interactionId = interaction.getKey();
+			Collection<OntologyElement> currRoles = interaction.getValue();
+			for (OntologyElement role : currRoles) {
+				if (!this.setRoleTypeForInteraction(InteractionNode.PREFIX + interactionId, role)) {
 					return false;
+				}
 			}
 		}
 		return false;
 	}
-
-
 }

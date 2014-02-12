@@ -1,5 +1,6 @@
 package de.bioquant.cytoscape.pidfileconverter.Exceptions;
 
+@SuppressWarnings("serial")
 public class NoValidManagerSetException extends Exception {
 	
 	public NoValidManagerSetException(){
@@ -10,9 +11,7 @@ public class NoValidManagerSetException extends Exception {
 		super(message);		
 	}
 	
-	public NoValidManagerSetException(String message, Throwable cause)
-	{
+	public NoValidManagerSetException(String message, Throwable cause) {
 		super(message, cause);
 	}
-
 }
