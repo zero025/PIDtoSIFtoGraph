@@ -1,3 +1,7 @@
+/**
+ * @author Yamei & Thomas
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.Naming;
 
 import java.util.ArrayList;

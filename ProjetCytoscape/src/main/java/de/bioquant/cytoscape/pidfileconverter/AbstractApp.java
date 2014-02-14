@@ -7,6 +7,7 @@ package de.bioquant.cytoscape.pidfileconverter;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 import de.bioquant.cytoscape.pidfileconverter.View.Controller;
 import de.bioquant.cytoscape.pidfileconverter.View.MainFrame;
@@ -20,7 +21,7 @@ public abstract class AbstractApp {
 	{
 		mainframe = new MainFrame(controller);
 		mainframe.setTitle("Plugin");
-		mainframe.setLocation(10, 10);
+        mainframe.setLocation(100,100);				
 		mainframe.setSize(800, 400);
 		mainframe.setResizable(false);
 		mainframe.setVisible(true);

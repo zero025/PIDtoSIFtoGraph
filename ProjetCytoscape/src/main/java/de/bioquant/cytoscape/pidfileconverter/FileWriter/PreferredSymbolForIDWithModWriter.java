@@ -1,3 +1,7 @@
+/**
+ * @contributor Yamei & Thomas
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.FileWriter;
 
 import de.bioquant.cytoscape.pidfileconverter.Model.CompMolMember;

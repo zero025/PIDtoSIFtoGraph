@@ -29,6 +29,7 @@ import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
 import de.bioquant.cytoscape.pidfileconverter.View.Controller;
 import de.bioquant.cytoscape.pidfileconverter.View.MainFrame;
+import de.bioquant.cytoscape.pidfileconverter.View.SplashFrame;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.DirectedGraph;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
@@ -435,16 +436,35 @@ public class SubgraphExtraction {
 	 * @author Hadi Kang
 	 * @author Aristotelis Kittas
 	 */
-	public void drawJungGraph() {
+	public void drawJungGraph(SplashFrame sp, ProcessSubgraph process) {
+		
+		//Progress
+		int total = 100;
+		int progress = 0;	
 		
 		DirectedGraph<CyNode, CyEdge> myGraph = cytotojungGraph(); // greates the JUNG graph
 
 		DijkstraShortestPath<CyNode, CyEdge> dpath = new DijkstraShortestPath<CyNode, CyEdge>(myGraph, false); // create shortest path object
+		
+		progress +=10;
+		sp.getBar().setValue((progress*100)/total+1);
+		if(!process.isContinueThread()){
+			return;
+		}
+		
 		Set<CyNode> s = new HashSet<CyNode>(); // set of nodes in the shortest path that will be included in the final network
+		
 		for (int i = 0; i < cytosourcesubgraph.size(); i++) {
 			CyNode startnode = cytosourcesubgraph.get(i);
 			for (int j = 0; j < cytotargetsubgraph.size(); j++) {
+				progress++;
+				sp.getBar().setValue((progress*100)/total+1);
+				if(!process.isContinueThread()){
+					return;
+				}
+				
 				CyNode endnode = cytotargetsubgraph.get(j);
+				
 				if (!endnode.equals(startnode)) // if we are dealing with unique nodes
 				{
 					List<CyEdge> gp = dpath.getPath(startnode, endnode);
@@ -457,6 +477,13 @@ public class SubgraphExtraction {
 				}
 			}
 		}
+		
+		progress +=10;
+		sp.getBar().setValue((progress*100)/total+1);
+		if(!process.isContinueThread()){
+			return;
+		}
+		
 		System.out.println("Nodes in the source graph:");
 		for (int i = 0; i < cytosourcesubgraph.size(); i++) {
 			// colour the corresponding source node
