@@ -11,21 +11,14 @@ import java.io.FileNotFoundException;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 import de.bioquant.cytoscape.pidfileconverter.View.Controller;
 import de.bioquant.cytoscape.pidfileconverter.View.MainFrame;
+import de.bioquant.cytoscape.pidfileconverter.View.Step1;
 
 public abstract class AbstractApp {
 	private Controller controller;
-	
-	private MainFrame mainframe;
 
 	public void run() throws Exception
 	{
-		mainframe = new MainFrame(controller);
-		mainframe.setTitle("Plugin");
-        mainframe.setLocation(100,100);				
-		mainframe.setSize(800, 400);
-		mainframe.setResizable(false);
-		mainframe.setVisible(true);
-		mainframe.pack();
+		Step1 step1 = new Step1(controller);
 	}
 
 	public abstract void extraOutput(BufferedReader reader,

@@ -36,6 +36,13 @@ public class ProcessAffymetrix extends AbstractProcess {
 		try {
 			
 			affymetrixFrame.getStart().setEnabled(false);
+			
+			//create affymetrix geneid hash map
+			AffymetrixRegexReader.createAffymetrixHashMap(controller.getTargetNODE_TYPEpath(), controller.getTargetGeneIDtoAffymetrixMapFilepath(), affymetrixFrame, this);		
+			if(!isContinueThread()){
+				return;
+			}
+			
 			// read the inputfields
 			controller.setInputbarcode1(affymetrixview
 					.getInputcondition1field().getText());
@@ -48,10 +55,7 @@ public class ProcessAffymetrix extends AbstractProcess {
 
 			AffymetrixRegexReader.barcode2Reader(controller.getInputbarcode2());
 
-			AffymetrixRegexReader.compareBarcodes(affymetrixFrame, this);	
-			if(!isContinueThread()){
-				return;
-			}
+			AffymetrixRegexReader.compareBarcodes();	
 
 			// create new SIF
 			// TODO: If can please create a separate method here
@@ -61,33 +65,25 @@ public class ProcessAffymetrix extends AbstractProcess {
 			targetfilteredSIFpath = temporarypath[0].concat(ABSENT_PROTEINS_CONCATENATION + ".sif");
 		
 			// draw graph of new SIF and create a network
-			Cytoscape.createNetworkFromFile(targetfilteredSIFpath);// load
-			// the
-			// NODE_TYPE
-			// .NA
-			// file
-
-			controller.loadNodeAttributeFile(controller
-					.getTargetNODE_TYPEpath());
+			Cytoscape.createNetworkFromFile(targetfilteredSIFpath);
+			
+			// load  the NODE_TYPE .NA  file
+			controller.loadNodeAttributeFile(controller .getTargetNODE_TYPEpath());
 
 			// load the UNIPROT .NA file
 			controller.loadNodeAttributeFile(controller.getTargetUNIPROTpath());
 
 			// load the ENTREZGENE .NA file
-			controller.loadNodeAttributeFile(controller
-					.getTargetENTREZGENEpath());
+			controller.loadNodeAttributeFile(controller	.getTargetENTREZGENEpath());
 
 			// load the MODIFICATIONS .NA file
-			controller.loadNodeAttributeFile(controller
-					.getTargetMODIFICATIONSpath());
+			controller.loadNodeAttributeFile(controller.getTargetMODIFICATIONSpath());
 
 			// load the PREFERRED_SYMBOL .NA file
-			controller.loadNodeAttributeFile(controller
-					.getTargetPREFERRED_SYMBOLpath());
+			controller.loadNodeAttributeFile(controller.getTargetPREFERRED_SYMBOLpath());
 
 			// load the PREFERRED_SYMBOL_EXT .NA file
-			controller.loadNodeAttributeFile(controller
-					.getTargetPREFERRED_SYMBOL_EXTpath());
+			controller.loadNodeAttributeFile(controller.getTargetPREFERRED_SYMBOL_EXTpath());
 
 			// // load the PREFERRED_SYMBOL_EXT .NA file
 			// loadNodeAttributeFileFromGraph(getTargetPREFERRED_SYMBOL_EXTpath());

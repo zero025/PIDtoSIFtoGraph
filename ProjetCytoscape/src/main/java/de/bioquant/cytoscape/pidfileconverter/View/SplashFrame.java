@@ -98,8 +98,9 @@ public class SplashFrame extends JFrame {
 		this.addWindowListener( new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent we) {
-				
-				myself.process.setContinueThread(false);
+				if (myself.process != null){
+					myself.process.setContinueThread(false);
+				}
 				myself.dispose();
 			}
 		} );

@@ -9,11 +9,13 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
@@ -67,12 +69,14 @@ public class MainFrame extends JFrame {
 	private JButton checktoexpandhelpbutton = new JButton("?");
 	private JButton step3helpbutton = new JButton("?");
 	private JCheckBox expandcheckbox = new JCheckBox();
-	private JCheckBox affymetrixcheckbox = new JCheckBox();
-	private JCheckBox illuminacheckbox = new JCheckBox();
+	private JRadioButton affymetrixradio = new JRadioButton();
+	private JRadioButton illuminaradio = new JRadioButton();
+	private ButtonGroup group = new ButtonGroup();
 	private JCheckBox includecomplexescheckbox = new JCheckBox();
 
 	public MainFrame(Controller controller) throws Exception {
-		controller = new Controller(this);
+		//Removed 
+		//controller = new Controller(this);
 		expandcheckboxlabel.setFont(new Font("Ariel", Font.ITALIC, 8));
 		expandcheckboxlabel.setText("Check to expand");
 		mainpanel.setLayout(new GridBagLayout());
@@ -182,19 +186,21 @@ public class MainFrame extends JFrame {
 		c.gridy = 0;
 		middletitlepanel.add(numbertwolabel, c);
 		/* ------------------------------------------------------ */
-		// adding the affymetrixcheckbox to middlepanel
+		// adding the affymetrixcradio to middlepanel
 		c.ipady = 0;
 		c.ipadx = 0;
 		c.weightx = 0.0;
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 0;
-		middlepanel.add(affymetrixcheckbox, c);
+		group.add(affymetrixradio);
+		middlepanel.add(affymetrixradio, c);
 		/* ------------------------------------------------------ */
 		// adding the illuminacheckbox to middlepanel
 		c.gridx = 0;
 		c.gridy = 1;
-		middlepanel.add(illuminacheckbox, c);
+		group.add(illuminaradio);
+		middlepanel.add(illuminaradio, c);
 		/* ------------------------------------------------------ */
 		// adding the affymetrixlabel to middlepanel
 		c.gridx = 1;
@@ -477,12 +483,12 @@ public class MainFrame extends JFrame {
 		return expandcheckbox.isSelected();
 	}
 
-	public boolean isAffymetrixChecked() {
-		return affymetrixcheckbox.isSelected();
+	public boolean isAffymetrixSelected() {
+		return affymetrixradio.isSelected();
 	}
 
-	public boolean isIlluminaChecked() {
-		return illuminacheckbox.isSelected();
+	public boolean isIlluminaSelected() {
+		return illuminaradio.isSelected();
 	}
 
 	public boolean isIncludeComplexesChecked() {

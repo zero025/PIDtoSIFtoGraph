@@ -9,13 +9,13 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import de.bioquant.cytoscape.pidfileconverter.View.Controller;
-import de.bioquant.cytoscape.pidfileconverter.View.MainFrame;
 import de.bioquant.cytoscape.pidfileconverter.View.SplashFrame;
+import de.bioquant.cytoscape.pidfileconverter.View.Step1;
 
 public class ProcessConvert extends AbstractProcess {
 
 	private SplashFrame convertFrame;
-	private MainFrame mainframe;
+	private Step1 step1;
 	private String inputfilepath;
 	private File curFile;
 	private Controller controller;
@@ -23,12 +23,12 @@ public class ProcessConvert extends AbstractProcess {
 	// the file name of the VIZMAP property file
 	private static final String VIZMAP_PROPS_FILE_NAME = "netView.props";
 
-	public ProcessConvert(SplashFrame sp, Controller controller,
-			MainFrame mainframe, String inputfilepath, File curFile) {
+	public ProcessConvert(SplashFrame sp, Controller controller, Step1 step1,
+			String inputfilepath, File curFile) {
 
 		this.convertFrame = sp;
 		this.controller = controller;
-		this.mainframe = mainframe;
+		this.step1 = step1;
 		this.inputfilepath = inputfilepath;
 		this.curFile = curFile;
 	}
@@ -38,7 +38,7 @@ public class ProcessConvert extends AbstractProcess {
 		convertFrame.getStart().setEnabled(false);
 		
 		// do a read of the inputtextfield to determine file
-		String filetobeconverted = mainframe.getInputTextfieldText().trim();
+		String filetobeconverted = step1.getInputTextFieldText().trim();
 		inputfilepath = filetobeconverted;
 		// set this filepath in the File object
 		curFile = new File(inputfilepath);
@@ -57,7 +57,13 @@ public class ProcessConvert extends AbstractProcess {
 		try {
 			// converting a file which is displayed in the inputtextfield
 			// JTextfield field in mainframe
-			controller.convertFile(filetobeconverted);
+			
+			//This part is 85% of the processing time
+			controller.convertFile(filetobeconverted, convertFrame, this);
+			if(!isContinueThread()){
+				return;
+			}
+			
 		} catch (NullPointerException exp) {
 			JOptionPane.showMessageDialog(new JFrame(),
 					"Null pointer exception", "Error",
@@ -101,7 +107,7 @@ public class ProcessConvert extends AbstractProcess {
 
 			// load the VIZMAP props file
 			controller.mapVisually(VIZMAP_PROPS_FILE_NAME);
-
+			
 			// read the nodetype file and then parse it accordingly,
 			// generating the 3 targetfiles
 			AffymetrixRegexReader.readAndWriteFiles(
@@ -111,7 +117,7 @@ public class ProcessConvert extends AbstractProcess {
 					controller.getTargetUniProtToGeneIDMapFilepath(),
 					controller.getTargetGeneIDtoAffymetrixMapFilepath(),
 					convertFrame, this);
-			if(!isContinueThread()){
+			if (!isContinueThread()) {
 				return;
 			}
 
@@ -125,6 +131,8 @@ public class ProcessConvert extends AbstractProcess {
 					"Conversion successful! Files converted are located in the directory:"
 							+ "\n" + filepath, "Success",
 					JOptionPane.INFORMATION_MESSAGE);
+
+			step1.getNext().setEnabled(true);
 		} catch (Exception exp) {
 			JOptionPane.showMessageDialog(new JFrame(),
 					"The graph cannot be read! Exception :"
@@ -132,7 +140,7 @@ public class ProcessConvert extends AbstractProcess {
 					JOptionPane.WARNING_MESSAGE);
 			exp.printStackTrace();
 		} finally {
-			mainframe.requestFocus();
+			step1.requestFocus();
 			// delete the SplashFrame when the work is done
 			convertFrame.dispose();
 		}

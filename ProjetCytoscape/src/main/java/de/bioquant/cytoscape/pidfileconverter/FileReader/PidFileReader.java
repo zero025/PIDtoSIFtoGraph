@@ -1,10 +1,14 @@
 package de.bioquant.cytoscape.pidfileconverter.FileReader;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.ProgressMonitorInputStream;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -18,6 +22,7 @@ import de.bioquant.cytoscape.pidfileconverter.Model.CompMolMember;
 import de.bioquant.cytoscape.pidfileconverter.Model.MoleculeNode;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.MoleculeNodeManager;
 import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
+import de.bioquant.cytoscape.pidfileconverter.View.SplashFrame;
 
 public final class PidFileReader implements FileReader {
 
@@ -25,6 +30,9 @@ public final class PidFileReader implements FileReader {
 	NodeManagerImpl manager;
 	PidFileHandler handler;
 
+	private SplashFrame sp;
+	private ProcessConvert process;
+	
 	private PidFileReader() throws NoValidManagerSetException {
 		manager = NodeManagerImpl.getInstance();
 		handler = new PidFileHandler(manager, manager, manager, manager, manager);
@@ -35,7 +43,7 @@ public final class PidFileReader implements FileReader {
 			try {
 				instance = new PidFileReader();
 			} catch (NoValidManagerSetException e) {
-				// TODO Auto-generated catch block
+				// TODO Auto-generated catch blocks
 				e.printStackTrace();
 			}
 		return instance;
@@ -43,14 +51,33 @@ public final class PidFileReader implements FileReader {
 
 	@Override
 	public void read(String path) throws NoValidManagerSetException, FileParsingException {
+		
+		//Progress
+		int total=100;
+		int progress =0;
+		
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		try {
+			
 			SAXParser saxParser = factory.newSAXParser();
-
-			saxParser.parse(path, handler);
-			connectComplexesAndFamilies(manager, this.handler);
-			manager.connectIntCompsToMolecules(manager, manager);
+			
+			 InputStream in = new BufferedInputStream(
+                     new ProgressMonitorInputStream(
+                             sp,
+                             "Reading " + path,
+                             new FileInputStream(path)));
+			
+			saxParser.parse(in, handler);
+			progress+=75;
+			sp.getBar().setValue((progress * 100) / total + 1);
+			if(!process.isContinueThread()){
+				return;
+			}
+			
+			connectComplexesAndFamilies(manager, this.handler);				
+			manager.connectIntCompsToMolecules(manager, manager);		
 			manager.connectInteractionsToInteractionComponents(manager, manager);
+			
 		} catch (ParserConfigurationException e) {
 			throw new FileParsingException("Failed to read PID file!", e);
 		} catch (SAXException e) {
@@ -81,5 +108,10 @@ public final class PidFileReader implements FileReader {
 				member.setMolecule(manager.getEqualMoleculeNodeInManager(memMolecule));
 			}
 		}
+	}
+	
+	public void setSplashFrameAndProcess(SplashFrame sp, ProcessConvert process){
+		this.sp = sp;
+		this.process = process;
 	}
 }

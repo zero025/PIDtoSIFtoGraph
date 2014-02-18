@@ -30,8 +30,8 @@ public class IlluminaView extends JFrame {
 	private JTextField inputcondition2Field = new JTextField(20);
 	private JButton browseFileButton = new JButton("Browse");
 	private JButton applyfilterbutton = new JButton("Apply Filter");
-	private JButton helpbutton = new JButton("?");
-
+	private JButton helpbutton = new JButton("Help");
+	
 	/**
 	 * This constructor is responsible to build the frame of this class, as well as setting the labels, text areas and the buttons, as well as their
 	 * actioncommands&listeners.
@@ -73,8 +73,8 @@ public class IlluminaView extends JFrame {
 		insertNameslabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		// c.ipady = 30; //make this component tall
 		// c.ipadx = 20;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.BOTH;
+		//c.anchor = GridBagConstraints.WEST;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
 		conditionspanel.add(insertNameslabel, c);
@@ -135,6 +135,11 @@ public class IlluminaView extends JFrame {
 		getContentPane().add(mainpanel);
 		getContentPane().setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		
+		browseFileButton.setToolTipText("Click here to find an Illumina file, CSV format");
+		applyfilterbutton.setToolTipText("Start filtering");
+		helpbutton.setToolTipText("To get information about how to use the plugin");
 	}
 
 	public void setInputFileFieldText(String arg) {

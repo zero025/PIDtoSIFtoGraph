@@ -88,25 +88,28 @@ public class AffymetrixRegexReader {
 	 * @throws IOException
 	 */
 	public static void readAndWriteFiles(String filename, String firstfilepath, String secondfilepath,
-			String thirdfilepath, String fourthfilepath, SplashFrame sp, ProcessConvert process) throws IOException {
+			String thirdfilepath, String fourthfilepath, SplashFrame sp, AbstractProcess process) throws IOException {
 
 		BufferedReader reader = null;
 		try {
-			
-			
 			
 			reader = new BufferedReader(new FileReader(filename));
 			String l;
 			String tobewritten = "";
 			String matchedUPtoGeneIDmapping = "";
-			String matchedGeneIDtoAffymetrixmapping = "";
 			ArrayList<String> listofFile1 = new ArrayList<String>();
 			ArrayList<String> listofFile2 = new ArrayList<String>();
 			
+			sp.getBar().setValue(90);
+			if(!process.isContinueThread()){
+				return;
+			}
+			
 			while ((l = reader.readLine()) != null) {
+
 				
-				if (l.contains("=")) { // recognises whole line where there is
-										// an '=' sign
+				if (l.contains("=")) { // recognises whole line where there is an '=' sign
+					
 					String trimmedName;
 					String trimmedDetail;
 					String[] splittedString = l.split("="); // splits line at
@@ -330,6 +333,12 @@ public class AffymetrixRegexReader {
 				}
 			}
 			
+			sp.getBar().setValue(95);
+			if(!process.isContinueThread()){
+				return;
+			}
+			
+			
 			// for every one of the entry in the first list, add it to the
 			// arraylist file1tobewritten
 			for (int i = 0; i < listofFile1.size(); i++) {
@@ -373,40 +382,6 @@ public class AffymetrixRegexReader {
 
 			}
 
-			//Progress
-			int total = uniqueGeneIDs.size();
-			int progress = 0;
-
-			// For every unique GeneID, find the corresponding affymetrixID and
-			// add the mapping into the arraylist file4tobewritten
-			for (int i = 0; i < uniqueGeneIDs.size(); i++) {
-				progress++;
-				sp.getBar().setValue((progress*100)/total+1);
-				if(!process.isContinueThread()){
-					// have to close the reader, else wasting of resources
-					if (reader != null) {
-						reader.close();
-					}
-					// clear the arraylists for next read
-					clearArrayLists();
-					return;
-				}
-				try {
-					matchedGeneIDtoAffymetrixmapping = AffymetrixRegexReader.lookUpAffymetrixIDofGeneID(uniqueGeneIDs.get(i), AFFYMETRIXSOURCE);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				// if there is a match, add that to the arraylist
-				// file4tobewritten,
-				// and to the hashmap which points in the opposite direction
-				// (affyID -> GeneID)
-				if (matchedGeneIDtoAffymetrixmapping != "") {
-					affytogeneIDhashmap.put(matchedGeneIDtoAffymetrixmapping, uniqueGeneIDs.get(i));
-					file4tobewritten.add(uniqueGeneIDs.get(i) + " = " + matchedGeneIDtoAffymetrixmapping + "\n");
-				}
-			}
-			
 			// get the first file printed out
 			multipleFileWriter("IDCyto_to_DefaultID_Map", firstfilepath, file1tobewritten);
 			// get the second file printed out. The quoted file2tobewritten ->
@@ -418,13 +393,13 @@ public class AffymetrixRegexReader {
 			multipleFileWriter("Unique_IDs", secondfilepath, uniqueIDs);
 			// get the third file printed out
 			multipleFileWriter("UniProt_to_GeneID_Map", thirdfilepath, file3tobewritten);
-			// get the fourth file printed out
-			multipleFileWriter("GeneID_to_Affymetrix_Map", fourthfilepath, file4tobewritten);
 
-			// printing the top rows of the list
-			// System.out.println("ID Cyto = DefaultID Name");
-			// System.out.println(tobewritten);
-
+			sp.getBar().setValue(100);
+			if(!process.isContinueThread()){
+				return;
+			}
+			
+			
 			// clear the arraylists for next time
 		}
 
@@ -837,19 +812,11 @@ public class AffymetrixRegexReader {
 	 * @param value
 	 *            either 0 or 1
 	 */
-	public static void compareBarcodes(SplashFrame sp, ProcessAffymetrix process) {
-		//Progress
-		int total = proteinhashmap.size()+proteinfamilyhashmap.size()+proteincomplexhashmap.size();
-		int progress = 0;
+	public static void compareBarcodes() {
 		
 		// for every entry in proteinhashmap
 		for (Map.Entry<String, String> entryFromProteinHashmap : proteinhashmap
 				.entrySet()) {
-			progress ++;
-			sp.getBar().setValue((progress*100)/total+1);
-			if(!process.isContinueThread()){
-				return;
-			}
 			
 			String key = entryFromProteinHashmap.getKey(); // the IDcyto
 			String value = entryFromProteinHashmap.getValue(); // the single
@@ -871,12 +838,6 @@ public class AffymetrixRegexReader {
 		
 		for (Map.Entry<String, String> entryFromProteinFamilyHashmap : proteinfamilyhashmap
 				.entrySet()) {
-			
-			progress ++;
-			sp.getBar().setValue((progress*100)/total+1);
-			if(!process.isContinueThread()){
-				return;
-			}
 			
 			String key = entryFromProteinFamilyHashmap.getKey(); // the IDcyto
 			String value = entryFromProteinFamilyHashmap.getValue(); // the
@@ -915,12 +876,6 @@ public class AffymetrixRegexReader {
 		// entry to be deleted if ANY of the members show 0
 		for (Map.Entry<String, String> entryFromProteinComplexHashmap : proteincomplexhashmap
 				.entrySet()) {
-			
-			progress ++;
-			sp.getBar().setValue((progress*100)/total+1);
-			if(!process.isContinueThread()){
-				return;
-			}
 			
 			String key = entryFromProteinComplexHashmap.getKey(); // the IDcyto
 			String value = entryFromProteinComplexHashmap.getValue(); // the
@@ -1243,5 +1198,58 @@ public class AffymetrixRegexReader {
 
 	public static HashMap<String, String> getProteincomplexhashmap() {
 		return proteincomplexhashmap;
+	}
+	
+	public static void createAffymetrixHashMap(String filename , String fourthfilepath, SplashFrame sp, ProcessAffymetrix process) throws IOException{
+		BufferedReader reader = null;
+		
+		try {
+
+			reader = new BufferedReader(new FileReader(filename));
+
+			String matchedGeneIDtoAffymetrixmapping = "";
+			
+			//Progress
+			int total = uniqueGeneIDs.size();
+			int progress = 0;
+
+			// For every unique GeneID, find the corresponding affymetrixID and
+			// add the mapping into the arraylist file4tobewritten
+			for (int i = 0; i < uniqueGeneIDs.size(); i++) {
+				progress++;
+				sp.getBar().setValue((progress*100)/total+1);
+				if(!process.isContinueThread()){
+
+					if (reader != null) {
+						reader.close();
+					}
+					// clear the arraylists for next read
+					clearArrayLists();
+					return;
+				}
+
+				matchedGeneIDtoAffymetrixmapping = AffymetrixRegexReader.lookUpAffymetrixIDofGeneID(uniqueGeneIDs.get(i), AFFYMETRIXSOURCE);
+
+				// if there is a match, add that to the arraylist file4tobewritten, 
+				// and to the hashmap which points in the opposite direction (affyID -> GeneID)
+				if (matchedGeneIDtoAffymetrixmapping != "") {
+					affytogeneIDhashmap.put(matchedGeneIDtoAffymetrixmapping, uniqueGeneIDs.get(i));
+					file4tobewritten.add(uniqueGeneIDs.get(i) + " = " + matchedGeneIDtoAffymetrixmapping + "\n");
+				}
+
+			}
+
+			// get the fourth file printed out
+			multipleFileWriter("GeneID_to_Affymetrix_Map", fourthfilepath, file4tobewritten);
+
+		}finally {
+			// have to close the reader, else wasting of resources
+			if (reader != null) {
+				reader.close();
+			}
+
+			// clear the arraylists for next read
+			clearArrayLists();
+		}
 	}
 }

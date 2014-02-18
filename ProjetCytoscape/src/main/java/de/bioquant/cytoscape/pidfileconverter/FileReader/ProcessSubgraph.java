@@ -13,36 +13,35 @@ import javax.swing.JOptionPane;
 
 import cytoscape.Cytoscape;
 import de.bioquant.cytoscape.pidfileconverter.View.Controller;
-import de.bioquant.cytoscape.pidfileconverter.View.MainFrame;
 import de.bioquant.cytoscape.pidfileconverter.View.SplashFrame;
+import de.bioquant.cytoscape.pidfileconverter.View.Step3;
 
 public class ProcessSubgraph extends AbstractProcess {
 
 	private SplashFrame subgraphFrame;
 	private Controller controller;
 	private static String targetSIFpath;
-	private MainFrame mainframe;
+	private Step3 step3;
 	private String targetsubgraphedSIFpath;
 
 	// the file name of the VIZMAP property file
 	private static final String VIZMAP_PROPS_FILE_NAME = "netView.props";
 
-	public ProcessSubgraph(SplashFrame sp, Controller controller,
-			MainFrame mainframe, String targetSIFpath,
-			String targetsubgraphedSIFpath) {
+	public ProcessSubgraph(SplashFrame sp, Controller controller, Step3 step3,
+			String targetSIFpath, String targetsubgraphedSIFpath) {
 		this.subgraphFrame = sp;
 		this.controller = controller;
 		ProcessSubgraph.targetSIFpath = targetSIFpath;
-		this.mainframe = mainframe;
+		this.step3 = step3;
 		this.targetsubgraphedSIFpath = targetsubgraphedSIFpath;
 	}
 
 	@Override
 	public void run() {
 		try {
-			
+
 			subgraphFrame.getStart().setEnabled(false);
-			
+
 			// setfocus on the splash frame
 			subgraphFrame.requestFocus();
 
@@ -57,7 +56,7 @@ public class ProcessSubgraph extends AbstractProcess {
 					JOptionPane.INFORMATION_MESSAGE);
 
 			// Blocage ici avec le .jar
-			sgex = new SubgraphExtraction(mainframe);
+			sgex = new SubgraphExtraction(step3);
 			// Test for .jar file :
 			// sgex=new SubgraphExtraction();
 
@@ -68,22 +67,22 @@ public class ProcessSubgraph extends AbstractProcess {
 			// sgex.readGeneSourceFile();
 			sgex.readGeneTargetFile(currentNetworkFilepath,
 					controller.getTargetNODE_TYPEpath());
-			
+
 			sgex.readSigmolSourceFile();
 			sgex.readSigmolTargetFile();
 			sgex.readCytoSourceText();
 			sgex.readCytoTargetText();
-			
+
 			// then draw the graph from the read files/text
-			//long part
+			// long part
 			sgex.drawJungGraph(subgraphFrame, this);
-			if(!isContinueThread()){
+			if (!isContinueThread()) {
 				return;
 			}
-			
+
 			try {
 				sgex.SIFreaderAndNewCreator(currentNetworkFilepath);
-				
+
 				String[] temporarypath = currentNetworkFilepath.split(".sif");
 				targetsubgraphedSIFpath = temporarypath[0].concat(Controller
 						.getSubgraphed() + ".sif");
@@ -93,7 +92,7 @@ public class ProcessSubgraph extends AbstractProcess {
 																			// NODE_TYPE
 																			// .NA
 																			// file
-				
+
 				// load the VIZMAP props file
 				controller.mapVisually(VIZMAP_PROPS_FILE_NAME);
 				JOptionPane.showMessageDialog(new JFrame(),
