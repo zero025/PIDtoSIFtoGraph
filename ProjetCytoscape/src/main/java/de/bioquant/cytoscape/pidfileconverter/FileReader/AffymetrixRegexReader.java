@@ -143,7 +143,7 @@ public class AffymetrixRegexReader {
 								// if at first half of the split
 								if (i == 0) {
 									// write detail as UP1
-									String[] splittedName2 = splittedName[i].split("[@\\|]");
+									String[] splittedName2 = splittedName[i].split("[@\\|\\]]");
 									tobewrittenDefaultIDname = splittedName2[0];
 								}
 								// if at second half or more of the split
@@ -152,7 +152,7 @@ public class AffymetrixRegexReader {
 									// the pattern,
 									// DO NOT add the ::
 									if (tobewrittenDefaultIDname.equals("")) {
-										String[] splittedName2 = splittedName[i].split("[@\\|]");
+										String[] splittedName2 = splittedName[i].split("[@\\|\\]]");
 										tobewrittenDefaultIDname = splittedName2[0];
 									} else {
 										// write detail as UP1 :: UP2 ...
@@ -170,7 +170,7 @@ public class AffymetrixRegexReader {
 							// this time add the stuff into the list
 							for (int i = 0; i < splittedName.length; i++) {
 								String linetobeaddedtoFile1 = tobewrittenIDcytoname + " = " + tobewrittenDefaultIDname;
-								String[] splittedName2 = splittedName[i].split("[@\\|]");
+								String[] splittedName2 = splittedName[i].split("[@\\|\\]]");
 								String tobeadded = splittedName2[0] + " protein family";
 								// if the first list doesnt yet contain the
 								// thing to be added
@@ -194,7 +194,7 @@ public class AffymetrixRegexReader {
 
 						// if the expression is as plain as "P56915 = protein"
 						else {
-							String[] trimmedName2 = trimmedName.split("[@\\|]");
+							String[] trimmedName2 = trimmedName.split("[@\\|\\]]");
 							tobewrittenDefaultIDname = trimmedName2[0];
 							// put IDCyto (key) together with associated UP
 							// (value) into the corresponding hashmap
@@ -258,7 +258,7 @@ public class AffymetrixRegexReader {
 								// if at first half of the split
 								if (i == 0) {
 									// write detail as UP1
-									String[] splittedName2 = splittedName[i].split("[@\\|]");
+									String[] splittedName2 = splittedName[i].split("[@\\|\\]]");
 									tobewrittenDefaultIDname = splittedName2[0];
 								}
 								// if at second half or more of the split
@@ -267,11 +267,11 @@ public class AffymetrixRegexReader {
 									// the pattern,
 									// DO NOT add the :
 									if (tobewrittenDefaultIDname.equals("")) {
-										String[] splittedName2 = splittedName[i].split("[@\\|]");
+										String[] splittedName2 = splittedName[i].split("[@\\|\\]]");
 										tobewrittenDefaultIDname = splittedName2[0];
 									} else {
 										// write detail as UP1 : UP2 ...
-										String[] splittedName2 = splittedName[i].split("[@\\|]");
+										String[] splittedName2 = splittedName[i].split("[@\\|\\]]");
 										tobewrittenDefaultIDname = tobewrittenDefaultIDname + ":" + splittedName2[0];
 									}
 								}
@@ -285,7 +285,7 @@ public class AffymetrixRegexReader {
 							// this time add the stuff into the list
 							for (int i = 0; i < splittedName.length; i++) {
 								String linetobeaddedtoFile1 = tobewrittenIDcytoname + " = " + tobewrittenDefaultIDname;
-								String[] splittedName2 = splittedName[i].split("[@\\|]");
+								String[] splittedName2 = splittedName[i].split("[@\\|\\]]");
 								String tobeadded = splittedName2[0] + " protein complex";
 								// if the list doesnt yet contain the thing to
 								// be added
@@ -309,7 +309,7 @@ public class AffymetrixRegexReader {
 
 						// if the expression is as plain as "P56915 = complex"
 						else {
-							String[] trimmedName2 =trimmedName.split("[@\\|]");
+							String[] trimmedName2 =trimmedName.split("[@\\|\\]]");
 							tobewrittenDefaultIDname = trimmedName2[0];
 							// put IDCyto (key) together with associated UP
 							// (value) into the corresponding hashmap
@@ -980,14 +980,12 @@ public class AffymetrixRegexReader {
 				if (line.contains("\t")) {
 					String node1;
 					String node2;
-					// String edge;
 
 					String[] splittedString = line.split("[\\t]"); // splits the
 																	// line at
 																	// the tab
 																	// space
-					node1 = splittedString[0].trim();
-					// edge = splittedString[1].trim();
+					node1 = splittedString[0].trim();				
 					node2 = splittedString[2].trim();
 					// if the list of nodes to be deleted contains the IDcyto
 					// read from the SIF,

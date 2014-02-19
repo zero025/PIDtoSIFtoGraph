@@ -26,7 +26,6 @@ import cytoscape.visual.VisualStyle;
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.FileParsingException;
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.NoValidManagerSetException;
 import de.bioquant.cytoscape.pidfileconverter.FileReader.AffymetrixRegexReader;
-import de.bioquant.cytoscape.pidfileconverter.FileReader.FileReader;
 import de.bioquant.cytoscape.pidfileconverter.FileReader.PidFileReader;
 import de.bioquant.cytoscape.pidfileconverter.FileReader.ProcessAffymetrix;
 import de.bioquant.cytoscape.pidfileconverter.FileReader.ProcessConvert;
