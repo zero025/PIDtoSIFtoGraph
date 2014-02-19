@@ -143,7 +143,8 @@ public class AffymetrixRegexReader {
 								// if at first half of the split
 								if (i == 0) {
 									// write detail as UP1
-									tobewrittenDefaultIDname = splittedName[i];
+									String[] splittedName2 = splittedName[i].split("[@\\|]");
+									tobewrittenDefaultIDname = splittedName2[0];
 								}
 								// if at second half or more of the split
 								else {
@@ -151,7 +152,8 @@ public class AffymetrixRegexReader {
 									// the pattern,
 									// DO NOT add the ::
 									if (tobewrittenDefaultIDname.equals("")) {
-										tobewrittenDefaultIDname = splittedName[i];
+										String[] splittedName2 = splittedName[i].split("[@\\|]");
+										tobewrittenDefaultIDname = splittedName2[0];
 									} else {
 										// write detail as UP1 :: UP2 ...
 										tobewrittenDefaultIDname = tobewrittenDefaultIDname + "::" + splittedName[i];
@@ -168,7 +170,8 @@ public class AffymetrixRegexReader {
 							// this time add the stuff into the list
 							for (int i = 0; i < splittedName.length; i++) {
 								String linetobeaddedtoFile1 = tobewrittenIDcytoname + " = " + tobewrittenDefaultIDname;
-								String tobeadded = splittedName[i] + " protein family";
+								String[] splittedName2 = splittedName[i].split("[@\\|]");
+								String tobeadded = splittedName2[0] + " protein family";
 								// if the first list doesnt yet contain the
 								// thing to be added
 								if (!listofFile1.contains(linetobeaddedtoFile1)) {
@@ -183,20 +186,21 @@ public class AffymetrixRegexReader {
 								}
 								// if the list of unique proteins doesnt yet
 								// contain the DefaultID to be added
-								if (!uniqueIDs.contains(splittedName[i])) {
-									uniqueIDs.add(splittedName[i]);
+								if (!uniqueIDs.contains(splittedName2[0])) {
+									uniqueIDs.add(splittedName2[0]);
 								}
 							}
 						}
 
 						// if the expression is as plain as "P56915 = protein"
 						else {
-							tobewrittenDefaultIDname = trimmedName;
+							String[] trimmedName2 = trimmedName.split("[@\\|]");
+							tobewrittenDefaultIDname = trimmedName2[0];
 							// put IDCyto (key) together with associated UP
 							// (value) into the corresponding hashmap
 							proteinhashmap.put(tobewrittenIDcytoname, tobewrittenDefaultIDname);
 							String linetobeaddedtoFile1 = tobewrittenIDcytoname + " = " + tobewrittenDefaultIDname;
-							String tobeadded = trimmedName;
+							String tobeadded = trimmedName2[0];
 							if (trimmedDetail.equals("protein")) {
 								tobeadded += " protein";
 							} else if (trimmedDetail.equals("rna")) {
@@ -219,8 +223,8 @@ public class AffymetrixRegexReader {
 							}
 							// if the list of unique proteins doesnt yet contain
 							// the DefaultID to be added
-							if (!uniqueIDs.contains(trimmedName)) {
-								uniqueIDs.add(trimmedName);
+							if (!uniqueIDs.contains(trimmedName2[0])) {
+								uniqueIDs.add(trimmedName2[0]);
 							}
 						}
 					}
@@ -254,7 +258,8 @@ public class AffymetrixRegexReader {
 								// if at first half of the split
 								if (i == 0) {
 									// write detail as UP1
-									tobewrittenDefaultIDname = splittedName[i];
+									String[] splittedName2 = splittedName[i].split("[@\\|]");
+									tobewrittenDefaultIDname = splittedName2[0];
 								}
 								// if at second half or more of the split
 								if (i > 0) {
@@ -262,10 +267,12 @@ public class AffymetrixRegexReader {
 									// the pattern,
 									// DO NOT add the :
 									if (tobewrittenDefaultIDname.equals("")) {
-										tobewrittenDefaultIDname = splittedName[i];
+										String[] splittedName2 = splittedName[i].split("[@\\|]");
+										tobewrittenDefaultIDname = splittedName2[0];
 									} else {
 										// write detail as UP1 : UP2 ...
-										tobewrittenDefaultIDname = tobewrittenDefaultIDname + ":" + splittedName[i];
+										String[] splittedName2 = splittedName[i].split("[@\\|]");
+										tobewrittenDefaultIDname = tobewrittenDefaultIDname + ":" + splittedName2[0];
 									}
 								}
 							}
@@ -278,7 +285,8 @@ public class AffymetrixRegexReader {
 							// this time add the stuff into the list
 							for (int i = 0; i < splittedName.length; i++) {
 								String linetobeaddedtoFile1 = tobewrittenIDcytoname + " = " + tobewrittenDefaultIDname;
-								String tobeadded = splittedName[i] + " protein complex";
+								String[] splittedName2 = splittedName[i].split("[@\\|]");
+								String tobeadded = splittedName2[0] + " protein complex";
 								// if the list doesnt yet contain the thing to
 								// be added
 								if (!listofFile1.contains(linetobeaddedtoFile1)) {
@@ -293,20 +301,21 @@ public class AffymetrixRegexReader {
 								}
 								// if the list of unique proteins doesnt yet
 								// contain the DefaultID to be added
-								if (!uniqueIDs.contains(splittedName[i])) {
-									uniqueIDs.add(splittedName[i]);
+								if (!uniqueIDs.contains(splittedName2[0])) {
+									uniqueIDs.add(splittedName2[0]);
 								}
 							}
 						}
 
 						// if the expression is as plain as "P56915 = complex"
 						else {
-							tobewrittenDefaultIDname = trimmedName;
+							String[] trimmedName2 =trimmedName.split("[@\\|]");
+							tobewrittenDefaultIDname = trimmedName2[0];
 							// put IDCyto (key) together with associated UP
 							// (value) into the corresponding hashmap
 							proteincomplexhashmap.put(tobewrittenIDcytoname, tobewrittenDefaultIDname);
 							String linetobeaddedtoFile1 = tobewrittenIDcytoname + " = " + tobewrittenDefaultIDname;
-							String tobeadded = trimmedName + " complex";
+							String tobeadded = trimmedName2[0] + " complex";
 							// if the list doesnt yet contain the thing to be
 							// added
 							if (!listofFile1.contains(linetobeaddedtoFile1)) {
@@ -324,8 +333,8 @@ public class AffymetrixRegexReader {
 							}
 							// if the list of unique proteins doesnt yet contain
 							// the DefaultID to be added
-							if (!uniqueIDs.contains(trimmedName)) {
-								uniqueIDs.add(trimmedName);
+							if (!uniqueIDs.contains(trimmedName2[0])) {
+								uniqueIDs.add(trimmedName2[0]);
 							}
 						}
 					}
@@ -376,7 +385,7 @@ public class AffymetrixRegexReader {
 						geneIDtouniprothashmap.put(matchedUPtoGeneIDmapping, uniqueIDs.get(i));
 						file3tobewritten.add(uniqueIDs.get(i) + " = " + matchedUPtoGeneIDmapping + "\n");
 					}
-				} else {// EntrezGene
+				} else {// EntrezGene and others
 					uniqueGeneIDs.add(uniqueIDs.get(i));
 				}
 
