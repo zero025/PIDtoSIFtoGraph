@@ -241,7 +241,11 @@ public class SubgraphExtraction {
 													// translation event
 						{
 							for (int i = 0; i < cynodelist.size(); i++) {
-					
+								if (!cynodelist.get(i).getIdentifier()
+										.contains(":")) // if cytoID doesnt
+														// contain ":" i.e. not
+														// family or complex
+								{
 									if (cynodelist.get(i).getIdentifier()
 											.contains(l.trim())) // if cytoID
 																	// contains
@@ -280,7 +284,7 @@ public class SubgraphExtraction {
 											// temporary list!
 										}
 									}
-								
+								}
 							}
 						}
 					}
@@ -387,33 +391,38 @@ public class SubgraphExtraction {
 																			// not
 							// ticked
 							{
-
-								if (cynodelist.get(i).getIdentifier()
-										.contains(l.trim())) // if so, add
-								// the text
-								// to the
-								// subgraph
-								// list
+								if (!cynodelist.get(i).getIdentifier()
+										.contains(":")) // if cytoID doesnt
+														// contain ":" i.e. not
+														// family or complex
 								{
-									if (!cytosourcesubgraph.contains(cynodelist
-											.get(i))) {
-										cytosourcesubgraph.add(cynodelist
-												.get(i));
-										temporarylist.remove(l.trim()); // if
-										// the
-										// line
-										// is
-										// not
-										// present
-										// in
-										// the
-										// list
-										// of
-										// nodes,
-										// delete
-										// it
-										// from
-										// temporary list!
+									if (cynodelist.get(i).getIdentifier()
+											.contains(l.trim())) // if so, add
+									// the text
+									// to the
+									// subgraph
+									// list
+									{
+										if (!cytosourcesubgraph
+												.contains(cynodelist.get(i))) {
+											cytosourcesubgraph.add(cynodelist
+													.get(i));
+											temporarylist.remove(l.trim()); // if
+											// the
+											// line
+											// is
+											// not
+											// present
+											// in
+											// the
+											// list
+											// of
+											// nodes,
+											// delete
+											// it
+											// from
+											// temporary list!
+										}
 									}
 								}
 							}
@@ -525,7 +534,11 @@ public class SubgraphExtraction {
 																			// not
 																			// ticked
 							{
-						
+								if (!cynodelist.get(i).getIdentifier()
+										.contains(":")) // if cytoID doesnt
+														// contain ":" i.e. not
+														// family or complex
+								{
 									if (cynodelist.get(i).getIdentifier()
 											.contains(l.trim())) // if so, add
 																	// the text
@@ -554,7 +567,7 @@ public class SubgraphExtraction {
 											// temporary list!
 										}
 									}
-							
+								}
 							}
 						}
 					}
