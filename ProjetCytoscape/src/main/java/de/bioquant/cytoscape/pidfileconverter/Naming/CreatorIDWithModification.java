@@ -1,3 +1,7 @@
+/**
+ * @contributor Yamei & Thomas
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.Naming;
 
 public final class CreatorIDWithModification extends AbstractNameCreatorWithModification {

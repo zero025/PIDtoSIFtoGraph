@@ -1,3 +1,7 @@
+/**
+ * @author Yamei & Thomas
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.FileWriter;
 
 import java.io.PrintWriter;

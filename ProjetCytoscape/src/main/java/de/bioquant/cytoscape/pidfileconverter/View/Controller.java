@@ -26,10 +26,11 @@ import cytoscape.visual.VisualStyle;
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.FileParsingException;
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.NoValidManagerSetException;
 import de.bioquant.cytoscape.pidfileconverter.FileReader.AffymetrixRegexReader;
-import de.bioquant.cytoscape.pidfileconverter.FileReader.FileReader;
-import de.bioquant.cytoscape.pidfileconverter.FileReader.IlluminaRegexReader;
 import de.bioquant.cytoscape.pidfileconverter.FileReader.PidFileReader;
-import de.bioquant.cytoscape.pidfileconverter.FileReader.SubgraphExtraction;
+import de.bioquant.cytoscape.pidfileconverter.FileReader.ProcessAffymetrix;
+import de.bioquant.cytoscape.pidfileconverter.FileReader.ProcessConvert;
+import de.bioquant.cytoscape.pidfileconverter.FileReader.ProcessIllumina;
+import de.bioquant.cytoscape.pidfileconverter.FileReader.ProcessSubgraph;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.EntrezGeneIdforEntrezGeneWithModWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.ExtPreferredSymbolWriter;
 import de.bioquant.cytoscape.pidfileconverter.FileWriter.FileWriter;
@@ -49,10 +50,16 @@ import edu.ucsd.bioeng.coreplugin.tableImport.ui.ImportAttributeTableTask;
 public class Controller extends JFrame implements ActionListener {
 
 	// boolean to set if convertbutton is pressed
-	private boolean isConverted = false;
-	private MainFrame mainframe;
+	private static boolean isConverted = false;
+	private static Step1 step1;
+	private static Step2 step2;
+	private static Step3 step3;
 	private AffymetrixView affymetrixview;
 	private IlluminaView illuminaview;
+	private SplashFrame convertFrame;
+	private SplashFrame affymetrixApplyFilterFrame;
+	private SplashFrame illuminaApplyFilterFrame;
+	private SplashFrame subgraphFrame;
 	private String inputfilepath;
 	private static String inputbarcode1;
 	private static String inputbarcode2;
@@ -76,7 +83,6 @@ public class Controller extends JFrame implements ActionListener {
 	private File barcode1File = null;
 	private File barcode2File = null;
 	private File fileIllumina = null;
-	private File genesourceFile = null;
 	private File genetargetFile = null;
 	private File sigmolsourceFile = null;
 	private File sigmoltargetFile = null;
@@ -85,20 +91,37 @@ public class Controller extends JFrame implements ActionListener {
 	// creation of the File Chooser for the controller
 	private JFileChooser fc = new JFileChooser(".");
 
-	// the file name of the VIZMAP property file
-	private static final String VIZMAP_PROPS_FILE_NAME = "netView.props";
 	// the file concatenation of the (filtered_absent_proteins)
 	private static final String ABSENT_PROTEINS_CONCATENATION = "(filtered_absent_proteins)";
 	private static final String SUBGRAPHED = "(subgraphed)";
-
+	
 	/**
-	 * The constructor for the mainframe controller
+	 * The constructor for the step 1 controller
 	 * 
 	 * @param mainframe
 	 */
-	public Controller(MainFrame mainframe) {
-		this.mainframe = mainframe;
+	public Controller(Step1 step1) {
+		Controller.step1 = step1;
 	}
+	
+	/**
+	 * The constructor for the step 2 controller
+	 * 
+	 * @param mainframe
+	 */
+	public Controller(Step2 step2) {
+		Controller.step2 = step2;
+	}
+	
+	/**
+	 * The constructor for the step 2 controller
+	 * 
+	 * @param mainframe
+	 */
+	public Controller(Step3 step3) {
+		Controller.step3 = step3;
+	}
+
 
 	/**
 	 * The constructor for the affymetrixview controller
@@ -133,7 +156,8 @@ public class Controller extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * This method receives a set of ActionEvents denoted in the viewframes (mainframe, affy and illumina views). The ActionEvents then define what
+	 * This method receives a set of ActionEvents denoted in the viewframes
+	 * (mainframe, affy and illumina views). The ActionEvents then define what
 	 * sort of action is to be carried out
 	 */
 	@Override
@@ -149,18 +173,81 @@ public class Controller extends JFrame implements ActionListener {
 		if (command.equals("Output")) {
 			browseOutputFilePath();
 		}
-
-		// if user clicks choose button
-		if (command.equals("Choose")) {
+		if (command.equals("Help Step 1")) {
+			JOptionPane
+					.showMessageDialog(
+							new JFrame(),
+							"Check to automatically add into the graph the nodes which"
+									+ "\n"
+									+ "are each families of protein complex without predecessors.",
+							"What's this CheckBox?",
+							JOptionPane.INFORMATION_MESSAGE);
+		}
+		if (command.equals("Next 1")) {
 			if (!isConverted) {
-				JOptionPane.showMessageDialog(new JFrame(), "Please convert first in Step 1 above before continuing.",
-						"Warning", JOptionPane.WARNING_MESSAGE);
+				JOptionPane
+						.showMessageDialog(
+								new JFrame(),
+								"Please convert first in Step 1 above before continuing.",
+								"Warning", JOptionPane.WARNING_MESSAGE);
 			}
 			if (isConverted) {
-				runChoose();
+				if (step2 == null){
+					try {
+						step1.setVisible(false);
+						step2= new Step2(this);
+						step2.setLocationRelativeTo((JFrame)step1);
+						//step2.setSize(step1.getSize());
+						step2.requestFocus();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				else{
+					step1.setVisible(false);
+					step2.setVisible(true);
+					step2.requestFocus();
+				}
 			}
 		}
+		// if user clicks choose button
+		if (command.equals("Choose")) {
+				runChoose();
+		}
+		if (command.equals("Help Step 2")) {
+			JOptionPane
+			.showMessageDialog(
+					new JFrame(),
+					"To filter the graph, choose between an Affymetrix file or "
+					+ "an Illumina file",
+					"What's this CheckBox?",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
+		if (command.equals("Back 1")) {
+			
+			step2.setVisible(false);
+			step1.setVisible(true);
+			step1.requestFocus();
+		}
+		if (command.equals("Next 2")) {
+			if (step3==null){
 
+			try {
+				step3 = new Step3(this);
+				step3.setLocationRelativeTo(step2);
+				step3.requestFocus();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			}
+			else{
+				step2.setVisible(false);
+				step3.setVisible(true);
+				step3.requestFocus();
+			}
+		}
 		// if user clicks browse condition 1 button
 		if (command.equals("Affymetrix Browse Condition 1")) {
 			browseBarcode1File();
@@ -180,333 +267,283 @@ public class Controller extends JFrame implements ActionListener {
 
 		// if user clicks apply filter button
 		if (command.equals("Affymetrix Apply Filter")) {
-			// checks if the user has selected 2 files in the two fields. if not, show the warning message.
+
+			// not, show the warning message.
 			if (affymetrixview.getInputcondition1field().getText().equals("")
-					|| affymetrixview.getInputcondition2field().getText().equals("")) {
-				JOptionPane.showMessageDialog(new JFrame(), "Please choose 2 barcode files using the browse buttons",
-						"Warning", JOptionPane.WARNING_MESSAGE);
-			} else if (!affymetrixview.getInputcondition1field().getText().equals("")
-					&& !affymetrixview.getInputcondition2field().getText().equals("")) {
-				// only if the two fields are not the same then try to read the files. Else warning message!
-				if (affymetrixview.getInputcondition1field().getText()
-						.equals(affymetrixview.getInputcondition2field().getText())) {
-					JOptionPane.showMessageDialog(new JFrame(), "Please choose 2 DIFFERENT barcode files", "Warning",
-							JOptionPane.WARNING_MESSAGE);
-				} else {
-					try {
-						SplashFrame sp = new SplashFrame();
-						sp.setTitle("Please Wait a Moment...");
-						sp.setLocation(100, 100);
-						sp.setSize(500, 100);
-						sp.setResizable(false);
-						sp.setVisible(true);
-						// setfocus on the splash frame
-						sp.requestFocus();
-
-						// read the inputfields
-						inputbarcode1 = affymetrixview.getInputcondition1field().getText();
-						inputbarcode2 = affymetrixview.getInputcondition2field().getText();
-						// read the barcodes and compare them
-						AffymetrixRegexReader.barcode1Reader(inputbarcode1);
-						AffymetrixRegexReader.barcode2Reader(inputbarcode2);
-						AffymetrixRegexReader.compareBarcodes();
-						// create new SIF
-						// TODO: If can please create a separate method here
-						AffymetrixRegexReader.SIFreaderAndNewCreator(targetSIFpath);
-						String[] temporarypath = targetSIFpath.split(".sif");
-						targetfilteredSIFpath = temporarypath[0].concat(ABSENT_PROTEINS_CONCATENATION + ".sif");
-						// draw graph of new SIF and create a network
-						Cytoscape.createNetworkFromFile(targetfilteredSIFpath);// load the NODE_TYPE .NA file
-
-						// setfocus on the splash frame
-						sp.requestFocus();
-
-						loadNodeAttributeFile(getTargetNODE_TYPEpath());
-
-						// load the UNIPROT .NA file
-						loadNodeAttributeFile(getTargetUNIPROTpath());
-
-						// load the ENTREZGENE .NA file
-						loadNodeAttributeFile(getTargetENTREZGENEpath());
-
-						// load the MODIFICATIONS .NA file
-						loadNodeAttributeFile(getTargetMODIFICATIONSpath());
-
-						// load the PREFERRED_SYMBOL .NA file
-						loadNodeAttributeFile(getTargetPREFERRED_SYMBOLpath());
-
-						// load the PREFERRED_SYMBOL_EXT .NA file
-						loadNodeAttributeFile(getTargetPREFERRED_SYMBOL_EXTpath());
-
-						// // load the PREFERRED_SYMBOL_EXT .NA file
-						// loadNodeAttributeFileFromGraph(getTargetPREFERRED_SYMBOL_EXTpath());
-
-						// load the PID .NA file
-						loadNodeAttributeFile(getTargetPIDpath());
-
-						// load the ID_PREF .NA file
-						loadNodeAttributeFile(getTargetID_PREFpath());
-						// change the title of the splash frame
-						sp.setTitle("Network loaded, now loading visualisation...");
-						// load the VIZMAP props file
-						mapVisually(VIZMAP_PROPS_FILE_NAME);
-
-						// change the title of the splash frame
-						sp.setTitle("Visualisation loaded, this window closes automatically.");
-						// delete the splashframe
-						sp.dispose();
-					} catch (IOException e1) {
-						JOptionPane.showMessageDialog(new JFrame(), "Invalid Barcode files detected. Please check!",
+					|| affymetrixview.getInputcondition2field().getText()
+							.equals("")) {
+				JOptionPane
+						.showMessageDialog(
+								new JFrame(),
+								"Please choose 2 barcode files using the browse buttons",
 								"Warning", JOptionPane.WARNING_MESSAGE);
-						e1.printStackTrace();
-					}
-				}
-			}
-		}
-
-		// if user clicks apply filter button
-		if (command.equals("Illumina Apply Filter")) {
-			// checks if the user has selected 2 files in the two fields. if not, show the warning message.
-			if (illuminaview.getInputFileField().getText().equals("")) {
-				JOptionPane.showMessageDialog(new JFrame(), "Please choose a file using the browse buttons", "Warning",
-						JOptionPane.WARNING_MESSAGE);
-			} else if (!illuminaview.getInputFileField().getText().equals("")) {
-				try {
-					SplashFrame sp = new SplashFrame();
-					sp.setTitle("Please Wait a Moment...");
-					sp.setLocation(100, 100);
-					sp.setSize(500, 100);
-					sp.setResizable(false);
-					sp.setVisible(true);
-					// setfocus on the splash frame
-					sp.requestFocus();
-
-					// read the inputfield
-					inputFileIllumina = illuminaview.getInputFileField().getText();
-					// read the fil and compare the conditions
-					IlluminaRegexReader.fileReader(inputFileIllumina, illuminaview.getInputcondition1Field().getText(),
-							illuminaview.getInputcondition2Field().getText());
-					IlluminaRegexReader.compareConditions();
-
-					// create new SIF
-					// TODO: If can please create a separate method here
-					IlluminaRegexReader.SIFreaderAndNewCreator(targetSIFpath);
-					String[] temporarypath = targetSIFpath.split(".sif");
-					targetfilteredSIFpath = temporarypath[0].concat(ABSENT_PROTEINS_CONCATENATION + ".sif");
-					// draw graph of new SIF and create a network
-					Cytoscape.createNetworkFromFile(targetfilteredSIFpath);// load the NODE_TYPE .NA file
-
-					// setfocus on the splash frame
-					sp.requestFocus();
-
-					loadNodeAttributeFile(getTargetNODE_TYPEpath());
-
-					// load the UNIPROT .NA file
-					loadNodeAttributeFile(getTargetUNIPROTpath());
-
-					// load the ENTREZGENE .NA file
-					loadNodeAttributeFile(getTargetENTREZGENEpath());
-
-					// load the MODIFICATIONS .NA file
-					loadNodeAttributeFile(getTargetMODIFICATIONSpath());
-
-					// load the PREFERRED_SYMBOL .NA file
-					loadNodeAttributeFile(getTargetPREFERRED_SYMBOLpath());
-
-					// load the PREFERRED_SYMBOL_EXT .NA file
-					loadNodeAttributeFile(getTargetPREFERRED_SYMBOL_EXTpath());
-
-					// load the PID .NA file
-					loadNodeAttributeFile(getTargetPIDpath());
-
-					// load the ID_PREF .NA file
-					loadNodeAttributeFile(getTargetID_PREFpath());
-					// change the title of the splash frame
-					sp.setTitle("Network loaded, now loading visualisation...");
-					// load the VIZMAP props file
-					mapVisually(VIZMAP_PROPS_FILE_NAME);
-
-					// change the title of the splash frame
-					sp.setTitle("Visualisation loaded, this window closes automatically.");
-					// delete the splashframe
-					sp.dispose();
-				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(new JFrame(), "Invalid Barcode files detected. Please check!",
+			} else if (!affymetrixview.getInputcondition1field().getText()
+					.equals("")
+					&& !affymetrixview.getInputcondition2field().getText()
+							.equals("")) {
+				// only if the two fields are not the same then try to read the
+				// files. Else warning message!
+				if (affymetrixview
+						.getInputcondition1field()
+						.getText()
+						.equals(affymetrixview.getInputcondition2field()
+								.getText())) {
+					JOptionPane.showMessageDialog(new JFrame(),
+							"Please choose 2 DIFFERENT barcode files",
 							"Warning", JOptionPane.WARNING_MESSAGE);
-					e1.printStackTrace();
+				} else {
+
+					// create the splashframe
+					affymetrixApplyFilterFrame = new SplashFrame(
+							"Affymetrix Apply Filter", this);
 				}
 			}
 		}
 
+		if (command.equals("Start Affymetrix Apply Filter")) {
+
+			// Start a processus to do the filtering
+
+			ProcessAffymetrix process = new ProcessAffymetrix(
+					affymetrixApplyFilterFrame, this, affymetrixview,
+					targetSIFpath, targetfilteredSIFpath);
+
+			Thread t = new Thread(process);
+			affymetrixApplyFilterFrame.setProcess(process);
+			t.start();
+		}
+		
+		if (command.equals("Stop Affymetrix Apply Filter")) {
+			if (affymetrixApplyFilterFrame.getProcess() != null){
+				affymetrixApplyFilterFrame.getProcess().setContinueThread(false);
+			}
+			affymetrixApplyFilterFrame.dispose();
+		}
+		
 		// if user clicks help button
 		if (command.equals("Affymetrix Help")) {
-			JOptionPane.showMessageDialog(new JFrame(),
-					"Please input two files in barcode format, one for the experiment, the other the control." + "\n"
-							+ "An example of the barcode format:" + "\n" + "\"1007_s_at\",1" + "\n" + "\"1053_at\",0",
-							"Take Note!", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane
+					.showMessageDialog(
+							new JFrame(),
+							"Please input two files in barcode format, one for the experiment, the other the control."
+									+ "\n"
+									+ "An example of the barcode format:"
+									+ "\n"
+									+ "\"1007_s_at\",1"
+									+ "\n"
+									+ "\"1053_at\",0", "Take Note!",
+							JOptionPane.INFORMATION_MESSAGE);
 		}
+		
+		// if user clicks apply filter button
+		if (command.equals("Illumina Apply Filter")) {
+			// checks if the user has selected 2 files in the two fields. if
+			// not, show the warning message.
+			if (illuminaview.getInputFileField().getText().equals("")) {
+				JOptionPane.showMessageDialog(new JFrame(),
+						"Please choose a file using the browse buttons",
+						"Warning", JOptionPane.WARNING_MESSAGE);
+			} else if (!illuminaview.getInputFileField().getText().equals("")) {
+				// create the splashframe
+				illuminaApplyFilterFrame = new SplashFrame(
+						"Illumina Apply Filter", this);
+			}
+		}
+
+		if (command.equals("Start Illumina Apply Filter")) {
+
+			// Start a processus to do the filtering
+
+			ProcessIllumina process = new ProcessIllumina(
+					illuminaApplyFilterFrame, this, illuminaview,
+					targetSIFpath, targetfilteredSIFpath);
+
+			Thread t = new Thread(process);
+			illuminaApplyFilterFrame.setProcess(process);
+			t.start();
+
+		}
+		
+		if (command.equals("Stop Illumina Apply Filter")) {
+			if (illuminaApplyFilterFrame.getProcess() !=null){
+			illuminaApplyFilterFrame.getProcess().setContinueThread(false);
+			}
+			illuminaApplyFilterFrame.dispose();
+		}
+		
 		if (command.equals("Illumina Help")) {
 			JOptionPane
-			.showMessageDialog(
-					new JFrame(),
-					"Please input two .csv Illumina condition file, one for the experiment, the other for the control."
-							+ "\n"
-							+ "A Illumina condition file has lots of columns."
-							+ "\n"
-							+ "In the \"DD\" column you should find the EntrezGeneID"
-							+ "\n"
-							+ "The columns from \"C\" to \"CT\" are conditions, with several sets of .mean, .sd, .p and .nbeads columns",
+					.showMessageDialog(
+							new JFrame(),
+							"Please input a .csv Illumina file, and the name of two experiments."
+									+ "\n"
+									+ "A Illumina condition file has lots of columns."
+									+ "\n"
+									+ "In the \"DD\" column you should find the EntrezGeneID"
+									+ "\n"
+									+ "The columns from \"C\" to \"CT\" are conditions, with several sets of .mean, .sd, .p and .nbeads columns"
+									+ "An example of experiment name is  : My4 6 P_5753685072_B.",
 							"Help", JOptionPane.INFORMATION_MESSAGE);
-		}
-		if (command.equals("Check to expand help")) {
-			JOptionPane.showMessageDialog(new JFrame(), "Check to automatically add into the graph the nodes which"
-					+ "\n" + "are each families of protein complex without predecessors.", "What's this button?",
-					JOptionPane.INFORMATION_MESSAGE);
 		}
 		// if user runs the convert button
 		if (command.equals("Convert")) {
-			// checks if the user has typed a file path into the input textfield. if not, alert!
-			if (mainframe.getInputTextfieldText().equals("")) {
-				JOptionPane.showMessageDialog(new JFrame(), "Please enter a file using the browse button above",
+			// checks if the user has typed a file path into the input
+			// textfield. if not, alert!
+			if (step1.getInputTextFieldText().equals("")) {
+				JOptionPane.showMessageDialog(new JFrame(),
+						"Please enter a file using the browse button above",
 						"Warning", JOptionPane.WARNING_MESSAGE);
-			} else if (!mainframe.getInputTextfieldText().equals("")) {
-				// do a read of the inputtextfield to determine file
-				String filetobeconverted = mainframe.getInputTextfieldText().trim();
-				inputfilepath = filetobeconverted;
-				// set this filepath in the File object
-				curFile = new File(inputfilepath);
-
-				// -------------------------------------------------------
-				if (curFile.getAbsolutePath().endsWith("xml")) {
-					// targetSIFpath is set here by default
-					String[] temporarypath = curFile.getAbsolutePath().split(".xml");
-					setTargetSIFpath(temporarypath[0].concat(".sif"));
-				}
-				if (curFile.getAbsolutePath().endsWith("sif")) {
-					// targetSIFpath is set here by default
-					setTargetSIFpath(curFile.getAbsolutePath());
-				}
+			} else if (!step1.getInputTextFieldText().equals("")) {
 
 				// create the splashframe
-				SplashFrame sp = new SplashFrame();
-				sp.setTitle("Please Wait a Moment...");
-				sp.setLocation(100, 100);
-				sp.setSize(500, 100);
-				sp.setResizable(false);
-				sp.setVisible(true);
+				convertFrame = new SplashFrame("convert", this);
+			}
+		}
+		if (command.equals("Start convert")) {
 
-				// setfocus on this frame
-				sp.requestFocus();
-				try {
-					// converting a file which is displayed in the inputtextfield JTextfield field in mainframe
-					convertFile(filetobeconverted);
-				} catch (NullPointerException exp) {
-					JOptionPane.showMessageDialog(new JFrame(), "Null pointer exception", "Error",
-							JOptionPane.ERROR_MESSAGE);
-					exp.printStackTrace();
+			// Start a processus to do the conversion
+
+			ProcessConvert process = new ProcessConvert(convertFrame, this,
+					step1, inputfilepath, curFile);
+			Thread t = new Thread(process);
+			convertFrame.setProcess(process);
+			t.start();
+
+		}
+		
+		if (command.equals("Stop convert")) {
+			if (convertFrame.getProcess() != null){
+				convertFrame.getProcess().setContinueThread(false);
+			}
+			convertFrame.dispose();
+		}
+		
+		if (command.equals("Subgraph")) {
+			try {
+				if (!isConverted) {
+					JOptionPane
+							.showMessageDialog(
+									new JFrame(),
+									"Please convert first in Step 1 above before continuing.",
+									"Warning", JOptionPane.WARNING_MESSAGE);
 				}
-				try {
-					isConverted = true;
-					// set focus on this frame
-					sp.requestFocus();
-					// draw the network graph of the SIF file
-					drawGraphFromSIF(getTargetSIFpath());
-					// set focus on this frame again
-					sp.requestFocus();
-					// load the NODE_TYPE .NA file
-					loadNodeAttributeFile(getTargetNODE_TYPEpath());
-					// load the UNIPROT .NA file
-					loadNodeAttributeFile(getTargetUNIPROTpath());
-					// load the ENTREZGENE .NA file
-					loadNodeAttributeFile(getTargetENTREZGENEpath());
-					// load the MODIFICATIONS .NA file
-					loadNodeAttributeFile(getTargetMODIFICATIONSpath());
-					// load the PREFERRED_SYMBOL .NA file
-					loadNodeAttributeFile(getTargetPREFERRED_SYMBOLpath());
-					// load the PREFERRED_SYMBOL_EXT .NA file
-					loadNodeAttributeFile(getTargetPREFERRED_SYMBOL_EXTpath());
-					// // load the PREFERRED_SYMBOL_EXT .NA file
-					// loadNodeAttributeFileFromGraph(getTargetPREFERRED_SYMBOL_EXTpath());
-					// load the PID .NA file
-					loadNodeAttributeFile(getTargetPIDpath());
-					// load the ID_PREF .NA file
-					loadNodeAttributeFile(getTargetID_PREFpath());
-					// change the title of the splash frame
-					sp.setTitle("Network loaded, now loading visualisation...");
-					// load the VIZMAP props file
-					mapVisually(VIZMAP_PROPS_FILE_NAME);
-
-					// read the nodetype file and then parse it accordingly, generating the 3 targetfiles
-					AffymetrixRegexReader.readAndWriteFiles(targetNODE_TYPEpath, targetCytoIDtoIDFilepath,
-							targetUniqueIDFilepath, targetUniProtToGeneIDMapFilepath,
-							targetGeneIDtoAffymetrixMapFilepath);
-
-					// change the title of the splash frame
-					sp.setTitle("Visualisation loaded, this window closes automatically.");
-
-					// displaying a successful conversion message
-					String filepath = getTargetSIFpath();
-					JOptionPane.showMessageDialog(new JFrame(),
-							"Conversion successful! Files converted are located in the directory:" + "\n" + filepath,
-							"Success", JOptionPane.INFORMATION_MESSAGE);
-				} catch (Exception exp) {
-					JOptionPane.showMessageDialog(new JFrame(), "The graph cannot be read! Exception :"
-							+ exp.getClass().getName(), "Warning", JOptionPane.WARNING_MESSAGE);
-					exp.printStackTrace();
-				} finally {
-					mainframe.requestFocus();
-					// delete the SplashFrame
-					sp.dispose();
+				if (isConverted) {
+					// check the source and target fields for emptiness
+					if (step3.getSourceSourceTextField().getText().trim()
+							.equals("")
+							&&
+							// mainframe.getGenesourcetextfield().getText().trim().equals("")&&
+							step3.getCytoidSourceTextArea().getText()
+									.trim().equals("")) {
+						JOptionPane.showMessageDialog(new JFrame(),
+								"Please enter at least one file in SOURCE",
+								"Warning", JOptionPane.WARNING_MESSAGE);
+					} else if (step3.getGeneTargetTextField().getText()
+							.trim().equals("")
+							&& step3.getSourceTargetTextField().getText()
+									.trim().equals("")
+							&& step3.getCytoidTargetTextArea().getText()
+									.trim().equals("")) {
+						JOptionPane.showMessageDialog(new JFrame(),
+								"Please enter at least one file in TARGET",
+								"Warning", JOptionPane.WARNING_MESSAGE);
+					} else {
+						// create the splashframe
+						subgraphFrame = new SplashFrame("subgraph", this);
+					}
 				}
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(new JFrame(), "Error :  "
+						+ ex.getClass().getName(), "Warning",
+						JOptionPane.WARNING_MESSAGE);
 			}
 
 		}
-		if (command.equals("Subgraph")) {
-			subgraph();
+		if (command.equals("Start subgraph")) {
+
+			// Start a processus to subgraph
+
+			ProcessSubgraph process = new ProcessSubgraph(subgraphFrame, this,
+					step3, targetSIFpath, targetsubgraphedSIFpath);
+			Thread t = new Thread(process);
+			subgraphFrame.setProcess(process);
+			t.start();
+
 		}
-		if (command.equals("Gene Source Browse")) {
-			browseGeneSource();
+		if (command.equals("Stop subgraph")) {
+			if (subgraphFrame.getProcess() != null){
+			subgraphFrame.getProcess().setContinueThread(false);
+			}
+			subgraphFrame.dispose();
 		}
 		if (command.equals("Gene Target Browse")) {
 			browseGeneTarget();
 		}
-		if (command.equals("Sigmol Source Browse")) {
+		if (command.equals("Source Source Browse")) {
 			browseSigmolSource();
 		}
-		if (command.equals("Sigmol Target Browse")) {
+		if (command.equals("Source Target Browse")) {
 			browseSigmolTarget();
 		}
-		if (command.equals("Step3Help")) {
-			JOptionPane.showMessageDialog(new JFrame(),
-					"For gene/signalling molecule source and target, input a text file in the following format:" + "\n"
-							+ "'P12345" + "\n" + " Q67890" + "\n" + " O12345" + "\n" + " ..............'" + "\n"
-							+ "For CytoID source and target text areas, just Copy (Ctrl+C) the node IDs," + "\n"
-							+ "then Paste (Ctrl+V) in the text areas.", "Take Note!", JOptionPane.INFORMATION_MESSAGE);
+		if (command.equals("Help Step 3")) {
+			JOptionPane
+					.showMessageDialog(
+							new JFrame(),
+							"For gene/signalling molecule source and target, input a text file in the following format:"
+									+ "\n"
+									+ "'P12345"
+									+ "\n"
+									+ " Q67890"
+									+ "\n"
+									+ " O12345"
+									+ "\n"
+									+ " ..............'"
+									+ "\n"
+									+ "For CytoID source and target text areas, just Copy (Ctrl+C) the node IDs,"
+									+ "\n"
+									+ "then Paste (Ctrl+V) in the text areas.",
+							"Take Note!", JOptionPane.INFORMATION_MESSAGE);
+		}
+		if (command.equals("Back 2")) {
+			step3.setVisible(false);
+			step2.setVisible(true);
+			step2.requestFocus();
+			
+		}
+		if (command.equals("Quit")) {
+			step1.dispose();
+			if (step2 != null){
+				step2.dispose();
+			}
+			if (step3 != null){
+				step3.dispose();
+			}
 		}
 	}
 
+	public void setConverted(boolean isConverted) {
+		Controller.isConverted = isConverted;
+	}
+
 	/**
-	 * This method checks the states of the affymetrix and illumina checkboxes in mainframe and runs the appropriate commands to open the respective
-	 * window. This method checks if neither checkboxes are checked, or both are checked, and gives a warning message to select only one checkbox.
+	 * This method checks the states of the affymetrix and illumina checkboxes
+	 * in mainframe and runs the appropriate commands to open the respective
+	 * window. This method checks if neither checkboxes are checked, or both are
+	 * checked, and gives a warning message to select only one checkbox.
 	 */
 	private void runChoose() {
-		boolean isaffymetrixchecked = mainframe.isAffymetrixChecked();
-		boolean isilluminachecked = mainframe.isIlluminaChecked();
+		boolean isaffymetrixselected = step2.isAffymetrixSelected();
+		boolean isilluminaselected = step2.isIlluminaSelected();
 
 		// if neither checkboxes are checked
-		if (!isaffymetrixchecked && !isilluminachecked) {
-			JOptionPane.showMessageDialog(new JFrame(), "Please select one single option.", "Warning",
+		if (!isaffymetrixselected && !isilluminaselected) {
+			JOptionPane.showMessageDialog(new JFrame(),
+					"Please select one single option.", "Warning",
 					JOptionPane.WARNING_MESSAGE);
 		}
 
-		// if both checkboxes are checked
-		if (isaffymetrixchecked && isilluminachecked) {
-			JOptionPane.showMessageDialog(new JFrame(), "Please select only one single option.", "Warning",
-					JOptionPane.WARNING_MESSAGE);
-		}
-
-		// if only affymetrix is checked, not illumina
-		if (isaffymetrixchecked && !isilluminachecked) {
+		// if only affymetrix is checked
+		if (isaffymetrixselected) {
 			affymetrixview = new AffymetrixView(this);
 			affymetrixview.setTitle("Import Barcode Output");
 			affymetrixview.setLocation(30, 30);
@@ -516,8 +553,8 @@ public class Controller extends JFrame implements ActionListener {
 			affymetrixview.pack();
 		}
 
-		// if only illumina is checked, not affymetrix
-		if (isilluminachecked && !isaffymetrixchecked) {
+		// if only illumina is checked
+		if (isilluminaselected) {
 			illuminaview = new IlluminaView(this);
 			illuminaview.setTitle("Illumina View");
 			illuminaview.setLocation(80, 80);
@@ -530,13 +567,16 @@ public class Controller extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * This method rotates the graph created by 180 degrees. Suitable for rotating upside-down hierarchical graphs. source:
-	 * http://chianti.ucsd.edu/svn/coreplugins/tags/cyto-2_3/ManualLayout/src/ManualLayout/rotate/RotateAction.java
+	 * This method rotates the graph created by 180 degrees. Suitable for
+	 * rotating upside-down hierarchical graphs. source:
+	 * http://chianti.ucsd.edu/svn/coreplugins/tags/cyto-
+	 * 2_3/ManualLayout/src/ManualLayout/rotate/RotateAction.java
 	 */
 	private void rotateGraph() {
 		MutablePolyEdgeGraphLayout[] nativeGraph = new MutablePolyEdgeGraphLayout[] { GraphConverter2
 				.getGraphReference(16.0d, true, false) };
-		RotationLayouter[] rotation = new RotationLayouter[] { new RotationLayouter(nativeGraph[0]) };
+		RotationLayouter[] rotation = new RotationLayouter[] { new RotationLayouter(
+				nativeGraph[0]) };
 
 		// the actual rotation
 		rotation[0].rotateGraph(1.0d * Math.PI);
@@ -546,12 +586,13 @@ public class Controller extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * This method creates a network graph from the string 's', which should be a path to a Cytoscape readable file, e.g. SIF
+	 * This method creates a network graph from the string 's', which should be
+	 * a path to a Cytoscape readable file, e.g. SIF
 	 * 
 	 * @param s
 	 *            the path of the file to be read.
 	 */
-	private void drawGraphFromSIF(String s) {
+	public void drawGraphFromSIF(String s) {
 		// read the sif file and create the network
 		Cytoscape.createNetworkFromFile(s);
 		Cytoscape.getCurrentNetworkView().redrawGraph(false, true);
@@ -563,7 +604,7 @@ public class Controller extends JFrame implements ActionListener {
 	 * @param s
 	 *            the path of the NA file to be loaded
 	 */
-	private void loadNodeAttributeFile(String s) {
+	public void loadNodeAttributeFile(String s) {
 		Cytoscape.loadAttributes(new String[] { s }, new String[] {});
 		Cytoscape.getCurrentNetworkView().updateView();
 		Cytoscape.firePropertyChange(Cytoscape.ATTRIBUTES_CHANGED, null, null);
@@ -581,9 +622,10 @@ public class Controller extends JFrame implements ActionListener {
 		Cytoscape.getCurrentNetworkView().updateView();
 		Cytoscape.firePropertyChange(Cytoscape.ATTRIBUTES_CHANGED, null, null);
 
-		// TODO: big construction site here, to find out how to import network file from table
-		ImportAttributeTableTask task = new ImportAttributeTableTask(new DefaultAttributeTableReader(null, null, 0,
-				null, true), s);
+		// TODO: big construction site here, to find out how to import network
+		// file from table
+		ImportAttributeTableTask task = new ImportAttributeTableTask(
+				new DefaultAttributeTableReader(null, null, 0, null, true), s);
 		task.run();
 		// http://chianti.ucsd.edu/svn/cytoscape/trunk/coreplugins/TableImport/src/main/java/edu/ucsd/bioeng/coreplugin/tableImport/ui/ImportTextTableDialog.java
 		// AttributeMappingParameters mapping;
@@ -595,7 +637,8 @@ public class Controller extends JFrame implements ActionListener {
 		Cytoscape.firePropertyChange(Cytoscape.NEW_ATTRS_LOADED, null, null);
 
 		// try {
-		// ImportTextTableDialog ittd = new ImportTextTableDialog(Cytoscape.getDesktop(), true, 1);
+		// ImportTextTableDialog ittd = new
+		// ImportTextTableDialog(Cytoscape.getDesktop(), true, 1);
 		// ittd.pack();
 		// ittd.setLocationRelativeTo(Cytoscape.getDesktop());
 		// ittd.setVisible(true);
@@ -608,38 +651,46 @@ public class Controller extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * This method loads the vizmap property file and redraws the graph Also does the layout hierarchically and rotates the graph 180 degrees
+	 * This method loads the vizmap property file and redraws the graph Also
+	 * does the layout hierarchically and rotates the graph 180 degrees
 	 * 
 	 * @param s
 	 *            the name of the vizmap property file
 	 */
-	private void mapVisually(String s) {
+	public void mapVisually(String s) {
 		// load the vizmap file
 		Cytoscape.firePropertyChange(Cytoscape.VIZMAP_LOADED, null, s);
-		VisualStyle vs = Cytoscape.getVisualMappingManager().getCalculatorCatalog().getVisualStyle("netView");
-		Cytoscape.getCurrentNetworkView().setVisualStyle(vs.getName()); // not strictly necessary
+		VisualStyle vs = Cytoscape.getVisualMappingManager()
+				.getCalculatorCatalog().getVisualStyle("netView");
+		Cytoscape.getCurrentNetworkView().setVisualStyle(vs.getName()); // not
+																		// strictly
+																		// necessary
 
 		// actually apply the visual style
 		Cytoscape.getVisualMappingManager().setVisualStyle(vs);
 		Cytoscape.getCurrentNetworkView().redrawGraph(true, true);
 
-		// TODO: should ask user whether he wants this? set the layout as hierarchical
+		// TODO: should ask user whether he wants this? set the layout as
+		// hierarchical
 		CyLayouts.getLayout("hierarchical").doLayout();
 		if (Cytoscape.getCurrentNetwork().getNodeCount() < 1000) {
-			// TODO: sometimes rotating the graph causes some crash errors. thus only rotate if hierarchichal layout!
+			// TODO: sometimes rotating the graph causes some crash errors. thus
+			// only rotate if hierarchichal layout!
 			rotateGraph();
 		}
 	}
 
 	/**
-	 * This method gets the filepath from the input file text area and then converts that xml file into SIF files
+	 * This method gets the filepath from the input file text area and then
+	 * converts that xml file into SIF files
 	 * 
 	 * @param filepath
 	 */
-	private void convertFile(String filepath) {
-
-		// if the outputfiletextfield is empty, output file folder is same as input file's
-		if (mainframe.getOutputTextfieldText().trim().equals("")) {
+	public void convertFile(String filepath, SplashFrame sp, ProcessConvert process) {
+		
+		// if the outputfiletextfield is empty, output file folder is same as
+		// input file's
+		if (step1.getOutputTextFieldText().trim().equals("")) {
 			String[] temporarypath = null;
 			// if a file with xml ending
 			if (curFile.getAbsolutePath().endsWith("xml")) {
@@ -650,12 +701,15 @@ public class Controller extends JFrame implements ActionListener {
 				temporarypath = curFile.getAbsolutePath().split(".sif");
 				setTargetSIFpath(curFile.getAbsolutePath());
 				// for loading of pre-filtered SIF files
-				if (curFile.getAbsolutePath().contains(getAbsentProteinsConcatenation())) {
-					temporarypath[0] = temporarypath[0].replace(getAbsentProteinsConcatenation(), "");
+				if (curFile.getAbsolutePath().contains(
+						getAbsentProteinsConcatenation())) {
+					temporarypath[0] = temporarypath[0].replace(
+							getAbsentProteinsConcatenation(), "");
 				}
 				// for loading of pre-subgraphed SIF files
 				if (curFile.getAbsolutePath().contains(getSubgraphed())) {
-					temporarypath[0] = temporarypath[0].replace(getSubgraphed(), "");
+					temporarypath[0] = temporarypath[0].replace(
+							getSubgraphed(), "");
 				}
 			}
 			// set the target node type NA path
@@ -665,59 +719,81 @@ public class Controller extends JFrame implements ActionListener {
 			// set the ENTREZGENE NA path
 			setTargetENTREZGENEpath(temporarypath[0].concat(".ENTREZGENE.NA"));
 			// set the MODIFICATIONS NA path
-			setTargetMODIFICATIONSpath(temporarypath[0].concat(".MODIFICATIONS.NA"));
+			setTargetMODIFICATIONSpath(temporarypath[0]
+					.concat(".MODIFICATIONS.NA"));
 			// set the PREFERRED_SYMBOL NA path
-			setTargetPREFERRED_SYMBOLpath(temporarypath[0].concat(".PREFERRED_SYMBOL.NA"));
+			setTargetPREFERRED_SYMBOLpath(temporarypath[0]
+					.concat(".PREFERRED_SYMBOL.NA"));
 			// set the PREFERRED_SYMBOL_EXT NA path
-			setTargetPREFERRED_SYMBOL_EXTpath(temporarypath[0].concat(".PREFERRED_SYMBOL_EXT.NA"));
+			setTargetPREFERRED_SYMBOL_EXTpath(temporarypath[0]
+					.concat(".PREFERRED_SYMBOL_EXT.NA"));
 			// set the PID NA path
 			setTargetPIDpath(temporarypath[0].concat(".PID.NA"));
 			// set the ID_PREF NA path
 			setTargetID_PREFpath(temporarypath[0].concat(".ID_PREF.NA"));
 			// set the CytoIDtoIDFile path
-			setTargetCytoIDtoIDFilepath(temporarypath[0].concat(".CytoIDToID.NA"));
+			setTargetCytoIDtoIDFilepath(temporarypath[0]
+					.concat(".CytoIDToID.NA"));
 			// set the UniqueID path
 			setTargetUniqueIDFilepath(temporarypath[0].concat(".UNIQUEID.NA"));
 			// set the UniProt to GeneID map file path
-			setTargetUniProtToGeneIDMapFilepath(temporarypath[0].concat(".UPToGeneIDMap.NA"));
+			setTargetUniProtToGeneIDMapFilepath(temporarypath[0]
+					.concat(".UPToGeneIDMap.NA"));
 			// set the GeneID to Affymetrix map file path
-			setTargetGeneIDtoAffymetrixMapFilepath(temporarypath[0].concat(".GeneIDToAffyMap.NA"));
+			setTargetGeneIDtoAffymetrixMapFilepath(temporarypath[0]
+					.concat(".GeneIDToAffyMap.NA"));
 		}
 		this.inputfilepath = filepath;
 		if (inputfilepath.endsWith("xml")) {
 			NodeManagerImpl manager = NodeManagerImpl.getInstance();
-			FileReader reader = PidFileReader.getInstance();
+			PidFileReader reader = PidFileReader.getInstance();
+			reader.setSplashFrameAndProcess(sp, process);
 			try {
+				
+				//The longest part of the function (in processing time)
 				reader.read(inputfilepath);
+				if(!process.isContinueThread()){
+					return;
+				}
+				
 			} catch (NoValidManagerSetException e1) {
-				JOptionPane.showMessageDialog(new JFrame(),
-						"Program error, please contact hadi.kang@bioquant.uni-heidelberg.de for assistance.",
-						"Warning", JOptionPane.WARNING_MESSAGE);
+				JOptionPane
+						.showMessageDialog(
+								new JFrame(),
+								"Program error, please contact hadi.kang@bioquant.uni-heidelberg.de for assistance.",
+								"Warning", JOptionPane.WARNING_MESSAGE);
 				e1.printStackTrace();
 			} catch (FileParsingException e1) {
 				JOptionPane
-				.showMessageDialog(
-						new JFrame(),
-						"File parse error. Make sure you have selected a valid xml file downloaded from Protein Interaction Database.",
-						"Warning", JOptionPane.WARNING_MESSAGE);
+						.showMessageDialog(
+								new JFrame(),
+								"File parse error. Make sure you have selected a valid xml file downloaded from Protein Interaction Database.",
+								"Warning", JOptionPane.WARNING_MESSAGE);
 				e1.printStackTrace();
 			}
 
 			FileWriter writer = SifFileWriter.getInstance();
 			try {
 				writer.write(getTargetSIFpath(), manager);
-				if (mainframe.isExpandChecked()) {
+				sp.getBar().setValue(85);
+				if(!process.isContinueThread()){
+					return;
+				}
+				if (step1.isExpandChecked()) {
 					writer = SifFileExpandMolWriter.getInstance();
 					writer.write(getTargetSIFpath(), manager);
 				}
 			} catch (FileNotFoundException e) {
-				JOptionPane.showMessageDialog(new JFrame(), "File write error", "Warning", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(new JFrame(), "File write error",
+						"Warning", JOptionPane.WARNING_MESSAGE);
 				e.printStackTrace();
 			}
 
-			FileWriter nWriter = NodeTypeAttributeForIDWithModWriter.getInstance();
+			FileWriter nWriter = NodeTypeAttributeForIDWithModWriter
+					.getInstance();
 			try {
 				nWriter.write(getTargetNODE_TYPEpath(), manager);
+				
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -725,13 +801,16 @@ public class Controller extends JFrame implements ActionListener {
 			FileWriter uWriter = UniprotIdForUniprotWithModWriter.getInstance();
 			try {
 				uWriter.write(getTargetUNIPROTpath(), manager);
+				
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
 
-			FileWriter eWriter = EntrezGeneIdforEntrezGeneWithModWriter.getInstance();
+			FileWriter eWriter = EntrezGeneIdforEntrezGeneWithModWriter
+					.getInstance();
 			try {
 				eWriter.write(getTargetENTREZGENEpath(), manager);
+				
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -739,11 +818,13 @@ public class Controller extends JFrame implements ActionListener {
 			FileWriter modiWriter = ModificationsWriter.getInstance();
 			try {
 				modiWriter.write(getTargetMODIFICATIONSpath(), manager);
+				
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
 
-			FileWriter pWriter = PreferredSymbolForIDWithModWriter.getInstance();
+			FileWriter pWriter = PreferredSymbolForIDWithModWriter
+					.getInstance();
 			try {
 				pWriter.write(getTargetPREFERRED_SYMBOLpath(), manager);
 			} catch (FileNotFoundException e) {
@@ -753,6 +834,7 @@ public class Controller extends JFrame implements ActionListener {
 			pWriter = ExtPreferredSymbolWriter.getInstance();
 			try {
 				pWriter.write(getTargetPREFERRED_SYMBOL_EXTpath(), manager);
+				
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -760,6 +842,7 @@ public class Controller extends JFrame implements ActionListener {
 			FileWriter pidWriter = PidForIDWithModWriter.getInstance();
 			try {
 				pidWriter.write(getTargetPIDpath(), manager);
+				
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -767,6 +850,7 @@ public class Controller extends JFrame implements ActionListener {
 			FileWriter prefIdWriter = IdWithPreferredSymbolWriter.getInstance();
 			try {
 				prefIdWriter.write(getTargetID_PREFpath(), manager);
+				
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -776,91 +860,107 @@ public class Controller extends JFrame implements ActionListener {
 		} else // not an xml or SIF file
 		{
 			JOptionPane
-			.showMessageDialog(
-					new JFrame(),
-					"File parse error. Make sure you have selected a valid xml file downloaded from Protein Interaction Database.",
-					"Warning", JOptionPane.WARNING_MESSAGE);
+					.showMessageDialog(
+							new JFrame(),
+							"File parse error. Make sure you have selected a valid xml file downloaded from Protein Interaction Database.",
+							"Warning", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
 	/**
-	 * This method opens a file chooser dialog box and sets the input text field string to the absolute path of the file
+	 * This method opens a file chooser dialog box and sets the input text field
+	 * string to the absolute path of the file
 	 */
 	private void browseInputFile() {
 		try {
 			// JFileChooser fc = new JFileChooser(".");
 			fc.setDialogTitle("Please choose an XML file");
-			FileNameExtensionFilter xmldata = new FileNameExtensionFilter("XML", "xml");
-			FileNameExtensionFilter sifdata = new FileNameExtensionFilter("SIF", "sif");
+			FileNameExtensionFilter xmldata = new FileNameExtensionFilter(
+					"XML", "xml");
+			FileNameExtensionFilter sifdata = new FileNameExtensionFilter(
+					"SIF", "sif");
 			fc.addChoosableFileFilter(xmldata);
 			fc.addChoosableFileFilter(sifdata);
 
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
+														// file browser
 			// get name und path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				curFile = fc.getSelectedFile();
 				currentDirectory = fc.getCurrentDirectory();
 				if (curFile.getAbsolutePath().endsWith("xml")) {
 					inputfilepath = curFile.getAbsolutePath();
-					mainframe.setInputFileText(inputfilepath);
+					step1.setInputTextField(inputfilepath);
 
 					// targetSIFpath is set here by default
-					String[] temporarypath = curFile.getAbsolutePath().split(".xml");
+					String[] temporarypath = curFile.getAbsolutePath().split(
+							".xml");
 					setTargetSIFpath(temporarypath[0].concat(".sif"));
 				}
 				if (curFile.getAbsolutePath().endsWith("sif")) {
 					inputfilepath = curFile.getAbsolutePath();
-					mainframe.setInputFileText(inputfilepath);
+					step1.setInputTextField(inputfilepath);
 				}
 			}
 
 		} catch (Exception e) {
 			JOptionPane
-			.showMessageDialog(
-					new JFrame(),
-					"Please select a valid xml file downloaded from Pathway Interaction Database, or a converted SIF file.",
-					"Warning", JOptionPane.WARNING_MESSAGE);
+					.showMessageDialog(
+							new JFrame(),
+							"Please select a valid xml file downloaded from Pathway Interaction Database, or a converted SIF file.",
+							"Warning", JOptionPane.WARNING_MESSAGE);
 			e.printStackTrace();
 		}
 
 	}
 
 	/**
-	 * This method selects the folder in which the output file should be placed. if there are same named files present, they will be overwrite!
+	 * This method selects the folder in which the output file should be placed.
+	 * if there are same named files present, they will be overwrite!
 	 */
 	private void browseOutputFilePath() {
 		String filedirectory = "";
 		String filepath = "";
 		try {
 			// JFileChooser fc = new JFileChooser(".");
-			fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // select directories or files
+			fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // select
+																			// directories
+																			// or
+																			// files
 			fc.setDialogTitle("Please choose a directory to save the converted file(s)");
 			fc.setCurrentDirectory(currentDirectory);
 
-			FileNameExtensionFilter sifdata = new FileNameExtensionFilter("SIF", "sif");
+			FileNameExtensionFilter sifdata = new FileNameExtensionFilter(
+					"SIF", "sif");
 			fc.addChoosableFileFilter(sifdata);
 
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
+														// file browser
 			// get name und path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				// if the selected is a directory
 				if (fc.getSelectedFile().isDirectory()) {
-					// get the absolute path of the directory in which the file lies
+					// get the absolute path of the directory in which the file
+					// lies
 					filepath = fc.getSelectedFile().getAbsolutePath();
 					// split the file name
 					String[] temporarypath = curFile.getName().split(".xml");
 
 					// set the target SIF path
-					setTargetSIFpath(filepath.concat("\\").concat(temporarypath[0].concat(".sif")));
+					setTargetSIFpath(filepath.concat("\\").concat(
+							temporarypath[0].concat(".sif")));
 
 					// set the target node type NA path
-					setTargetNODE_TYPEpath(filepath.concat("\\").concat(temporarypath[0].concat(".NODE_TYPE.NA")));
+					setTargetNODE_TYPEpath(filepath.concat("\\").concat(
+							temporarypath[0].concat(".NODE_TYPE.NA")));
 
 					// set the target uniprot NA path
-					setTargetUNIPROTpath(filepath.concat("\\").concat(temporarypath[0].concat(".UNIPROT.NA")));
+					setTargetUNIPROTpath(filepath.concat("\\").concat(
+							temporarypath[0].concat(".UNIPROT.NA")));
 
 					// set the target entrezGene NA path
-					setTargetENTREZGENEpath(filepath.concat("\\").concat(temporarypath[0].concat(".ENTREZGENE.NA")));
+					setTargetENTREZGENEpath(filepath.concat("\\").concat(
+							temporarypath[0].concat(".ENTREZGENE.NA")));
 
 					// set the target MODIFICATIONS NA path
 					setTargetMODIFICATIONSpath(filepath.concat("\\").concat(
@@ -871,28 +971,36 @@ public class Controller extends JFrame implements ActionListener {
 							temporarypath[0].concat(".PREFERRED_SYMBOL.NA")));
 
 					// set the target PREFERRED_SYMBOL_EXTpath NA path
-					setTargetPREFERRED_SYMBOL_EXTpath(filepath.concat("\\").concat(
-							temporarypath[0].concat(".PREFERRED_SYMBOL_EXT.NA")));
+					setTargetPREFERRED_SYMBOL_EXTpath(filepath.concat("\\")
+							.concat(temporarypath[0]
+									.concat(".PREFERRED_SYMBOL_EXT.NA")));
 
 					// set the target PID NA path
-					setTargetPIDpath(filepath.concat("\\").concat(temporarypath[0].concat(".PID.NA")));
+					setTargetPIDpath(filepath.concat("\\").concat(
+							temporarypath[0].concat(".PID.NA")));
 
 					// set the target ID_PREF NA path
-					setTargetID_PREFpath(filepath.concat("\\").concat(temporarypath[0].concat(".ID_PREF.NA")));
+					setTargetID_PREFpath(filepath.concat("\\").concat(
+							temporarypath[0].concat(".ID_PREF.NA")));
 
 					// set the CytoIDtoIDFile path
-					setTargetCytoIDtoIDFilepath(filepath.concat("\\").concat(temporarypath[0].concat(".CytoIDToID.NA")));
+					setTargetCytoIDtoIDFilepath(filepath.concat("\\").concat(
+							temporarypath[0].concat(".CytoIDToID.NA")));
 
 					// set the UniqueIDFile path
-					setTargetUniqueIDFilepath(filepath.concat("\\").concat(temporarypath[0].concat(".UNIQUEID.NA")));
+					setTargetUniqueIDFilepath(filepath.concat("\\").concat(
+							temporarypath[0].concat(".UNIQUEID.NA")));
 
 					// set the UniProt to GeneID map file path
-					setTargetUniProtToGeneIDMapFilepath(filepath.concat("\\").concat(
-							temporarypath[0].concat(".UPToGeneIDMap.NA")));
+					setTargetUniProtToGeneIDMapFilepath(filepath.concat("\\")
+							.concat(temporarypath[0]
+									.concat(".UPToGeneIDMap.NA")));
 
 					// set the GeneID to Affymetrix map file path
-					setTargetGeneIDtoAffymetrixMapFilepath(filepath.concat("\\").concat(
-							temporarypath[0].concat(".GeneIDToAffyMap.NA")));
+					setTargetGeneIDtoAffymetrixMapFilepath(filepath
+							.concat("\\").concat(
+									temporarypath[0]
+											.concat(".GeneIDToAffyMap.NA")));
 
 				} else // if the selected is a file
 				{
@@ -902,60 +1010,73 @@ public class Controller extends JFrame implements ActionListener {
 					String[] temporarypath = curFile.getName().split(".xml");
 
 					// set the target SIF path
-					setTargetSIFpath(filedirectory.concat("\\").concat(temporarypath[0]).concat(".sif"));
+					setTargetSIFpath(filedirectory.concat("\\")
+							.concat(temporarypath[0]).concat(".sif"));
 
 					// set the target node type NA path
-					setTargetNODE_TYPEpath(filedirectory.concat("\\").concat(temporarypath[0]).concat(".NODE_TYPE.NA"));
+					setTargetNODE_TYPEpath(filedirectory.concat("\\")
+							.concat(temporarypath[0]).concat(".NODE_TYPE.NA"));
 
 					// set the target uniprot NA path
-					setTargetUNIPROTpath(filedirectory.concat("\\").concat(temporarypath[0]).concat(".UNIPROT.NA"));
+					setTargetUNIPROTpath(filedirectory.concat("\\")
+							.concat(temporarypath[0]).concat(".UNIPROT.NA"));
 
 					// set the target entrezGene NA path
-					setTargetENTREZGENEpath(filedirectory.concat("\\").concat(temporarypath[0])
-							.concat(".ENTREZGENE.NA"));
+					setTargetENTREZGENEpath(filedirectory.concat("\\")
+							.concat(temporarypath[0]).concat(".ENTREZGENE.NA"));
 
 					// set the target MODIFICATIONS NA path
-					setTargetMODIFICATIONSpath(filedirectory.concat("\\").concat(temporarypath[0])
+					setTargetMODIFICATIONSpath(filedirectory.concat("\\")
+							.concat(temporarypath[0])
 							.concat(".MODIFICATIONS.NA"));
 
 					// set the target PREFERRED_SYMBOLpath NA path
-					setTargetPREFERRED_SYMBOLpath(filedirectory.concat("\\").concat(temporarypath[0])
+					setTargetPREFERRED_SYMBOLpath(filedirectory.concat("\\")
+							.concat(temporarypath[0])
 							.concat(".PREFERRED_SYMBOL.NA"));
 
 					// set the target PREFERRED_SYMBOL_EXTpath NA path
-					setTargetPREFERRED_SYMBOL_EXTpath(filedirectory.concat("\\").concat(temporarypath[0])
+					setTargetPREFERRED_SYMBOL_EXTpath(filedirectory
+							.concat("\\").concat(temporarypath[0])
 							.concat(".PREFERRED_SYMBOL_EXT.NA"));
 
 					// set the target PID NA path
-					setTargetPIDpath(filedirectory.concat("\\").concat(temporarypath[0]).concat(".PID.NA"));
+					setTargetPIDpath(filedirectory.concat("\\")
+							.concat(temporarypath[0]).concat(".PID.NA"));
 
 					// set the target ID_PREF NA path
-					setTargetID_PREFpath(filedirectory.concat("\\").concat(temporarypath[0]).concat(".ID_PREF.NA"));
+					setTargetID_PREFpath(filedirectory.concat("\\")
+							.concat(temporarypath[0]).concat(".ID_PREF.NA"));
 
 					// set the CytoIDtoIDFile path
-					setTargetCytoIDtoIDFilepath(filedirectory.concat("\\").concat(
-							temporarypath[0].concat(".CytoIDToID.NA")));
+					setTargetCytoIDtoIDFilepath(filedirectory.concat("\\")
+							.concat(temporarypath[0].concat(".CytoIDToID.NA")));
 
 					// set the UniqueIDFile path
 					setTargetUniqueIDFilepath(filedirectory.concat("\\")
 							.concat(temporarypath[0].concat(".UNIQUEID.NA")));
 
 					// set the UniProt to GeneID map file path
-					setTargetUniProtToGeneIDMapFilepath(filedirectory.concat("\\").concat(
+					setTargetUniProtToGeneIDMapFilepath(filedirectory.concat(
+							"\\").concat(
 							temporarypath[0].concat(".UPToGeneIDMap.NA")));
 
 					// set the GeneID to Affymetrix map file path
-					setTargetGeneIDtoAffymetrixMapFilepath(filedirectory.concat("\\").concat(
-							temporarypath[0].concat(".GeneIDToAffyMap.NA")));
+					setTargetGeneIDtoAffymetrixMapFilepath(filedirectory
+							.concat("\\").concat(
+									temporarypath[0]
+											.concat(".GeneIDToAffyMap.NA")));
 				}
-				mainframe.setOutputTextfieldText(targetSIFpath);
+				step1.setOutputTextFieldText(targetSIFpath);
 			}
 			currentDirectory = fc.getCurrentDirectory();
 
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(new JFrame(),
-					"Please select a valid xml file downloaded from Protein Interaction Database.", "Warning",
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane
+					.showMessageDialog(
+							new JFrame(),
+							"Please select a valid xml file downloaded from Protein Interaction Database.",
+							"Warning", JOptionPane.WARNING_MESSAGE);
 			e.printStackTrace();
 		}
 	}
@@ -969,7 +1090,8 @@ public class Controller extends JFrame implements ActionListener {
 			fc.setDialogTitle("Please choose Barcode file of Condition 1");
 			fc.setCurrentDirectory(currentDirectory);
 
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
+														// file browser
 			// get name and path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				barcode1File = fc.getSelectedFile();
@@ -980,7 +1102,8 @@ public class Controller extends JFrame implements ActionListener {
 			}
 			currentDirectory = fc.getCurrentDirectory();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(new JFrame(), "Please select a Barcode file", "Warning",
+			JOptionPane.showMessageDialog(new JFrame(),
+					"Please select a Barcode file", "Warning",
 					JOptionPane.WARNING_MESSAGE);
 			e.printStackTrace();
 		}
@@ -995,7 +1118,8 @@ public class Controller extends JFrame implements ActionListener {
 			fc.setDialogTitle("Please choose Barcode file of Condition 2");
 			fc.setCurrentDirectory(currentDirectory);
 
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
+														// file browser
 			// get name and path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				barcode2File = fc.getSelectedFile();
@@ -1006,7 +1130,8 @@ public class Controller extends JFrame implements ActionListener {
 			}
 			currentDirectory = fc.getCurrentDirectory();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(new JFrame(), "Please select a Barcode file", "Warning",
+			JOptionPane.showMessageDialog(new JFrame(),
+					"Please select a Barcode file", "Warning",
 					JOptionPane.WARNING_MESSAGE);
 			e.printStackTrace();
 		}
@@ -1019,8 +1144,13 @@ public class Controller extends JFrame implements ActionListener {
 		try {
 			fc.setDialogTitle("Please choose an Illumina file");
 			fc.setCurrentDirectory(currentDirectory);
-
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
+			
+			FileNameExtensionFilter csvdata = new FileNameExtensionFilter(
+					"CSV", "csv");
+			fc.addChoosableFileFilter(csvdata);
+			
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
+														// file browser
 			// get name and path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				fileIllumina = fc.getSelectedFile();
@@ -1031,38 +1161,16 @@ public class Controller extends JFrame implements ActionListener {
 			}
 			currentDirectory = fc.getCurrentDirectory();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(new JFrame(), "Please select an Illumina file", "Warning",
+			JOptionPane.showMessageDialog(new JFrame(),
+					"Please select an Illumina file", "Warning",
 					JOptionPane.WARNING_MESSAGE);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * This method opens a browsing window so the user can select a gene source file
-	 */
-	private void browseGeneSource() {
-		try {
-			// JFileChooser fc = new JFileChooser(".");
-			fc.setDialogTitle("Please choose a text file");
-			fc.setCurrentDirectory(currentDirectory);
-
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
-			// get name und path
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				genesourceFile = fc.getSelectedFile();
-				// put the absolute path in the textfield
-				mainframe.setGenesourcetextfieldText(genesourceFile.getAbsolutePath());
-			}
-			currentDirectory = fc.getCurrentDirectory();
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(new JFrame(), "Please select a Text file", "Warning",
-					JOptionPane.WARNING_MESSAGE);
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * This method opens a browsing window so the user can select a gene target file
+	 * This method opens a browsing window so the user can select a gene target
+	 * file
 	 */
 	private void browseGeneTarget() {
 		try {
@@ -1070,23 +1178,27 @@ public class Controller extends JFrame implements ActionListener {
 			fc.setDialogTitle("Please choose a text file");
 			fc.setCurrentDirectory(currentDirectory);
 
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
+														// file browser
 			// get name und path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				genetargetFile = fc.getSelectedFile();
 				// put the absolute path in the textfield
-				mainframe.setGenetargettextfieldText(genetargetFile.getAbsolutePath());
+				step3.setGeneTargetTextFieldText(genetargetFile
+						.getAbsolutePath());
 			}
 			currentDirectory = fc.getCurrentDirectory();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(new JFrame(), "Please select a Text file", "Warning",
+			JOptionPane.showMessageDialog(new JFrame(),
+					"Please select a Text file", "Warning",
 					JOptionPane.WARNING_MESSAGE);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * This method opens a browsing window so the user can select a sigmol source file
+	 * This method opens a browsing window so the user can select a sigmol
+	 * source file
 	 */
 	private void browseSigmolSource() {
 		try {
@@ -1094,16 +1206,19 @@ public class Controller extends JFrame implements ActionListener {
 			fc.setDialogTitle("Please choose a text file");
 			fc.setCurrentDirectory(currentDirectory);
 
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
+														// file browser
 			// get name und path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				sigmolsourceFile = fc.getSelectedFile();
 				currentDirectory = fc.getCurrentDirectory();
 				// put the absolute path in the textfield
-				mainframe.setSigmolsourcetextfieldText(sigmolsourceFile.getAbsolutePath());
+				step3.setSourceSourceTextFieldText(sigmolsourceFile
+						.getAbsolutePath());
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(new JFrame(), "Please select a Text file", "Warning",
+			JOptionPane.showMessageDialog(new JFrame(),
+					"Please select a Text file", "Warning",
 					JOptionPane.WARNING_MESSAGE);
 			e.printStackTrace();
 		}
@@ -1118,16 +1233,19 @@ public class Controller extends JFrame implements ActionListener {
 			fc.setDialogTitle("Please choose a text file");
 			fc.setCurrentDirectory(currentDirectory);
 
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
+														// file browser
 			// get name und path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				sigmoltargetFile = fc.getSelectedFile();
 				// put the absolute path in the textfield
-				mainframe.setSigmoltargettextfieldText(sigmoltargetFile.getAbsolutePath());
+				step3.setSourceTargetTextFieldText(sigmoltargetFile
+						.getAbsolutePath());
 			}
 			currentDirectory = fc.getCurrentDirectory();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(new JFrame(), "Please select a Text file", "Warning",
+			JOptionPane.showMessageDialog(new JFrame(),
+					"Please select a Text file", "Warning",
 					JOptionPane.WARNING_MESSAGE);
 			e.printStackTrace();
 		}
@@ -1185,7 +1303,8 @@ public class Controller extends JFrame implements ActionListener {
 		return targetPREFERRED_SYMBOL_EXTpath;
 	}
 
-	public void setTargetPREFERRED_SYMBOL_EXTpath(String targetPREFERRED_SYMBOL_EXTpath) {
+	public void setTargetPREFERRED_SYMBOL_EXTpath(
+			String targetPREFERRED_SYMBOL_EXTpath) {
 		Controller.targetPREFERRED_SYMBOL_EXTpath = targetPREFERRED_SYMBOL_EXTpath;
 	}
 
@@ -1225,7 +1344,8 @@ public class Controller extends JFrame implements ActionListener {
 		return targetUniProtToGeneIDMapFilepath;
 	}
 
-	public void setTargetUniProtToGeneIDMapFilepath(String targetUniProtToGeneIDMapFilepath) {
+	public void setTargetUniProtToGeneIDMapFilepath(
+			String targetUniProtToGeneIDMapFilepath) {
 		Controller.targetUniProtToGeneIDMapFilepath = targetUniProtToGeneIDMapFilepath;
 	}
 
@@ -1233,7 +1353,8 @@ public class Controller extends JFrame implements ActionListener {
 		return targetGeneIDtoAffymetrixMapFilepath;
 	}
 
-	public void setTargetGeneIDtoAffymetrixMapFilepath(String targetGeneIDtoAffymetrixMapFilepath) {
+	public void setTargetGeneIDtoAffymetrixMapFilepath(
+			String targetGeneIDtoAffymetrixMapFilepath) {
 		Controller.targetGeneIDtoAffymetrixMapFilepath = targetGeneIDtoAffymetrixMapFilepath;
 	}
 
@@ -1269,90 +1390,4 @@ public class Controller extends JFrame implements ActionListener {
 		return SUBGRAPHED;
 	}
 
-	public synchronized void subgraph() {
-		try {
-
-		if (!isConverted) {
-			JOptionPane.showMessageDialog(new JFrame(), "Please convert first in Step 1 above before continuing.",
-					"Warning", JOptionPane.WARNING_MESSAGE);
-		}
-		if (isConverted) {
-			// check the source and target fields for emptiness
-			if (mainframe.getSigmolsourcetextfield().getText().trim().equals("") &&
-					// mainframe.getGenesourcetextfield().getText().trim().equals("")&&
-					mainframe.getCytoidSourceTextArea().getText().trim().equals("")) {
-				JOptionPane.showMessageDialog(new JFrame(), "Please enter at least one file in SOURCE", "Warning",
-						JOptionPane.WARNING_MESSAGE);
-			} else if (mainframe.getGenetargettextfield().getText().trim().equals("")
-					&& mainframe.getSigmoltargettextfield().getText().trim().equals("")
-					&& mainframe.getCytoidTargetTextArea().getText().trim().equals("")) {
-				JOptionPane.showMessageDialog(new JFrame(), "Please enter at least one file in TARGET", "Warning",
-						JOptionPane.WARNING_MESSAGE);
-			} else {
-				SplashFrame sp = new SplashFrame();
-				sp.setTitle("Please Wait a Moment...");
-				sp.setLocation(100, 100);
-				sp.setSize(500, 100);
-				sp.setResizable(false);
-				sp.setVisible(true);
-				// setfocus on the splash frame
-				// sp.requestFocus();
-
-				// TODO: instead of getting targetSIFpath, get actual network worked upon
-				String currentNetworkFilepath = targetSIFpath;
-
-				SubgraphExtraction sgex;
-
-				JOptionPane.showMessageDialog(new JFrame(), mainframe.getCytoidSourceTextArea().getText() + "\n"
-						+ mainframe.getCytoidTargetTextArea().getText() + "\n"
-						+ mainframe.getGenesourcetextfield().getText() + "\n"
-						+ mainframe.getGenesourcetextfield().getText() + "\n"
-						+ mainframe.getSigmolsourcetextfield().getText() + "\n"
-						+ mainframe.getSigmoltargettextfield().getText() + "\n", "Success",
-						JOptionPane.INFORMATION_MESSAGE);
-
-				// Blocage ici avec le .jar
-				sgex = new SubgraphExtraction(mainframe);
-				// Test for .jar file :
-				// sgex=new SubgraphExtraction();
-
-				JOptionPane.showMessageDialog(new JFrame(), "test", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-				// sgex.readGeneSourceFile();
-				sgex.readGeneTargetFile(currentNetworkFilepath, targetNODE_TYPEpath);
-				sgex.readSigmolSourceFile();
-				sgex.readSigmolTargetFile();
-				sgex.readCytoSourceText();
-				sgex.readCytoTargetText();
-
-				// then draw the graph from the read files/text
-				sgex.drawJungGraph();
-
-				try {
-					sgex.SIFreaderAndNewCreator(currentNetworkFilepath);
-					String[] temporarypath = currentNetworkFilepath.split(".sif");
-					targetsubgraphedSIFpath = temporarypath[0].concat(SUBGRAPHED + ".sif");
-					// draw graph of new SIF and create a network
-					Cytoscape.createNetworkFromFile(targetsubgraphedSIFpath);// load the NODE_TYPE .NA file
-
-					// load the VIZMAP props file
-					mapVisually(VIZMAP_PROPS_FILE_NAME);
-					JOptionPane.showMessageDialog(new JFrame(),
-							"Subgraph successful! Files converted are located in the directory:" + "\n"
-									+ targetsubgraphedSIFpath, "Success", JOptionPane.INFORMATION_MESSAGE);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} finally {
-					// delete the splashframe
-					sp.dispose();
-				}
-			}
-		}
-		}catch (Exception ex){
-		JOptionPane
-		.showMessageDialog(new JFrame(),
-		 "Error :  "+ex.getClass().getName(),
-		 "Warning", JOptionPane.WARNING_MESSAGE);
-		}
-	}
 }

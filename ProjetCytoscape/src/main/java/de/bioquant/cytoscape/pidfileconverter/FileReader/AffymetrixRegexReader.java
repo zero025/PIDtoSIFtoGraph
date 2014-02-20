@@ -21,6 +21,7 @@ import cytoscape.CyNetwork;
 import cytoscape.CyNode;
 import cytoscape.Cytoscape;
 import de.bioquant.cytoscape.pidfileconverter.View.Controller;
+import de.bioquant.cytoscape.pidfileconverter.View.SplashFrame;
 
 public class AffymetrixRegexReader {
 	private static int counter = 0;
@@ -87,21 +88,28 @@ public class AffymetrixRegexReader {
 	 * @throws IOException
 	 */
 	public static void readAndWriteFiles(String filename, String firstfilepath, String secondfilepath,
-			String thirdfilepath, String fourthfilepath) throws IOException {
+			String thirdfilepath, String fourthfilepath, SplashFrame sp, AbstractProcess process) throws IOException {
 
 		BufferedReader reader = null;
 		try {
+			
 			reader = new BufferedReader(new FileReader(filename));
 			String l;
 			String tobewritten = "";
 			String matchedUPtoGeneIDmapping = "";
-			String matchedGeneIDtoAffymetrixmapping = "";
 			ArrayList<String> listofFile1 = new ArrayList<String>();
 			ArrayList<String> listofFile2 = new ArrayList<String>();
-
+			
+			sp.getBar().setValue(90);
+			if(!process.isContinueThread()){
+				return;
+			}
+			
 			while ((l = reader.readLine()) != null) {
-				if (l.contains("=")) { // recognises whole line where there is
-										// an '=' sign
+
+				
+				if (l.contains("=")) { // recognises whole line where there is an '=' sign
+					
 					String trimmedName;
 					String trimmedDetail;
 					String[] splittedString = l.split("="); // splits line at
@@ -135,7 +143,8 @@ public class AffymetrixRegexReader {
 								// if at first half of the split
 								if (i == 0) {
 									// write detail as UP1
-									tobewrittenDefaultIDname = splittedName[i];
+									String[] splittedName2 = splittedName[i].split("[@\\|\\]]");
+									tobewrittenDefaultIDname = splittedName2[0];
 								}
 								// if at second half or more of the split
 								else {
@@ -143,7 +152,8 @@ public class AffymetrixRegexReader {
 									// the pattern,
 									// DO NOT add the ::
 									if (tobewrittenDefaultIDname.equals("")) {
-										tobewrittenDefaultIDname = splittedName[i];
+										String[] splittedName2 = splittedName[i].split("[@\\|\\]]");
+										tobewrittenDefaultIDname = splittedName2[0];
 									} else {
 										// write detail as UP1 :: UP2 ...
 										tobewrittenDefaultIDname = tobewrittenDefaultIDname + "::" + splittedName[i];
@@ -160,7 +170,8 @@ public class AffymetrixRegexReader {
 							// this time add the stuff into the list
 							for (int i = 0; i < splittedName.length; i++) {
 								String linetobeaddedtoFile1 = tobewrittenIDcytoname + " = " + tobewrittenDefaultIDname;
-								String tobeadded = splittedName[i] + " protein family";
+								String[] splittedName2 = splittedName[i].split("[@\\|\\]]");
+								String tobeadded = splittedName2[0] + " protein family";
 								// if the first list doesnt yet contain the
 								// thing to be added
 								if (!listofFile1.contains(linetobeaddedtoFile1)) {
@@ -175,20 +186,21 @@ public class AffymetrixRegexReader {
 								}
 								// if the list of unique proteins doesnt yet
 								// contain the DefaultID to be added
-								if (!uniqueIDs.contains(splittedName[i])) {
-									uniqueIDs.add(splittedName[i]);
+								if (!uniqueIDs.contains(splittedName2[0])) {
+									uniqueIDs.add(splittedName2[0]);
 								}
 							}
 						}
 
 						// if the expression is as plain as "P56915 = protein"
 						else {
-							tobewrittenDefaultIDname = trimmedName;
+							String[] trimmedName2 = trimmedName.split("[@\\|\\]]");
+							tobewrittenDefaultIDname = trimmedName2[0];
 							// put IDCyto (key) together with associated UP
 							// (value) into the corresponding hashmap
 							proteinhashmap.put(tobewrittenIDcytoname, tobewrittenDefaultIDname);
 							String linetobeaddedtoFile1 = tobewrittenIDcytoname + " = " + tobewrittenDefaultIDname;
-							String tobeadded = trimmedName;
+							String tobeadded = trimmedName2[0];
 							if (trimmedDetail.equals("protein")) {
 								tobeadded += " protein";
 							} else if (trimmedDetail.equals("rna")) {
@@ -211,8 +223,8 @@ public class AffymetrixRegexReader {
 							}
 							// if the list of unique proteins doesnt yet contain
 							// the DefaultID to be added
-							if (!uniqueIDs.contains(trimmedName)) {
-								uniqueIDs.add(trimmedName);
+							if (!uniqueIDs.contains(trimmedName2[0])) {
+								uniqueIDs.add(trimmedName2[0]);
 							}
 						}
 					}
@@ -246,7 +258,8 @@ public class AffymetrixRegexReader {
 								// if at first half of the split
 								if (i == 0) {
 									// write detail as UP1
-									tobewrittenDefaultIDname = splittedName[i];
+									String[] splittedName2 = splittedName[i].split("[@\\|\\]]");
+									tobewrittenDefaultIDname = splittedName2[0];
 								}
 								// if at second half or more of the split
 								if (i > 0) {
@@ -254,10 +267,12 @@ public class AffymetrixRegexReader {
 									// the pattern,
 									// DO NOT add the :
 									if (tobewrittenDefaultIDname.equals("")) {
-										tobewrittenDefaultIDname = splittedName[i];
+										String[] splittedName2 = splittedName[i].split("[@\\|\\]]");
+										tobewrittenDefaultIDname = splittedName2[0];
 									} else {
 										// write detail as UP1 : UP2 ...
-										tobewrittenDefaultIDname = tobewrittenDefaultIDname + ":" + splittedName[i];
+										String[] splittedName2 = splittedName[i].split("[@\\|\\]]");
+										tobewrittenDefaultIDname = tobewrittenDefaultIDname + ":" + splittedName2[0];
 									}
 								}
 							}
@@ -270,7 +285,8 @@ public class AffymetrixRegexReader {
 							// this time add the stuff into the list
 							for (int i = 0; i < splittedName.length; i++) {
 								String linetobeaddedtoFile1 = tobewrittenIDcytoname + " = " + tobewrittenDefaultIDname;
-								String tobeadded = splittedName[i] + " protein complex";
+								String[] splittedName2 = splittedName[i].split("[@\\|\\]]");
+								String tobeadded = splittedName2[0] + " protein complex";
 								// if the list doesnt yet contain the thing to
 								// be added
 								if (!listofFile1.contains(linetobeaddedtoFile1)) {
@@ -285,20 +301,21 @@ public class AffymetrixRegexReader {
 								}
 								// if the list of unique proteins doesnt yet
 								// contain the DefaultID to be added
-								if (!uniqueIDs.contains(splittedName[i])) {
-									uniqueIDs.add(splittedName[i]);
+								if (!uniqueIDs.contains(splittedName2[0])) {
+									uniqueIDs.add(splittedName2[0]);
 								}
 							}
 						}
 
 						// if the expression is as plain as "P56915 = complex"
 						else {
-							tobewrittenDefaultIDname = trimmedName;
+							String[] trimmedName2 =trimmedName.split("[@\\|\\]]");
+							tobewrittenDefaultIDname = trimmedName2[0];
 							// put IDCyto (key) together with associated UP
 							// (value) into the corresponding hashmap
 							proteincomplexhashmap.put(tobewrittenIDcytoname, tobewrittenDefaultIDname);
 							String linetobeaddedtoFile1 = tobewrittenIDcytoname + " = " + tobewrittenDefaultIDname;
-							String tobeadded = trimmedName + " complex";
+							String tobeadded = trimmedName2[0] + " complex";
 							// if the list doesnt yet contain the thing to be
 							// added
 							if (!listofFile1.contains(linetobeaddedtoFile1)) {
@@ -316,15 +333,21 @@ public class AffymetrixRegexReader {
 							}
 							// if the list of unique proteins doesnt yet contain
 							// the DefaultID to be added
-							if (!uniqueIDs.contains(trimmedName)) {
-								uniqueIDs.add(trimmedName);
+							if (!uniqueIDs.contains(trimmedName2[0])) {
+								uniqueIDs.add(trimmedName2[0]);
 							}
 						}
 					}
 
 				}
 			}
-
+			
+			sp.getBar().setValue(95);
+			if(!process.isContinueThread()){
+				return;
+			}
+			
+			
 			// for every one of the entry in the first list, add it to the
 			// arraylist file1tobewritten
 			for (int i = 0; i < listofFile1.size(); i++) {
@@ -362,24 +385,10 @@ public class AffymetrixRegexReader {
 						geneIDtouniprothashmap.put(matchedUPtoGeneIDmapping, uniqueIDs.get(i));
 						file3tobewritten.add(uniqueIDs.get(i) + " = " + matchedUPtoGeneIDmapping + "\n");
 					}
-				} else {// EntrezGene
+				} else {// EntrezGene and others
 					uniqueGeneIDs.add(uniqueIDs.get(i));
 				}
 
-			}
-
-			// For every unique GeneID, find the corresponding affymetrixID and
-			// add the mapping into the arraylist file4tobewritten
-			for (int i = 0; i < uniqueGeneIDs.size(); i++) {
-				matchedGeneIDtoAffymetrixmapping = lookUpAffymetrixIDofGeneID(uniqueGeneIDs.get(i), AFFYMETRIXSOURCE);
-				// if there is a match, add that to the arraylist
-				// file4tobewritten,
-				// and to the hashmap which points in the opposite direction
-				// (affyID -> GeneID)
-				if (matchedGeneIDtoAffymetrixmapping != "") {
-					affytogeneIDhashmap.put(matchedGeneIDtoAffymetrixmapping, uniqueGeneIDs.get(i));
-					file4tobewritten.add(uniqueGeneIDs.get(i) + " = " + matchedGeneIDtoAffymetrixmapping + "\n");
-				}
 			}
 
 			// get the first file printed out
@@ -393,13 +402,13 @@ public class AffymetrixRegexReader {
 			multipleFileWriter("Unique_IDs", secondfilepath, uniqueIDs);
 			// get the third file printed out
 			multipleFileWriter("UniProt_to_GeneID_Map", thirdfilepath, file3tobewritten);
-			// get the fourth file printed out
-			multipleFileWriter("GeneID_to_Affymetrix_Map", fourthfilepath, file4tobewritten);
 
-			// printing the top rows of the list
-			// System.out.println("ID Cyto = DefaultID Name");
-			// System.out.println(tobewritten);
-
+			sp.getBar().setValue(100);
+			if(!process.isContinueThread()){
+				return;
+			}
+			
+			
 			// clear the arraylists for next time
 		}
 
@@ -415,7 +424,8 @@ public class AffymetrixRegexReader {
 	}
 
 	/**
-	 * This method writes a list of tobewritten stuff to a file under the filename parameter
+	 * This method writes a list of tobewritten stuff to a file under the
+	 * filename parameter
 	 * 
 	 * @param documentname
 	 *            the first line of the document to be printed
@@ -425,9 +435,10 @@ public class AffymetrixRegexReader {
 	 *            the arraylist of the data to be printed in the document
 	 * @throws IOException
 	 */
-	public static void multipleFileWriter(String documentname, String filename, ArrayList<String> listoftobewritten)
-			throws IOException {
+	public static void multipleFileWriter(String documentname, String filename,
+			ArrayList<String> listoftobewritten) throws IOException {
 		PrintWriter writer = null;
+		
 		try {
 			writer = new PrintWriter(filename);
 			writer.println(documentname);
@@ -443,7 +454,8 @@ public class AffymetrixRegexReader {
 	}
 
 	/**
-	 * This method looks up the string Uniprot ID in the source file and returns the corresponding GeneID
+	 * This method looks up the string Uniprot ID in the source file and returns
+	 * the corresponding GeneID
 	 * 
 	 * @param id
 	 *            the uniprotID
@@ -453,7 +465,8 @@ public class AffymetrixRegexReader {
 	 * @throws IOException
 	 */
 	@SuppressWarnings("unused")
-	public static String lookUpGeneIDofUniprot(String id, String sourcefile) throws IOException {
+	public static String lookUpGeneIDofUniprot(String id, String sourcefile)
+			throws IOException {
 		BufferedReader reader = null;
 		String geneID = "";
 		try {
@@ -468,7 +481,9 @@ public class AffymetrixRegexReader {
 					String mappedto;
 					String remarks;
 
-					String[] splittedString = line.split("="); // splits the line at the equal signs
+					String[] splittedString = line.split("="); // splits the
+																// line at the
+																// equal signs
 					notmapped = splittedString[0].trim();
 					mappedfrom = splittedString[1].trim();
 					mappedto = splittedString[2].trim();
@@ -490,7 +505,8 @@ public class AffymetrixRegexReader {
 	}
 
 	/**
-	 * This method looks up the Affymetrix ID of an input GeneID, searching in a sourcefile (from Affymetrix)
+	 * This method looks up the Affymetrix ID of an input GeneID, searching in a
+	 * sourcefile (from Affymetrix)
 	 * 
 	 * @param id
 	 *            GeneID
@@ -500,7 +516,8 @@ public class AffymetrixRegexReader {
 	 * @throws IOException
 	 */
 	@SuppressWarnings("unused")
-	public static String lookUpAffymetrixIDofGeneID(String id, String sourcefile) throws IOException {
+	public static String lookUpAffymetrixIDofGeneID(String id, String sourcefile)
+			throws IOException {
 		BufferedReader reader = null;
 		String affyID = "";
 		try {
@@ -526,7 +543,18 @@ public class AffymetrixRegexReader {
 					String ec = "";
 					String cp450 = "";
 
-					String[] splittedString = line.split("[\\t]", 16); // splits the line at the tab space and force cuts it 16 times
+					String[] splittedString = line.split("[\\t]", 16); // splits
+																		// the
+																		// line
+																		// at
+																		// the
+																		// tab
+																		// space
+																		// and
+																		// force
+																		// cuts
+																		// it 16
+																		// times
 					if (splittedString[0] != "") {
 						composite_element_name = splittedString[0];
 					}
@@ -581,7 +609,8 @@ public class AffymetrixRegexReader {
 					// affyid -> geneID
 					if (locus != "" && comment_AECompositeName != "") {
 						if (locus.equals(id)) {
-							affytogeneIDhashmap.put(comment_AECompositeName, id);
+							affytogeneIDhashmap
+									.put(comment_AECompositeName, id);
 							affyID = comment_AECompositeName;
 							return affyID;
 						}
@@ -597,13 +626,15 @@ public class AffymetrixRegexReader {
 	}
 
 	/**
-	 * This method reads one barcode file and assigns a value (barcode) to a key (affyID) and puts them into a hashmap, 1 or 0 from
+	 * This method reads one barcode file and assigns a value (barcode) to a key
+	 * (affyID) and puts them into a hashmap, 1 or 0 from
 	 * <code>barcodeFilter(String line)</code>
 	 * 
 	 * @param barcodefilepath
 	 * @throws IOException
 	 */
-	public static void barcode1Reader(String barcodefilepath) throws IOException {
+	public static void barcode1Reader(String barcodefilepath)
+			throws IOException {
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(new FileReader(barcodefilepath));
@@ -615,17 +646,29 @@ public class AffymetrixRegexReader {
 					String affyvalue;
 					String oneORzero;
 
-					String[] splittedString = line.split(","); // splits the line at the comma sign; also force split into 2 parts only
+					String[] splittedString = line.split(","); // splits the
+																// line at the
+																// comma sign;
+																// also force
+																// split into 2
+																// parts only
 
-					affyvalue = splittedString[0].trim().replace("\"", ""); // and replaces the " sign
+					affyvalue = splittedString[0].trim().replace("\"", ""); // and
+																			// replaces
+																			// the
+																			// "
+																			// sign
 
 					oneORzero = splittedString[1].trim();
-					if (oneORzero.length() == 1) // if this line is a 'value' line
+					if (oneORzero.length() == 1) // if this line is a 'value'
+													// line
 					{
-						if (oneORzero.equals("0")) { // if this value is 0 -> not  expressed
+						if (oneORzero.equals("0")) { // if this value is 0 ->
+														// not expressed
 							barcode1hashmap.put(affyvalue, false);
 						}
-						if (oneORzero.equals("1")) { // if this value is 1 ->  expressed						
+						if (oneORzero.equals("1")) { // if this value is 1 ->
+														// expressed
 							barcode1hashmap.put(affyvalue, true);
 						}
 					}
@@ -644,7 +687,8 @@ public class AffymetrixRegexReader {
 		}
 	}
 
-	public static void barcode2Reader(String barcodefilepath) throws IOException {
+	public static void barcode2Reader(String barcodefilepath)
+			throws IOException {
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(new FileReader(barcodefilepath));
@@ -655,10 +699,19 @@ public class AffymetrixRegexReader {
 				if (line.contains(",")) {
 					String affyvalue;
 					String oneORzero;
- 
-					String[] splittedString = line.split(","); // splits the line at the comma sign; also force  split into 2 parts only
 
-					affyvalue = splittedString[0].trim().replace("\"", ""); // and replaces the " sign
+					String[] splittedString = line.split(","); // splits the
+																// line at the
+																// comma sign;
+																// also force
+																// split into 2
+																// parts only
+
+					affyvalue = splittedString[0].trim().replace("\"", ""); // and
+																			// replaces
+																			// the
+																			// "
+																			// sign
 
 					oneORzero = splittedString[1].trim();
 					// if this line is a 'value' line
@@ -691,8 +744,10 @@ public class AffymetrixRegexReader {
 	}
 
 	/**
-	 * This method checks if the defaultID is present in the hashmaps: uniprottogeneid_fullhashmap & geneidtoaffymetrixid_fullhashmap and then
-	 * crosschecking in the barcode1hashmap and barcode2hashmap, before concluding which idcyto to delete, and returning a boolean of true if
+	 * This method checks if the defaultID is present in the hashmaps:
+	 * uniprottogeneid_fullhashmap & geneidtoaffymetrixid_fullhashmap and then
+	 * crosschecking in the barcode1hashmap and barcode2hashmap, before
+	 * concluding which idcyto to delete, and returning a boolean of true if
 	 * something is deleted, else false!
 	 * 
 	 * @param defaultid
@@ -707,8 +762,10 @@ public class AffymetrixRegexReader {
 				String geneID = uniprottogeneid;
 				// if geneID key gives a affyID value in
 				// geneidtoaffymetrixid_fullhashmap
-				String geneidtoaffymetrixid = geneidtoaffymetrixid_fullhashmap.get(geneID);
-				if (geneidtoaffymetrixid != null && !geneidtoaffymetrixid.isEmpty()) {
+				String geneidtoaffymetrixid = geneidtoaffymetrixid_fullhashmap
+						.get(geneID);
+				if (geneidtoaffymetrixid != null
+						&& !geneidtoaffymetrixid.isEmpty()) {
 					String affyID = geneidtoaffymetrixid;
 					// if there exists a set of values in the barcode1hashmap
 					// for the affyID
@@ -730,7 +787,8 @@ public class AffymetrixRegexReader {
 			}
 		} else // EntrezGene
 		{
-			String geneidtoaffymetrixid = geneidtoaffymetrixid_fullhashmap.get(defaultid);
+			String geneidtoaffymetrixid = geneidtoaffymetrixid_fullhashmap
+					.get(defaultid);
 			if (geneidtoaffymetrixid != null && !geneidtoaffymetrixid.isEmpty()) {
 				String affyID = geneidtoaffymetrixid;
 				// if there exists a set of values in the barcode1hashmap for
@@ -754,8 +812,9 @@ public class AffymetrixRegexReader {
 	}
 
 	/**
-	 * This method reads the barcode hashmaps and decides what to do with the barcode lines. If not expressed (0), delete the node corresponding to
-	 * the affymetrixID. If expressed (1), leave it
+	 * This method reads the barcode hashmaps and decides what to do with the
+	 * barcode lines. If not expressed (0), delete the node corresponding to the
+	 * affymetrixID. If expressed (1), leave it
 	 * 
 	 * @param affymetrixID
 	 *            the affymetrixID
@@ -763,10 +822,14 @@ public class AffymetrixRegexReader {
 	 *            either 0 or 1
 	 */
 	public static void compareBarcodes() {
+		
 		// for every entry in proteinhashmap
-		for (Map.Entry<String, String> entryFromProteinHashmap : proteinhashmap.entrySet()) {
+		for (Map.Entry<String, String> entryFromProteinHashmap : proteinhashmap
+				.entrySet()) {
+			
 			String key = entryFromProteinHashmap.getKey(); // the IDcyto
-			String value = entryFromProteinHashmap.getValue(); // the single  DefaultID
+			String value = entryFromProteinHashmap.getValue(); // the single
+																// DefaultID
 			try {
 				// checkIfPresentInHashMaps(key, value);
 				if (isPresentInHashMaps(value) == true) {
@@ -780,9 +843,14 @@ public class AffymetrixRegexReader {
 		// for every entry in proteinfamilyhashmap
 		// protein family to be deleted if ALL members are present as 0 in the
 		// barcodes
-		for (Map.Entry<String, String> entryFromProteinFamilyHashmap : proteinfamilyhashmap.entrySet()) {
+
+		
+		for (Map.Entry<String, String> entryFromProteinFamilyHashmap : proteinfamilyhashmap
+				.entrySet()) {
+			
 			String key = entryFromProteinFamilyHashmap.getKey(); // the IDcyto
-			String value = entryFromProteinFamilyHashmap.getValue(); // the DefaultID(s)
+			String value = entryFromProteinFamilyHashmap.getValue(); // the
+																		// DefaultID(s)
 			if (value.contains("::")) // if there are many DefaultIDs
 			{
 				String[] splittedvalue = value.split("::");
@@ -815,9 +883,13 @@ public class AffymetrixRegexReader {
 		}
 		// for every entry in proteincomplexhashmap
 		// entry to be deleted if ANY of the members show 0
-		for (Map.Entry<String, String> entryFromProteinComplexHashmap : proteincomplexhashmap.entrySet()) {
+		for (Map.Entry<String, String> entryFromProteinComplexHashmap : proteincomplexhashmap
+				.entrySet()) {
+			
 			String key = entryFromProteinComplexHashmap.getKey(); // the IDcyto
-			String value = entryFromProteinComplexHashmap.getValue(); // the single  DefaultID
+			String value = entryFromProteinComplexHashmap.getValue(); // the
+																		// single
+																		// DefaultID
 			if (value.contains(":")) {
 				String[] splittedvalue = value.split(":");
 				int number_of_members = splittedvalue.length;
@@ -849,13 +921,16 @@ public class AffymetrixRegexReader {
 			}
 		}
 
-		JOptionPane.showMessageDialog(new JFrame(), "The graph view has been filtered and updated. " + counter
-				+ " nodes have been removed.", "Filtered", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(new JFrame(),
+				"The graph view has been filtered and updated. " + counter
+						+ " nodes have been removed.", "Filtered",
+				JOptionPane.PLAIN_MESSAGE);
 		counter = 0;
 	}
 
 	/**
-	 * This method adds to the arraylist the node IDs of nodes to be deleted and counts how many are (to be) deleted
+	 * This method adds to the arraylist the node IDs of nodes to be deleted and
+	 * counts how many are (to be) deleted
 	 * 
 	 * @param nodename
 	 *            The node identifier of the node to be removed
@@ -881,20 +956,23 @@ public class AffymetrixRegexReader {
 	}
 
 	/**
-	 * This method reads the input SIF file and compares its contents with the list of nodes to be deleted. Then a new SIF would be created, depending
+	 * This method reads the input SIF file and compares its contents with the
+	 * list of nodes to be deleted. Then a new SIF would be created, depending
 	 * whether the input SIF is present in the list of nodes to be deleted
 	 * 
 	 * @param pathname
 	 *            the original SIF file to be read
 	 * @throws IOException
 	 */
-	public static void SIFreaderAndNewCreator(String pathname) throws IOException {
+	public static void SIFreaderAndNewCreator(String pathname)
+			throws IOException {
 		BufferedReader reader = null;
 		PrintWriter writer = null;
 		try {
 			reader = new BufferedReader(new FileReader(pathname));
 			String[] temporarypath = pathname.split(".sif");
-			String filetobewritten = temporarypath[0].concat(Controller.getAbsentProteinsConcatenation() + ".sif");
+			String filetobewritten = temporarypath[0].concat(Controller
+					.getAbsentProteinsConcatenation() + ".sif");
 			writer = new PrintWriter(filetobewritten);
 			String line;
 			while ((line = reader.readLine()) != null) {
@@ -902,18 +980,21 @@ public class AffymetrixRegexReader {
 				if (line.contains("\t")) {
 					String node1;
 					String node2;
-					//String edge;
 
-					String[] splittedString = line.split("[\\t]"); // splits the line at the tab space
-					node1 = splittedString[0].trim();
-					//edge = splittedString[1].trim();
+					String[] splittedString = line.split("[\\t]"); // splits the
+																	// line at
+																	// the tab
+																	// space
+					node1 = splittedString[0].trim();				
 					node2 = splittedString[2].trim();
 					// if the list of nodes to be deleted contains the IDcyto
 					// read from the SIF,
-					if (nodeIDtobedeleted.contains(node1) || nodeIDtobedeleted.contains(node2)) {
+					if (nodeIDtobedeleted.contains(node1)
+							|| nodeIDtobedeleted.contains(node2)) {
 						// do nothing here, new SIF would not contain the line
 					} else {// if list of nodes does not contain IDcyto to be
-							// deleted, then pass it to the new SIF by printing  it
+							// deleted, then pass it to the new SIF by printing
+							// it
 						writer.println(line);
 					}
 				}
@@ -934,7 +1015,8 @@ public class AffymetrixRegexReader {
 	}
 
 	/**
-	 * This method clears all the array lists. If they are not cleared then 'residue' data from a previous read might still be present.
+	 * This method clears all the array lists. If they are not cleared then
+	 * 'residue' data from a previous read might still be present.
 	 */
 	public static void clearArrayLists() {
 		file1tobewritten.clear();
@@ -944,8 +1026,9 @@ public class AffymetrixRegexReader {
 	}
 
 	/**
-	 * This method clears the barcode hashmaps and the ArrayList nodeIDtobedeleted. If the Hashmaps are not cleared, then the next filtering might be
-	 * erroneous!
+	 * This method clears the barcode hashmaps and the ArrayList
+	 * nodeIDtobedeleted. If the Hashmaps are not cleared, then the next
+	 * filtering might be erroneous!
 	 */
 	public static void clearBarcodeHashMaps() {
 		barcode1hashmap.clear();
@@ -974,7 +1057,9 @@ public class AffymetrixRegexReader {
 					String mappedto;
 					String remarks;
 
-					String[] splittedString = line.split("="); // splits the line at the  equal signs
+					String[] splittedString = line.split("="); // splits the
+																// line at the
+																// equal signs
 					notmapped = splittedString[0].trim();
 					mappedfrom = splittedString[1].trim(); // UniprotID
 					mappedto = splittedString[2].trim(); // GeneID
@@ -983,7 +1068,8 @@ public class AffymetrixRegexReader {
 					// into the appropriate hashmap
 					if (!mappedfrom.isEmpty()) {
 						if (!mappedto.isEmpty()) {
-							uniprottogeneid_fullhashmap.put(mappedfrom, mappedto);
+							uniprottogeneid_fullhashmap.put(mappedfrom,
+									mappedto);
 						}
 					}
 				}
@@ -996,7 +1082,8 @@ public class AffymetrixRegexReader {
 	}
 
 	/**
-	 * This method runs once at the start to fill up the geneID to Affymetrix ID hashmap
+	 * This method runs once at the start to fill up the geneID to Affymetrix ID
+	 * hashmap
 	 * 
 	 * @throws IOException
 	 */
@@ -1026,7 +1113,18 @@ public class AffymetrixRegexReader {
 					String ec = "";
 					String cp450 = "";
 
-					String[] splittedString = line.split("[\\t]", 16); // splits the line  at the tab space and forc cuts in 16 times
+					String[] splittedString = line.split("[\\t]", 16); // splits
+																		// the
+																		// line
+																		// at
+																		// the
+																		// tab
+																		// space
+																		// and
+																		// forc
+																		// cuts
+																		// in 16
+																		// times
 
 					if (splittedString[0] != "") {
 						composite_element_name = splittedString[0];
@@ -1081,7 +1179,8 @@ public class AffymetrixRegexReader {
 					// then add the pair into the full
 					// geneidtoaffymetrixid_fullhashmap
 					if (locus != "" && comment_AECompositeName != "") {
-						geneidtoaffymetrixid_fullhashmap.put(locus, comment_AECompositeName);
+						geneidtoaffymetrixid_fullhashmap.put(locus,
+								comment_AECompositeName);
 					}
 				}
 			}
@@ -1106,5 +1205,58 @@ public class AffymetrixRegexReader {
 
 	public static HashMap<String, String> getProteincomplexhashmap() {
 		return proteincomplexhashmap;
+	}
+	
+	public static void createAffymetrixHashMap(String filename , String fourthfilepath, SplashFrame sp, ProcessAffymetrix process) throws IOException{
+		BufferedReader reader = null;
+		
+		try {
+
+			reader = new BufferedReader(new FileReader(filename));
+
+			String matchedGeneIDtoAffymetrixmapping = "";
+			
+			//Progress
+			int total = uniqueGeneIDs.size();
+			int progress = 0;
+
+			// For every unique GeneID, find the corresponding affymetrixID and
+			// add the mapping into the arraylist file4tobewritten
+			for (int i = 0; i < uniqueGeneIDs.size(); i++) {
+				progress++;
+				sp.getBar().setValue((progress*100)/total+1);
+				if(!process.isContinueThread()){
+
+					if (reader != null) {
+						reader.close();
+					}
+					// clear the arraylists for next read
+					clearArrayLists();
+					return;
+				}
+
+				matchedGeneIDtoAffymetrixmapping = AffymetrixRegexReader.lookUpAffymetrixIDofGeneID(uniqueGeneIDs.get(i), AFFYMETRIXSOURCE);
+
+				// if there is a match, add that to the arraylist file4tobewritten, 
+				// and to the hashmap which points in the opposite direction (affyID -> GeneID)
+				if (matchedGeneIDtoAffymetrixmapping != "") {
+					affytogeneIDhashmap.put(matchedGeneIDtoAffymetrixmapping, uniqueGeneIDs.get(i));
+					file4tobewritten.add(uniqueGeneIDs.get(i) + " = " + matchedGeneIDtoAffymetrixmapping + "\n");
+				}
+
+			}
+
+			// get the fourth file printed out
+			multipleFileWriter("GeneID_to_Affymetrix_Map", fourthfilepath, file4tobewritten);
+
+		}finally {
+			// have to close the reader, else wasting of resources
+			if (reader != null) {
+				reader.close();
+			}
+
+			// clear the arraylists for next read
+			clearArrayLists();
+		}
 	}
 }

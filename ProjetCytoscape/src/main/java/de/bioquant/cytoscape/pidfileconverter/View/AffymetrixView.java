@@ -24,7 +24,7 @@ public class AffymetrixView extends JFrame {
 	private JButton browsecondition1button = new JButton("Browse");
 	private JButton browsecondition2button = new JButton("Browse");
 	private JButton applyfilterbutton = new JButton("Apply Filter");
-	private JButton helpbutton = new JButton("?");
+	private JButton helpbutton = new JButton("Help");
 
 	/**
 	 * This constructor is responsible to build the frame of this class, as well as setting the labels, text areas and the buttons, as well as their
@@ -94,19 +94,20 @@ public class AffymetrixView extends JFrame {
 		browsecondition2button.setActionCommand("Affymetrix Browse Condition 2");
 		browsecondition2button.addActionListener(controller);
 		/* ------------------------------------------------------ */
+		// adding the browsecondition2button to toppanel and adding action commands/listener
+		c.gridx = 0;
+		c.gridy = 2;
+		toppanel.add(helpbutton, c);
+		helpbutton.setActionCommand("Affymetrix Help");
+		helpbutton.addActionListener(controller);
+		/* ------------------------------------------------------ */
 		// adding the applyfilterbutton to toppanel and adding action commands/listener
 		c.gridx = 2;
 		c.gridy = 2;
 		toppanel.add(applyfilterbutton, c);
 		applyfilterbutton.setActionCommand("Affymetrix Apply Filter");
 		applyfilterbutton.addActionListener(controller);
-		/* ------------------------------------------------------ */
-		// adding the browsecondition2button to toppanel and adding action commands/listener
-		c.gridx = 3;
-		c.gridy = 2;
-		toppanel.add(helpbutton, c);
-		helpbutton.setActionCommand("Affymetrix Help");
-		helpbutton.addActionListener(controller);
+
 		/* ------------------------------------------------------ */
 		// Add top title panel into the main panel
 		c.ipady = 10;
@@ -126,6 +127,11 @@ public class AffymetrixView extends JFrame {
 		getContentPane().add(mainpanel);
 		getContentPane().setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		browsecondition1button.setToolTipText("Data of the control");
+		browsecondition2button.setToolTipText("Data of the experiment");
+		applyfilterbutton.setToolTipText("Start filtering");
+		helpbutton.setToolTipText("To get information about how to use the plugin");
 	}
 
 	public void setInput1FieldText(String arg) {
