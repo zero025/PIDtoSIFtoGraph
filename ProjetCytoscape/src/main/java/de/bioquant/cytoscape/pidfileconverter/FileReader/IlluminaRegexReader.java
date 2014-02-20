@@ -50,9 +50,9 @@ public class IlluminaRegexReader {
 			throws IOException {
 		BufferedReader reader = null;
 		try {
-			String condition1 = "\"" + inputCondition1Text + ".mean";
-			String condition2 = "\"" + inputCondition2Text + ".mean";
-
+			String condition1 = "\"" + inputCondition1Text + ".mean\"";
+			String condition2 = "\"" + inputCondition2Text + ".mean\"";
+			
 			reader = new BufferedReader(new FileReader(barcodefilepath));
 
 			// First line
@@ -76,7 +76,8 @@ public class IlluminaRegexReader {
 					// and third values
 					// of each set of four columns
 					for (int i = 2; i < 72; i += 4) {
-						if ((inputCondition1Text.equals("") && inputCondition1Text
+						System.out.println(conditionsNames[i].trim());
+						if ((inputCondition1Text.equals("") && inputCondition2Text
 								.equals(""))
 								|| condition1.equals(conditionsNames[i].trim())
 								|| condition2.equals(conditionsNames[i].trim())) {
@@ -84,20 +85,22 @@ public class IlluminaRegexReader {
 									.trim()));
 							conditionsP.add(Float.valueOf(splittedString[i + 2]
 									.trim()));
+							System.out.println("condition : "+conditionsNames[i].trim());
 						}
 					}
 					if (geneIDvalue != "NA") {
 						// If the molecule cannot be found on a previous line or
 						// it can be found on a previous line with a false:
-						if (barcodehashmap.get(geneIDvalue) == null) {
-							barcodehashmap.put(geneIDvalue, true);
+						if (barcodehashmap.get(geneIDvalue) == null || barcodehashmap.get(geneIDvalue) == false){
+							barcodehashmap.put(geneIDvalue, false);
 							for (int i = 0; i < conditionsMeans.size(); i++) {
 								// If one of the two conditions for the presence
 								// to be true is not respected (see Report
 								// ElKoursi&Lavergne)
-								if (conditionsMeans.get(i) < 150
-										|| conditionsP.get(i) > 0.01) {
-									barcodehashmap.put(geneIDvalue, false);
+								System.out.println("genIDvalue : "+geneIDvalue+"mean : "+conditionsMeans.get(i)+ " p : "+conditionsP.get(i));
+								if (conditionsMeans.get(i) > 150
+										&& conditionsP.get(i) <= 0.01) {
+									barcodehashmap.put(geneIDvalue, true);
 									break;
 								}
 							}

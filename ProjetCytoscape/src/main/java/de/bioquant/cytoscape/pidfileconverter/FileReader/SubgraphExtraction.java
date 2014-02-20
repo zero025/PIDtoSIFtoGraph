@@ -37,7 +37,6 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 public class SubgraphExtraction {
 	private String inputcytosourcetext;
 	private String inputcytotargettext;
-	private String inputgenesourcefilepath;
 	private String inputgenetargetfilepath;
 	private String inputsigmolsourcefilepath;
 	private String inputsigmoltargetfilepath;
@@ -69,23 +68,14 @@ public class SubgraphExtraction {
 	}
 
 	/**
-	 * Read the cytoidsourcearea of class MainFrame and reads it according to
-	 * CytoIDs, checks if present in CyNetwork, before putting the IDs into an
-	 * ArrayList of type CyNode, which is to undergo subgraph extraction.
+	 * Read the cytoidsourcearea of class MainFrame and reads it according to CytoIDs, checks if present in CyNetwork,
+	 * before putting the IDs into an ArrayList of type CyNode, which is to undergo subgraph extraction.
 	 */
 	public void readCytoSourceText() {
-		if (!inputcytosourcetext.trim().equals("")) // if the text area is not
-													// empty
+		if (!inputcytosourcetext.trim().equals("")) // if the text area is not empty
 		{
 			BufferedReader reader = null;
-			ArrayList<String> temporarylist = new ArrayList<String>(); // temporary
-																		// list
-																		// for
-																		// nodes
-																		// NOT
-																		// in
-																		// the
-																		// graph
+			ArrayList<String> temporarylist = new ArrayList<String>(); // temporary list for nodes NOT in the graph
 			try {
 				reader = new BufferedReader(new StringReader(
 						inputcytosourcetext));
@@ -105,20 +95,12 @@ public class SubgraphExtraction {
 						return;
 					} else {
 						for (int i = 0; i < cynodelist.size(); i++) {
-							// if the read line l is same as one of the list of
-							// nodes, add that node to the list to be
-							// subgraphed!
+							// if the read line l is same as one of the list ofnodes, add that node to the list to
+							// besubgraphed!
 							if (cynodelist.get(i).getIdentifier()
-									.equals(l.trim())) {
+						.equals(l.trim())) {
 								cytosourcesubgraph.add(cynodelist.get(i));
-								temporarylist.remove(l.trim()); // if the line
-																// is not
-																// present in
-																// the list of
-																// nodes, delete
-																// it from
-																// temporary
-																// list!
+								temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, deleteit from temporary list!
 							}
 						}
 					}
@@ -136,21 +118,13 @@ public class SubgraphExtraction {
 	}
 
 	/**
-	 * Read the cytoidtargetarea of class MainFrame and reads it according to
-	 * CytoIDs, checks if present in CyNetwork, before putting the IDs into an
-	 * ArrayList of type CyNode, which is to undergo subgraph extraction.
+	 * Read the cytoidtargetarea of class MainFrame and reads it according to CytoIDs, checks if present in CyNetwork,
+	 * before putting the IDs into an ArrayList of type CyNode, which is to undergo subgraph extraction.
 	 */
 	public void readCytoTargetText() {
 		if (!inputcytotargettext.trim().equals("")) {
 			BufferedReader reader = null;
-			ArrayList<String> temporarylist = new ArrayList<String>(); // temporary
-																		// list
-																		// for
-																		// nodes
-																		// NOT
-																		// in
-																		// the
-																		// graph
+			ArrayList<String> temporarylist = new ArrayList<String>(); // temporary list for nodes NOT inthe graph
 			try {
 				reader = new BufferedReader(new StringReader(
 						inputcytotargettext));
@@ -170,21 +144,12 @@ public class SubgraphExtraction {
 						return;
 					} else {
 						for (int i = 0; i < cynodelist.size(); i++) {
-							// if the read line l is same as one of the list of
-							// nodes, add that node to the list to be
-							// subgraphed!
+							// if the read line l is same as one of the list of nodes, add that node to the list to be subgraphed!
 							if (cynodelist.get(i).getIdentifier()
 									.equals(l.trim())) {
 								// TODO: Check Transcription!!
 								cytotargetsubgraph.add(cynodelist.get(i));
-								temporarylist.remove(l.trim()); // if the line
-																// is not
-																// present in
-																// the list of
-																// nodes, delete
-																// it from
-																// temporary
-																// list!
+								temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it from temporary  list!
 							}
 						}
 					}
@@ -202,22 +167,14 @@ public class SubgraphExtraction {
 	}
 
 	/**
-	 * This method reads the gene target file and checks if the input nodes are
-	 * present in the cynodelist. if they are present, check if the node comes
-	 * from a translation event. If yes, check if it is a protein family or
-	 * complex, if no, then add it into the arraylist cytotargetsubgraph
+	 * This method reads the gene target file and checks if the input nodes are present in the cynodelist. if they are
+	 * present, check if the node comes from a translation event. If yes, check if it is a protein family or complex, if
+	 * no, then add it into the arraylist cytotargetsubgraph
 	 */
 	public void readGeneTargetFile(String sifpath, String nodetypefilepath) {
 		if (!inputgenetargetfilepath.trim().equals("")) {
 			BufferedReader reader = null;
-			ArrayList<String> temporarylist = new ArrayList<String>(); // temporary
-																		// list
-																		// for
-																		// nodes
-																		// NOT
-																		// in
-																		// the
-																		// graph
+			ArrayList<String> temporarylist = new ArrayList<String>(); // temporary list for nodes NOT in the graph
 			try {
 				reader = new BufferedReader(new FileReader(
 						inputgenetargetfilepath));
@@ -226,8 +183,7 @@ public class SubgraphExtraction {
 				CyNetwork cynetwork = Cytoscape.getCurrentNetwork();
 				List<CyNode> cynodelist = Cytoscape.getCyNodesList();
 				while ((l = reader.readLine()) != null) {
-					temporarylist.add(l.trim()); // as per default, the lines
-													// are added to the list
+					temporarylist.add(l.trim()); // as per default, the lines are added to the list
 					if (cynetwork == null || cynodelist.isEmpty()) {
 						JOptionPane
 								.showMessageDialog(
@@ -237,51 +193,21 @@ public class SubgraphExtraction {
 						return;
 					} else {
 						if (isComingFromTranslation(l.trim(), sifpath,
-								nodetypefilepath)) // if l comes from a
-													// translation event
+								nodetypefilepath)) // if l comes from a translation event
 						{
 							for (int i = 0; i < cynodelist.size(); i++) {
 								if (!cynodelist.get(i).getIdentifier()
-										.contains(":")) // if cytoID doesnt
-														// contain ":" i.e. not
-														// family or complex
+										.contains(":")) // if cytoID doesntcontain ":" i.e. notfamily or complex
 								{
 									if (cynodelist.get(i).getIdentifier()
-											.contains(l.trim())) // if cytoID
-																	// contains
-																	// l, i.e.
-																	// P10291@nucleus
-																	// is
-																	// possible
+											.contains(l.trim())) // if cytoIDcontains l, i.e. P10291@nucleus is possible
 									{
 										if (!cytotargetsubgraph
-												.contains(cynodelist.get(i))) // then
-																				// add
-																				// the
-																				// cytoid
-																				// to
-																				// the
-																				// target
-																				// subgraph
-																				// list
+												.contains(cynodelist.get(i))) // then add the cytoid to the target subgraph list
 										{
 											cytotargetsubgraph.add(cynodelist
 													.get(i));
-											temporarylist.remove(l.trim()); // if
-																			// the
-																			// line
-																			// is
-																			// not
-																			// present
-																			// in
-																			// the
-																			// list
-																			// of
-																			// nodes,
-																			// delete
-																			// it
-																			// from
-											// temporary list!
+											temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it  from temporary list!
 										}
 									}
 								}
@@ -313,22 +239,14 @@ public class SubgraphExtraction {
 	}
 
 	/**
-	 * This method reads the file and checks if the checkbox is ticked. If yes,
-	 * the method will search also in protein families and complexes. If no, the
-	 * method will only search for nodes of proteins. In both ways, the method
-	 * adds positive searches into the cytosourcesubgraph arraylist.
+	 * This method reads the file and checks if the checkbox is ticked. If yes, the method will search also in protein
+	 * families and complexes. If no, the method will only search for nodes of proteins. In both ways, the method adds
+	 * positive searches into the cytosourcesubgraph arraylist.
 	 */
 	public void readSigmolSourceFile() {
 		if (!inputsigmolsourcefilepath.trim().equals("")) {
 			BufferedReader reader = null;
-			ArrayList<String> temporarylist = new ArrayList<String>(); // temporary
-																		// list
-																		// for
-																		// nodes
-																		// NOT
-																		// in
-																		// the
-																		// graph
+			ArrayList<String> temporarylist = new ArrayList<String>(); // temporary list for nodes NOT in the graph
 			try {
 				reader = new BufferedReader(new FileReader(
 						inputsigmolsourcefilepath));
@@ -337,8 +255,8 @@ public class SubgraphExtraction {
 				CyNetwork cynetwork = Cytoscape.getCurrentNetwork();
 				List<CyNode> cynodelist = Cytoscape.getCyNodesList();
 				while ((l = reader.readLine()) != null) {
-					temporarylist.add(l.trim()); // as per default, the lines
-													// are added to the list
+				
+					temporarylist.add(l.trim()); // as per default, the lines are added to the list
 					if (cynetwork == null || cynodelist.isEmpty()) {
 						JOptionPane
 								.showMessageDialog(
@@ -348,80 +266,32 @@ public class SubgraphExtraction {
 						return;
 					} else {
 						for (int i = 0; i < cynodelist.size(); i++) {
-							if (step3.isIncludeComplexesChecked()) // if the
-																	// checkbox
-																	// is ticked
+							if (step3.isIncludeComplexesChecked()) // if the checkbox is ticked
 							{
 								if (cynodelist.get(i).getIdentifier()
-										.contains(l.trim())) // see if the
-																// string of
-																// UniProt is
-																// present in
-																// the CytoID
+										.contains(l.trim())) // see if the string of UniProt is present in the CytoID
 								{
 									if (!cytosourcesubgraph.contains(cynodelist
-											.get(i))) // add it to the subgraph
-														// list
+											.get(i))) // add it to the subgraph list
 									{
 										cytosourcesubgraph.add(cynodelist
 												.get(i));
-										temporarylist.remove(l.trim()); // if
-																		// the
-																		// line
-																		// is
-																		// not
-																		// present
-																		// in
-																		// the
-																		// list
-																		// of
-																		// nodes,
-																		// delete
-																		// it
-																		// from
-																		// temporary
-										// list!
+										temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it from temporary list!
 									}
 								}
-							} else if (!step3.isIncludeComplexesChecked()) // else
-																			// if
-																			// the
-																			// checkbox
-																			// is
-																			// not
-							// ticked
+							} else if (!step3.isIncludeComplexesChecked()) // else if the checkbox is not ticked
 							{
 								if (!cynodelist.get(i).getIdentifier()
-										.contains(":")) // if cytoID doesnt
-														// contain ":" i.e. not
-														// family or complex
+										.contains(":")) // if cytoID doesnt contain ":" i.e. not family or complex
 								{
 									if (cynodelist.get(i).getIdentifier()
-											.contains(l.trim())) // if so, add
-									// the text
-									// to the
-									// subgraph
-									// list
+											.contains(l.trim())) // if so, add the text to the subgraph list
 									{
 										if (!cytosourcesubgraph
 												.contains(cynodelist.get(i))) {
 											cytosourcesubgraph.add(cynodelist
 													.get(i));
-											temporarylist.remove(l.trim()); // if
-											// the
-											// line
-											// is
-											// not
-											// present
-											// in
-											// the
-											// list
-											// of
-											// nodes,
-											// delete
-											// it
-											// from
-											// temporary list!
+											temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it from temporary list!
 										}
 									}
 								}
@@ -455,22 +325,14 @@ public class SubgraphExtraction {
 	}
 
 	/**
-	 * This method reads the file and checks if the checkbox is ticked. If yes,
-	 * the method will search also in protein families and complexes. If no, the
-	 * method will only search for nodes of proteins. In both ways, the method
-	 * adds positive searches into the cytotargetsubgraph arraylist.
+	 * This method reads the file and checks if the checkbox is ticked. If yes, the method will search also in protein
+	 * families and complexes. If no, the method will only search for nodes of proteins. In both ways, the method adds
+	 * positive searches into the cytotargetsubgraph arraylist.
 	 */
 	public void readSigmolTargetFile() {
 		if (!inputsigmoltargetfilepath.trim().equals("")) {
 			BufferedReader reader = null;
-			ArrayList<String> temporarylist = new ArrayList<String>(); // temporary
-																		// list
-																		// for
-																		// nodes
-																		// NOT
-																		// in
-																		// the
-																		// graph
+			ArrayList<String> temporarylist = new ArrayList<String>(); // temporary list for nodes NOT in the graph
 			try {
 				reader = new BufferedReader(new FileReader(
 						inputsigmoltargetfilepath));
@@ -491,80 +353,32 @@ public class SubgraphExtraction {
 					} else {
 						for (int i = 0; i < cynodelist.size(); i++) {
 
-							if (step3.isIncludeComplexesChecked()) // if the
-																	// checkbox
-																	// is ticked
+							if (step3.isIncludeComplexesChecked()) // if the checkbox is ticked
 							{
 								if (cynodelist.get(i).getIdentifier()
-										.contains(l.trim())) // see if the
-																// string of
-																// UniProt is
-																// present in
-																// the CytoID
+										.contains(l.trim())) // see if the string of UniProt is present in the CytoID
 								{
 									if (!cytotargetsubgraph.contains(cynodelist
-											.get(i))) // add it to the subgraph
-														// list
+											.get(i))) // add it to the subgraph list
 									{
 										cytotargetsubgraph.add(cynodelist
 												.get(i));
-										temporarylist.remove(l.trim()); // if
-																		// the
-																		// line
-																		// is
-																		// not
-																		// present
-																		// in
-																		// the
-																		// list
-																		// of
-																		// nodes,
-																		// delete
-																		// it
-																		// from
-																		// temporary
-										// list!
+										temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it from temporary list!
 									}
 								}
-							} else if (!step3.isIncludeComplexesChecked()) // else
-																			// if
-																			// the
-																			// checkbox
-																			// is
-																			// not
-																			// ticked
+							} else if (!step3.isIncludeComplexesChecked()) // else if the checkbox is not ticked
 							{
 								if (!cynodelist.get(i).getIdentifier()
-										.contains(":")) // if cytoID doesnt
-														// contain ":" i.e. not
-														// family or complex
+										.contains(":")) // if cytoID doesnt contain ":" i.e. not family or complex
 								{
 									if (cynodelist.get(i).getIdentifier()
-											.contains(l.trim())) // if so, add
-																	// the text
-																	// to the
-																	// subgraph
-																	// list
+											.contains(l.trim())) // if so, add the text to the subgraph list
 									{
 										if (!cytotargetsubgraph
 												.contains(cynodelist.get(i))) {
 											cytotargetsubgraph.add(cynodelist
 													.get(i));
-											temporarylist.remove(l.trim()); // if
-																			// the
-																			// line
-																			// is
-																			// not
-																			// present
-																			// in
-																			// the
-																			// list
-																			// of
-																			// nodes,
-																			// delete
-																			// it
-																			// from
-											// temporary list!
+											temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it from temporary list!
 										}
 									}
 								}
@@ -599,10 +413,8 @@ public class SubgraphExtraction {
 	}
 
 	/**
-	 * Method reads the arraylist of IDs and draws the subgraph using the
-	 * shortest path method. Checks both cytosourcesubgraph and
-	 * cytotargetsubgraph for a shortest path between the source and target
-	 * nodes.
+	 * Method reads the arraylist of IDs and draws the subgraph using the shortest path method. Checks both
+	 * cytosourcesubgraph and cytotargetsubgraph for a shortest path between the source and target nodes.
 	 * 
 	 * @author Hadi Kang
 	 * @author Aristotelis Kittas
@@ -613,9 +425,7 @@ public class SubgraphExtraction {
 		int total = 100;
 		int progress = 0;
 
-		DirectedGraph<CyNode, CyEdge> myGraph = cytotojungGraph(); // greates
-																	// the JUNG
-																	// graph
+		DirectedGraph<CyNode, CyEdge> myGraph = cytotojungGraph(); // greates the JUNG graph
 
 		DijkstraShortestPath<CyNode, CyEdge> dpath = new DijkstraShortestPath<CyNode, CyEdge>(
 				myGraph, false); // create shortest path object
@@ -626,9 +436,7 @@ public class SubgraphExtraction {
 			return;
 		}
 
-		Set<CyNode> s = new HashSet<CyNode>(); // set of nodes in the shortest
-												// path that will be included in
-												// the final network
+		Set<CyNode> s = new HashSet<CyNode>(); // set of nodes in the shortest path that will be included in the final network
 
 		for (int i = 0; i < cytosourcesubgraph.size(); i++) {
 			CyNode startnode = cytosourcesubgraph.get(i);
@@ -641,8 +449,7 @@ public class SubgraphExtraction {
 
 				CyNode endnode = cytotargetsubgraph.get(j);
 
-				if (!endnode.equals(startnode)) // if we are dealing with unique
-												// nodes
+				if (!endnode.equals(startnode)) // if we are dealing with unique nodes
 				{
 					List<CyEdge> gp = dpath.getPath(startnode, endnode);
 					if (gp != null) {
@@ -664,17 +471,13 @@ public class SubgraphExtraction {
 		System.out.println("Nodes in the source graph:");
 		for (int i = 0; i < cytosourcesubgraph.size(); i++) {
 			// colour the corresponding source node
-			colourThisNode(cytosourcesubgraph.get(i), "255,0,0"); // source node
-																	// colour
-																	// red
+			colourThisNode(cytosourcesubgraph.get(i), "255,0,0"); // source node colour/ red
 			System.out.println(cytosourcesubgraph.get(i).toString());
 		}
 		System.out.println("Nodes in the target graph:");
 		for (int i = 0; i < cytotargetsubgraph.size(); i++) {
 			// colour the corresponding target node
-			colourThisNode(cytotargetsubgraph.get(i), "0,0,255"); // source node
-																	// colour
-																	// blue
+			colourThisNode(cytotargetsubgraph.get(i), "0,0,255"); // source node colour blue
 			System.out.println(cytotargetsubgraph.get(i).toString());
 		}
 		System.out.println("Nodes in the set:");
@@ -700,9 +503,8 @@ public class SubgraphExtraction {
 	}
 
 	/**
-	 * This method reads the input SIF file and compares its contents with the
-	 * list of nodes to be deleted. Then a new SIF would be created, depending
-	 * whether the input SIF is present in the list of nodes to be deleted
+	 * This method reads the input SIF file and compares its contents with the list of nodes to be deleted. Then a new
+	 * SIF would be created, depending whether the input SIF is present in the list of nodes to be deleted
 	 * 
 	 * @param pathname
 	 *            the original SIF file to be read
@@ -723,22 +525,17 @@ public class SubgraphExtraction {
 				if (line.contains("\t")) {
 					String node1;
 					String node2;
-					// String edge;
 
-					String[] splittedString = line.split("[\\t]"); // splits the
-																	// line at
-																	// the tab
-																	// space
+					String[] splittedString = line.split("[\\t]"); // splits the line at the tab space
 					node1 = splittedString[0].trim();
-					// edge = splittedString[1].trim();
+
 					node2 = splittedString[2].trim();
 					// if the list of nodes to be kept contains the IDcyto read
 					// from the SIF, then pass it to the new SIF by printing it
 					if (nodeIDtobekept.contains(node1)
 							&& nodeIDtobekept.contains(node2)) {
 						writer.println(line);
-					} else // if list of nodes does not contain IDcyto to be
-							// kept,
+					} else // if list of nodes does not contain IDcyto to be kept,
 					{
 						// do nothing here, new SIF would not contain the line
 					}
@@ -756,8 +553,8 @@ public class SubgraphExtraction {
 	}
 
 	/**
-	 * This method checks the sif and the nodetype.na files to see if the node
-	 * is present, and if the node origins from a transcription event
+	 * This method checks the sif and the nodetype.na files to see if the node is present, and if the node origins from
+	 * a transcription event
 	 * 
 	 * @param nodename
 	 *            the node of interest
@@ -776,27 +573,17 @@ public class SubgraphExtraction {
 			reader = new BufferedReader(new FileReader(sifpath));
 			String line;
 			while ((line = reader.readLine()) != null) {
-				if (line.contains(nodename)) // if the line in the SIF contains
-												// the node
+				if (line.contains(nodename)) // if the line in the SIF contains the node
 				{
 					// recognises whole line where there is a tab space.
 					if (line.contains("\t")) {
 						String node1;
 						String node2;
-						// String edge;
 
-						String[] splittedString = line.split("[\\t]"); // splits
-																		// the
-																		// line
-																		// at
-																		// the
-																		// tab
-																		// space
+						String[] splittedString = line.split("[\\t]"); // splits the line at the tab space
 						node1 = splittedString[0].trim();
-						// edge = splittedString[1].trim();
 						node2 = splittedString[2].trim();
-						if (!node2.contains(":")) // if there is no ":", i.e.
-													// not family nor complex
+						if (!node2.contains(":")) // if there is no ":", i.e. not family nor complex
 						{
 							if (node2.contains(nodename)) {
 								if (isPrecursorNodeTranscription(node1,
@@ -826,8 +613,7 @@ public class SubgraphExtraction {
 	}
 
 	/**
-	 * This method checks if the node is of type transcription by checking the
-	 * nodetype.na file and returns true if so.
+	 * This method checks if the node is of type transcription by checking the nodetype.na file and returns true if so.
 	 * 
 	 * @param precursornode
 	 *            the node of interest
