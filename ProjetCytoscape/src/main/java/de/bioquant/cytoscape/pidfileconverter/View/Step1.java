@@ -27,8 +27,8 @@ public class Step1 extends JFrame {
 			"Output path/file (optional):");
 	private JLabel showMore = new JLabel("Show family & complex members:");
 
-	private JTextField inputTextField = new JTextField(20);
-	private JTextField outputTextField = new JTextField(20);
+	private JTextField inputTextField = new JTextField(30);
+	private JTextField outputTextField = new JTextField(30);
 
 	private JButton browseInputButton = new JButton("Browse");
 	private JButton browseOutputButton = new JButton("Browse");
@@ -191,7 +191,7 @@ public class Step1 extends JFrame {
 		// Set the frame
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("PIDtoSIftoGraph");
-		setSize(500, 300);
+		setSize(600, 300);
 		setLocationRelativeTo(null);
 		//setResizable(false); // To disable the possibility to change the size of the window
 		setVisible(true);

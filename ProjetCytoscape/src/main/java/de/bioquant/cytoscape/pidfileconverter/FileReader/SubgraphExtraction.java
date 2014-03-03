@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -44,6 +45,9 @@ public class SubgraphExtraction {
 	private ArrayList<CyNode> cytosourcesubgraph = new ArrayList<CyNode>();
 	private ArrayList<CyNode> cytotargetsubgraph = new ArrayList<CyNode>();
 	private ArrayList<String> nodeIDtobekept = new ArrayList<String>();
+
+	// regular expression of e.g. [P98170::Q13490::Q13489:]
+	private final static String regex1 = "(\\[*([POQ]\\d|A-Z\\d|A-Z\\d|A-Z\\d|A-Z\\d|A-Z).*)+";
 
 	/**
 	 * The constructor for this class. Mainframe is instantiated and defined.
@@ -192,15 +196,35 @@ public class SubgraphExtraction {
 										"Caution!", JOptionPane.PLAIN_MESSAGE);
 						return;
 					} else {
+						String otherID=l.trim(); //Check for the CytoID or the Entrezgene of each ID of the file
+						if (Pattern.matches(regex1, l.trim())) {
+							String uniprottogeneid = AffymetrixRegexReader
+									.getUniprottogeneidFullhashmap().get(l.trim());
+							if ((uniprottogeneid != null) && !uniprottogeneid.isEmpty()) {
+								otherID = uniprottogeneid;
+							}
+						}
+						else if (!Pattern.matches("pid",  l.trim()) && AffymetrixRegexReader
+								.getUniprottogeneidFullhashmap().containsValue(l.trim())){
+							for(String uniprotID : AffymetrixRegexReader
+									.getUniprottogeneidFullhashmap().keySet()){
+								if (AffymetrixRegexReader
+										.getUniprottogeneidFullhashmap().get(uniprotID).equals(l.trim())){
+									otherID = uniprotID;
+								}
+							}
+						}
 						if (isComingFromTranslation(l.trim(), sifpath,
-								nodetypefilepath)) // if l comes from a translation event
+								nodetypefilepath) || isComingFromTranslation(otherID, sifpath,
+										nodetypefilepath)) // if l comes from a translation event
 						{
 							for (int i = 0; i < cynodelist.size(); i++) {
 								if (!cynodelist.get(i).getIdentifier()
 										.contains(":")) // if cytoID doesntcontain ":" i.e. notfamily or complex
 								{
 									if (cynodelist.get(i).getIdentifier()
-											.contains(l.trim())) // if cytoIDcontains l, i.e. P10291@nucleus is possible
+											.contains(l.trim()) || cynodelist.get(i).getIdentifier()
+											.contains(otherID)) // if cytoIDcontains l, i.e. P10291@nucleus is possible
 									{
 										if (!cytotargetsubgraph
 												.contains(cynodelist.get(i))) // then add the cytoid to the target subgraph list
@@ -268,8 +292,27 @@ public class SubgraphExtraction {
 						for (int i = 0; i < cynodelist.size(); i++) {
 							if (step3.isIncludeComplexesChecked()) // if the checkbox is ticked
 							{
+								String otherID=l.trim(); //Check for the CytoID or the Entrezgene of each ID of the file
+								if (Pattern.matches(regex1, l.trim())) {
+									String uniprottogeneid = AffymetrixRegexReader
+											.getUniprottogeneidFullhashmap().get(l.trim());
+									if ((uniprottogeneid != null) && !uniprottogeneid.isEmpty()) {
+										otherID = uniprottogeneid;
+									}
+								}
+								else if (!Pattern.matches("pid",  l.trim()) && AffymetrixRegexReader
+										.getUniprottogeneidFullhashmap().containsValue(l.trim())){
+									for(String uniprotID : AffymetrixRegexReader
+											.getUniprottogeneidFullhashmap().keySet()){
+										if (AffymetrixRegexReader
+												.getUniprottogeneidFullhashmap().get(uniprotID).equals(l.trim())){
+											otherID = uniprotID;
+										}
+									}
+								}
 								if (cynodelist.get(i).getIdentifier()
-										.contains(l.trim())) // see if the string of UniProt is present in the CytoID
+										.contains(l.trim()) || cynodelist.get(i).getIdentifier()
+										.contains(otherID)) // see if the string of UniProt is present in the CytoID
 								{
 									if (!cytosourcesubgraph.contains(cynodelist
 											.get(i))) // add it to the subgraph list
@@ -284,8 +327,27 @@ public class SubgraphExtraction {
 								if (!cynodelist.get(i).getIdentifier()
 										.contains(":")) // if cytoID doesnt contain ":" i.e. not family or complex
 								{
+									String otherID=l.trim(); //Check for the CytoID or the Entrezgene of each ID of the file
+									if (Pattern.matches(regex1, l.trim())) {
+										String uniprottogeneid = AffymetrixRegexReader
+												.getUniprottogeneidFullhashmap().get(l.trim());
+										if ((uniprottogeneid != null) && !uniprottogeneid.isEmpty()) {
+											otherID = uniprottogeneid;
+										}
+									}
+									else if (!Pattern.matches("pid",  l.trim()) && AffymetrixRegexReader
+											.getUniprottogeneidFullhashmap().containsValue(l.trim())){
+										for(String uniprotID : AffymetrixRegexReader
+												.getUniprottogeneidFullhashmap().keySet()){
+											if (AffymetrixRegexReader
+													.getUniprottogeneidFullhashmap().get(uniprotID).equals(l.trim())){
+												otherID = uniprotID;
+											}
+										}
+									}
 									if (cynodelist.get(i).getIdentifier()
-											.contains(l.trim())) // if so, add the text to the subgraph list
+											.contains(l.trim()) || cynodelist.get(i).getIdentifier()
+											.contains(otherID))  // if so, add the text to the subgraph list
 									{
 										if (!cytosourcesubgraph
 												.contains(cynodelist.get(i))) {
@@ -355,8 +417,27 @@ public class SubgraphExtraction {
 
 							if (step3.isIncludeComplexesChecked()) // if the checkbox is ticked
 							{
+								String otherID=l.trim(); //Check for the CytoID or the Entrezgene of each ID of the file
+								if (Pattern.matches(regex1, l.trim())) {
+									String uniprottogeneid = AffymetrixRegexReader
+											.getUniprottogeneidFullhashmap().get(l.trim());
+									if ((uniprottogeneid != null) && !uniprottogeneid.isEmpty()) {
+										otherID = uniprottogeneid;
+									}
+								}
+								else if (!Pattern.matches("pid",  l.trim()) && AffymetrixRegexReader
+										.getUniprottogeneidFullhashmap().containsValue(l.trim())){
+									for(String uniprotID : AffymetrixRegexReader
+											.getUniprottogeneidFullhashmap().keySet()){
+										if (AffymetrixRegexReader
+												.getUniprottogeneidFullhashmap().get(uniprotID).equals(l.trim())){
+											otherID = uniprotID;
+										}
+									}
+								}
 								if (cynodelist.get(i).getIdentifier()
-										.contains(l.trim())) // see if the string of UniProt is present in the CytoID
+										.contains(l.trim()) || cynodelist.get(i).getIdentifier()
+										.contains(otherID))  // see if the string of UniProt is present in the CytoID
 								{
 									if (!cytotargetsubgraph.contains(cynodelist
 											.get(i))) // add it to the subgraph list
@@ -371,8 +452,27 @@ public class SubgraphExtraction {
 								if (!cynodelist.get(i).getIdentifier()
 										.contains(":")) // if cytoID doesnt contain ":" i.e. not family or complex
 								{
+									String otherID=l.trim(); //Check for the CytoID or the Entrezgene of each ID of the file
+									if (Pattern.matches(regex1, l.trim())) {
+										String uniprottogeneid = AffymetrixRegexReader
+												.getUniprottogeneidFullhashmap().get(l.trim());
+										if ((uniprottogeneid != null) && !uniprottogeneid.isEmpty()) {
+											otherID = uniprottogeneid;
+										}
+									}
+									else if (!Pattern.matches("pid",  l.trim()) && AffymetrixRegexReader
+											.getUniprottogeneidFullhashmap().containsValue(l.trim())){
+										for(String uniprotID : AffymetrixRegexReader
+												.getUniprottogeneidFullhashmap().keySet()){
+											if (AffymetrixRegexReader
+													.getUniprottogeneidFullhashmap().get(uniprotID).equals(l.trim())){
+												otherID = uniprotID;
+											}
+										}
+									}
 									if (cynodelist.get(i).getIdentifier()
-											.contains(l.trim())) // if so, add the text to the subgraph list
+											.contains(l.trim()) || cynodelist.get(i).getIdentifier()
+											.contains(otherID))  // if so, add the text to the subgraph list
 									{
 										if (!cytotargetsubgraph
 												.contains(cynodelist.get(i))) {

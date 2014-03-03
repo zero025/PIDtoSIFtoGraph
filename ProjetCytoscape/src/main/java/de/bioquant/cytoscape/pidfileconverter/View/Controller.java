@@ -111,6 +111,7 @@ public class Controller extends JFrame implements ActionListener {
 	 */
 	public Controller(Step2 step2) {
 		Controller.step2 = step2;
+		
 	}
 	
 	/**
@@ -120,6 +121,16 @@ public class Controller extends JFrame implements ActionListener {
 	 */
 	public Controller(Step3 step3) {
 		Controller.step3 = step3;
+		// load up the static hashmap uniprotToGeneID if it has not been done yet.
+		//Used to match uniprotID and EntrezGeneID in the files of source and target molecules.
+		if (AffymetrixRegexReader.getUniprottogeneidFullhashmap().size() == 0){
+			try {
+				AffymetrixRegexReader.makeHashMapUniProtToGeneID();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 

@@ -918,6 +918,7 @@ public class AffymetrixRegexReader {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
 			}
 		}
 
@@ -945,8 +946,6 @@ public class AffymetrixRegexReader {
 		} else {
 			for (int i = 0; i < cynodelist.size(); i++) {
 				if (cynodelist.get(i).getIdentifier().equals(nodename)) {
-					// cynetwork.removeNode(cynodelist.get(i).getRootGraphIndex(),
-					// true);
 					nodeIDtobedeleted.add(cynodelist.get(i).toString());
 					counter++;
 				}
