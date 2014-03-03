@@ -27,10 +27,10 @@ public class Step3 extends JFrame {
 	private JLabel targetTitleLabel = new JLabel("Target:");
 	private JLabel geneLabel = new JLabel("Genes (UniprotID/EntrezGeneID):");
 	private JLabel sourceLabel = new JLabel(
-			"Sources molecules (UniprotID/EntrezGeneID):");
+			"Signaling molecules (UniprotID/EntrezGeneID):");
 	private JLabel cytoLabel = new JLabel("CytoIDs:");
 	private JLabel includeLabel = new JLabel(
-			"Include signalling molecules within nodes of protein complex and protein families:");
+			"Include signaling molecules within nodes of protein complex and protein families:");
 
 	private JTextField geneTargetTextField = new JTextField(20);
 	private JTextField sourceSourceTextField = new JTextField(20);

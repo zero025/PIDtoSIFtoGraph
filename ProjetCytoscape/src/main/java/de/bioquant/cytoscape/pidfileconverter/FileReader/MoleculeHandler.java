@@ -95,6 +95,14 @@ public class MoleculeHandler {
 					currentMolecule.setPreferredSymbol(value);
 					return;
 				}
+				if (name_type.equals("AS") && long_name.equals("alias") && (currentMolecule.getPreferredSymbol() ==null || currentMolecule.getPreferredSymbol().equals(""))) {
+					currentMolecule.setPreferredSymbol(value);
+					return;
+				}
+				if (name_type.equals("OF") && long_name.equals("official symbol") && (currentMolecule.getPreferredSymbol() == null || currentMolecule.getPreferredSymbol().equals(""))) {
+					currentMolecule.setPreferredSymbol(value);
+					return;
+				}
 			}
 
 		}
