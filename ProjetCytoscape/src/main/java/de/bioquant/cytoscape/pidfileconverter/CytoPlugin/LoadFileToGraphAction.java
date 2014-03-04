@@ -24,7 +24,7 @@ public class LoadFileToGraphAction extends CytoscapeAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		App app = new App();
+		App app = App.getInstance();
 		try {
 			app.run();
 		} catch (Exception e) {

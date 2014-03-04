@@ -51,18 +51,20 @@ public class ProcessSubgraph extends AbstractProcess {
 
 			SubgraphExtraction sgex;
 
-			JOptionPane.showMessageDialog(new JFrame(),
-					"The subgraph extraction will be created", "Info",
-					JOptionPane.INFORMATION_MESSAGE);
+			//For the debugging of the .jar
+			//JOptionPane.showMessageDialog(new JFrame(),
+			//		"The subgraph extraction will be created", "Info",
+			//		JOptionPane.INFORMATION_MESSAGE);
 
 			// Blocage ici avec le .jar
 			sgex = new SubgraphExtraction(step3);
 			// Test for .jar file :
 			// sgex=new SubgraphExtraction();
 
-			JOptionPane.showMessageDialog(new JFrame(),
-					"The subgraph extraction will begin", "Info",
-					JOptionPane.INFORMATION_MESSAGE);
+			//For the debugging of the .jar
+			//JOptionPane.showMessageDialog(new JFrame(),
+			//		"The subgraph extraction will begin", "Info",
+			//		JOptionPane.INFORMATION_MESSAGE);
 
 			// sgex.readGeneSourceFile();
 			sgex.readGeneTargetFile(currentNetworkFilepath,

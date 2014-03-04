@@ -14,8 +14,19 @@ import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 
 public class AppWithStatAndRules extends AbstractApp {
 
+	private static AppWithStatAndRules instance=null;
+
+	private AppWithStatAndRules(){}
+	
+	public static AppWithStatAndRules getInstance(){
+		if (null==instance) {
+			instance=new AppWithStatAndRules();
+		}
+		return instance;
+	}
+	
 	public static void main( String[] args ) throws Exception {
-		AppWithStatAndRules app=new AppWithStatAndRules();
+		AppWithStatAndRules app=AppWithStatAndRules.getInstance();
 		app.run();
 	}
 

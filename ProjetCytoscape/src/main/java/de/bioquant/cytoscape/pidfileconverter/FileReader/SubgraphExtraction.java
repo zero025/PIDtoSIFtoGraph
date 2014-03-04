@@ -53,8 +53,10 @@ public class SubgraphExtraction {
 	 * The constructor for this class. Mainframe is instantiated and defined.
 	 */
 	public SubgraphExtraction(Step3 step3) {
-		JOptionPane.showMessageDialog(new JFrame(), "Beginning constructor",
-				"Success", JOptionPane.INFORMATION_MESSAGE);
+		
+		// For the debugging of the .jar :
+		//JOptionPane.showMessageDialog(new JFrame(), "Beginning constructor",
+		//		"Success", JOptionPane.INFORMATION_MESSAGE);
 
 		this.step3 = step3;
 

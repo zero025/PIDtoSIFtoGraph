@@ -15,10 +15,16 @@ import de.bioquant.cytoscape.pidfileconverter.View.Step1;
 
 public abstract class AbstractApp {
 	private Controller controller;
+	private Step1 step1;
 
 	public void run() throws Exception
 	{
-		Step1 step1 = new Step1(controller);
+		if (step1 == null){
+			step1 = new Step1(controller);
+		}
+		else{
+			step1.setVisible(true);
+		}
 	}
 
 	public abstract void extraOutput(BufferedReader reader,
