@@ -26,7 +26,8 @@ public class Step1 extends JFrame {
 	private JLabel outputFilenameLabel = new JLabel(
 			"Output path/file (optional):");
 	private JLabel showMore = new JLabel("Show family & complex members:");
-
+	private JLabel hierachicalLabel = new JLabel("Hierarchical graph:");
+	
 	private JTextField inputTextField = new JTextField(30);
 	private JTextField outputTextField = new JTextField(30);
 
@@ -38,12 +39,14 @@ public class Step1 extends JFrame {
 	private JButton quit = new JButton("Quit");
 
 	private JCheckBox showMoreCheckBox = new JCheckBox();
-
+	private JCheckBox hierarchicalCheckBox = new JCheckBox();
+	
 	public Step1(Controller controller) throws Exception {
 
 		controller = new Controller(this);
 
 		showMore.setFont(new Font("Arial", Font.ITALIC, 10));
+		hierachicalLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		titleLabel.setFont(new Font("Arial", Font.BOLD, 12));
 		
 		panel.setLayout(new GridBagLayout());
@@ -108,18 +111,25 @@ public class Step1 extends JFrame {
 		c.gridy = 3;
 		topPanel.add(showMore, c);
 
-		// adding the checkbox to topPanel
-		c.gridwidth = 1;
-		c.anchor = GridBagConstraints.LINE_START;
-		c.insets = new Insets(15, 15, 0, 0);
+		// adding the showmore checkbox to topPanel
 		c.gridx = 1;
 		topPanel.add(showMoreCheckBox, c);
 
+		// adding the hierarchical label to topPanel
+		c.gridx = 0;
+		c.gridy = 4;
+		topPanel.add(hierachicalLabel, c);
+
+		// adding the hierarchical checkbox to topPanel
+		hierarchicalCheckBox.setSelected(true);
+		c.gridx = 1;
+		topPanel.add(hierarchicalCheckBox, c);
+		
 		// adding the convertButton to topPanel
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.anchor = GridBagConstraints.CENTER;
 		c.gridx = 0;
-		c.gridy = 4;
+		c.gridy = 5;
 		c.ipady = 10;
 		c.ipadx = 10;
 		c.insets = new Insets(30, 0, 30, 0);
@@ -191,7 +201,7 @@ public class Step1 extends JFrame {
 		// Set the frame
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("PIDtoSIftoGraph");
-		setSize(600, 300);
+		setSize(600, 400);
 		setLocationRelativeTo(null);
 		//setResizable(false); // To disable the possibility to change the size of the window
 		setVisible(true);
@@ -231,6 +241,10 @@ public class Step1 extends JFrame {
 		return showMoreCheckBox.isSelected();
 	}
 
+	public boolean isHierarchicalChecked() {
+		return hierarchicalCheckBox.isSelected();
+	}
+	
 	public void setInputTextField(JTextField inputTextField) {
 		this.inputTextField = inputTextField;
 	}

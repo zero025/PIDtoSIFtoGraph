@@ -38,8 +38,6 @@ public class SplashFrame extends JFrame {
 		setTitle("Please Wait a Moment...");
 		setLocationRelativeTo(null); 
 		setSize(500, 200);
-		setResizable(false);
-
 
 		label = new JLabel("Please wait for processing. This window closes automatically.");
 		add(label,  BorderLayout.CENTER);

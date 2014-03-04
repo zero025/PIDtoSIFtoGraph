@@ -170,7 +170,7 @@ public class Step2 extends JFrame {
 		// Set the frame
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("PIDtoSIftoGraph");
-		setSize(600, 300);
+		setSize(600, 400);
 		setLocationRelativeTo(null);
 		//setResizable(false); // To disable the possibility to change the size of the window
 		setVisible(true);

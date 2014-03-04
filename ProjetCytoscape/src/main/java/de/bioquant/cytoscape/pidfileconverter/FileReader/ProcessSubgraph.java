@@ -94,7 +94,8 @@ public class ProcessSubgraph extends AbstractProcess {
 																			// file
 
 				// load the VIZMAP props file
-				controller.mapVisually(VIZMAP_PROPS_FILE_NAME);
+				//TODO : add a checkbox to ask if the user wants to have a hierarchical graph
+				controller.mapVisually(VIZMAP_PROPS_FILE_NAME, null);
 				JOptionPane.showMessageDialog(new JFrame(),
 						"Subgraph successful! Files converted are located in the directory:"
 								+ "\n" + targetsubgraphedSIFpath, "Success",

@@ -100,7 +100,8 @@ public class ProcessIllumina extends AbstractProcess {
 			illuminaFrame
 					.setTitle("Network loaded, now loading visualisation...");
 			// load the VIZMAP props file
-			controller.mapVisually(VIZMAP_PROPS_FILE_NAME);
+			//TODO : add a checkbox to ask if the user wants to have a hierarchical graph
+			controller.mapVisually(VIZMAP_PROPS_FILE_NAME, null);
 
 			// change the title of the splash frame
 			illuminaFrame

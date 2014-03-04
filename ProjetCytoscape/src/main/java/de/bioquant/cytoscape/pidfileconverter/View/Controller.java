@@ -668,22 +668,27 @@ public class Controller extends JFrame implements ActionListener {
 	 * @param s
 	 *            the name of the vizmap property file
 	 */
-	public void mapVisually(String s) {
+	public void mapVisually(String s, Step1 step1) {
+
 		// load the vizmap file
 		Cytoscape.firePropertyChange(Cytoscape.VIZMAP_LOADED, null, s);
+
 		VisualStyle vs = Cytoscape.getVisualMappingManager()
 				.getCalculatorCatalog().getVisualStyle("netView");
-		Cytoscape.getCurrentNetworkView().setVisualStyle(vs.getName()); // not
-																		// strictly
-																		// necessary
+
+		Cytoscape.getCurrentNetworkView().setVisualStyle(vs.getName()); // not strictly  necessary
 
 		// actually apply the visual style
 		Cytoscape.getVisualMappingManager().setVisualStyle(vs);
+
 		Cytoscape.getCurrentNetworkView().redrawGraph(true, true);
 
-		// TODO: should ask user whether he wants this? set the layout as
-		// hierarchical
-		CyLayouts.getLayout("hierarchical").doLayout();
+		// If the user wants it, and if it is possible (depending on the code of cytoscape), 
+		//set the layout as hierarchical
+		if (step1 != null && step1.isHierarchicalChecked()){
+			CyLayouts.getLayout("hierarchical").doLayout();
+		}
+		
 		if (Cytoscape.getCurrentNetwork().getNodeCount() < 1000) {
 			// TODO: sometimes rotating the graph causes some crash errors. thus
 			// only rotate if hierarchichal layout!
@@ -867,7 +872,8 @@ public class Controller extends JFrame implements ActionListener {
 			}
 
 		} else if (inputfilepath.endsWith("sif")) {
-
+			sp.getBar().setValue(85);
+			
 		} else // not an xml or SIF file
 		{
 			JOptionPane

@@ -89,7 +89,7 @@ public class AffymetrixRegexReader {
 	 */
 	public static void readAndWriteFiles(String filename, String firstfilepath, String secondfilepath,
 			String thirdfilepath, String fourthfilepath, SplashFrame sp, AbstractProcess process) throws IOException {
-
+		
 		BufferedReader reader = null;
 		try {
 			

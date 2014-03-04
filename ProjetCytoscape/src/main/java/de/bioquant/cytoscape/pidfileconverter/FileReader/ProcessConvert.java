@@ -104,9 +104,9 @@ public class ProcessConvert extends AbstractProcess {
 			// change the title of the splash frame
 			convertFrame
 					.setTitle("Network loaded, now loading visualisation...");
-
+			
 			// load the VIZMAP props file
-			controller.mapVisually(VIZMAP_PROPS_FILE_NAME);
+			controller.mapVisually(VIZMAP_PROPS_FILE_NAME, step1);
 			
 			// read the nodetype file and then parse it accordingly,
 			// generating the 3 targetfiles
