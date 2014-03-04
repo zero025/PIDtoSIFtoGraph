@@ -934,10 +934,7 @@ public class Controller extends JFrame implements ActionListener {
 		String filepath = "";
 		try {
 			// JFileChooser fc = new JFileChooser(".");
-			fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // select
-																			// directories
-																			// or
-																			// files
+			fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // select directories or files
 			fc.setDialogTitle("Please choose a directory to save the converted file(s)");
 			fc.setCurrentDirectory(currentDirectory);
 
@@ -945,14 +942,22 @@ public class Controller extends JFrame implements ActionListener {
 					"SIF", "sif");
 			fc.addChoosableFileFilter(sifdata);
 
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
-														// file browser
-			// get name und path
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
+			
+			// get name and path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				
+				//Adapt the separator in the path, according to the operating system : / for Linux and Mac, \ for Windows.
+				String separator;
+				if (System.getProperty("os.name").contains("Windows")){
+					separator = "\\";
+				}else{
+					separator = "/";
+				}
+				
 				// if the selected is a directory
 				if (fc.getSelectedFile().isDirectory()) {
-					// get the absolute path of the directory in which the file
-					// lies
+					// get the absolute path of the directory in which the file lies
 					filepath = fc.getSelectedFile().getAbsolutePath();
 					// split the file name
 					String[] temporarypath = curFile.getName().split(".xml");
@@ -962,54 +967,54 @@ public class Controller extends JFrame implements ActionListener {
 							temporarypath[0].concat(".sif")));
 
 					// set the target node type NA path
-					setTargetNODE_TYPEpath(filepath.concat("\\").concat(
+					setTargetNODE_TYPEpath(filepath.concat(separator).concat(
 							temporarypath[0].concat(".NODE_TYPE.NA")));
 
 					// set the target uniprot NA path
-					setTargetUNIPROTpath(filepath.concat("\\").concat(
+					setTargetUNIPROTpath(filepath.concat(separator).concat(
 							temporarypath[0].concat(".UNIPROT.NA")));
 
 					// set the target entrezGene NA path
-					setTargetENTREZGENEpath(filepath.concat("\\").concat(
+					setTargetENTREZGENEpath(filepath.concat(separator).concat(
 							temporarypath[0].concat(".ENTREZGENE.NA")));
 
 					// set the target MODIFICATIONS NA path
-					setTargetMODIFICATIONSpath(filepath.concat("\\").concat(
+					setTargetMODIFICATIONSpath(filepath.concat(separator).concat(
 							temporarypath[0].concat(".MODIFICATIONS.NA")));
 
 					// set the target PREFERRED_SYMBOLpath NA path
-					setTargetPREFERRED_SYMBOLpath(filepath.concat("\\").concat(
+					setTargetPREFERRED_SYMBOLpath(filepath.concat(separator).concat(
 							temporarypath[0].concat(".PREFERRED_SYMBOL.NA")));
 
 					// set the target PREFERRED_SYMBOL_EXTpath NA path
-					setTargetPREFERRED_SYMBOL_EXTpath(filepath.concat("\\")
+					setTargetPREFERRED_SYMBOL_EXTpath(filepath.concat(separator)
 							.concat(temporarypath[0]
 									.concat(".PREFERRED_SYMBOL_EXT.NA")));
 
 					// set the target PID NA path
-					setTargetPIDpath(filepath.concat("\\").concat(
+					setTargetPIDpath(filepath.concat(separator).concat(
 							temporarypath[0].concat(".PID.NA")));
 
 					// set the target ID_PREF NA path
-					setTargetID_PREFpath(filepath.concat("\\").concat(
+					setTargetID_PREFpath(filepath.concat(separator).concat(
 							temporarypath[0].concat(".ID_PREF.NA")));
 
 					// set the CytoIDtoIDFile path
-					setTargetCytoIDtoIDFilepath(filepath.concat("\\").concat(
+					setTargetCytoIDtoIDFilepath(filepath.concat(separator).concat(
 							temporarypath[0].concat(".CytoIDToID.NA")));
 
 					// set the UniqueIDFile path
-					setTargetUniqueIDFilepath(filepath.concat("\\").concat(
+					setTargetUniqueIDFilepath(filepath.concat(separator).concat(
 							temporarypath[0].concat(".UNIQUEID.NA")));
 
 					// set the UniProt to GeneID map file path
-					setTargetUniProtToGeneIDMapFilepath(filepath.concat("\\")
+					setTargetUniProtToGeneIDMapFilepath(filepath.concat(separator)
 							.concat(temporarypath[0]
 									.concat(".UPToGeneIDMap.NA")));
 
 					// set the GeneID to Affymetrix map file path
 					setTargetGeneIDtoAffymetrixMapFilepath(filepath
-							.concat("\\").concat(
+							.concat(separator).concat(
 									temporarypath[0]
 											.concat(".GeneIDToAffyMap.NA")));
 
@@ -1021,60 +1026,60 @@ public class Controller extends JFrame implements ActionListener {
 					String[] temporarypath = curFile.getName().split(".xml");
 
 					// set the target SIF path
-					setTargetSIFpath(filedirectory.concat("\\")
+					setTargetSIFpath(filedirectory.concat(separator)
 							.concat(temporarypath[0]).concat(".sif"));
 
 					// set the target node type NA path
-					setTargetNODE_TYPEpath(filedirectory.concat("\\")
+					setTargetNODE_TYPEpath(filedirectory.concat(separator)
 							.concat(temporarypath[0]).concat(".NODE_TYPE.NA"));
 
 					// set the target uniprot NA path
-					setTargetUNIPROTpath(filedirectory.concat("\\")
+					setTargetUNIPROTpath(filedirectory.concat(separator)
 							.concat(temporarypath[0]).concat(".UNIPROT.NA"));
 
 					// set the target entrezGene NA path
-					setTargetENTREZGENEpath(filedirectory.concat("\\")
+					setTargetENTREZGENEpath(filedirectory.concat(separator)
 							.concat(temporarypath[0]).concat(".ENTREZGENE.NA"));
 
 					// set the target MODIFICATIONS NA path
-					setTargetMODIFICATIONSpath(filedirectory.concat("\\")
+					setTargetMODIFICATIONSpath(filedirectory.concat(separator)
 							.concat(temporarypath[0])
 							.concat(".MODIFICATIONS.NA"));
 
 					// set the target PREFERRED_SYMBOLpath NA path
-					setTargetPREFERRED_SYMBOLpath(filedirectory.concat("\\")
+					setTargetPREFERRED_SYMBOLpath(filedirectory.concat(separator)
 							.concat(temporarypath[0])
 							.concat(".PREFERRED_SYMBOL.NA"));
 
 					// set the target PREFERRED_SYMBOL_EXTpath NA path
 					setTargetPREFERRED_SYMBOL_EXTpath(filedirectory
-							.concat("\\").concat(temporarypath[0])
+							.concat(separator).concat(temporarypath[0])
 							.concat(".PREFERRED_SYMBOL_EXT.NA"));
 
 					// set the target PID NA path
-					setTargetPIDpath(filedirectory.concat("\\")
+					setTargetPIDpath(filedirectory.concat(separator)
 							.concat(temporarypath[0]).concat(".PID.NA"));
 
 					// set the target ID_PREF NA path
-					setTargetID_PREFpath(filedirectory.concat("\\")
+					setTargetID_PREFpath(filedirectory.concat(separator)
 							.concat(temporarypath[0]).concat(".ID_PREF.NA"));
 
 					// set the CytoIDtoIDFile path
-					setTargetCytoIDtoIDFilepath(filedirectory.concat("\\")
+					setTargetCytoIDtoIDFilepath(filedirectory.concat(separator)
 							.concat(temporarypath[0].concat(".CytoIDToID.NA")));
 
 					// set the UniqueIDFile path
-					setTargetUniqueIDFilepath(filedirectory.concat("\\")
+					setTargetUniqueIDFilepath(filedirectory.concat(separator)
 							.concat(temporarypath[0].concat(".UNIQUEID.NA")));
 
 					// set the UniProt to GeneID map file path
 					setTargetUniProtToGeneIDMapFilepath(filedirectory.concat(
-							"\\").concat(
+							separator).concat(
 							temporarypath[0].concat(".UPToGeneIDMap.NA")));
 
 					// set the GeneID to Affymetrix map file path
 					setTargetGeneIDtoAffymetrixMapFilepath(filedirectory
-							.concat("\\").concat(
+							.concat(separator).concat(
 									temporarypath[0]
 											.concat(".GeneIDToAffyMap.NA")));
 				}
