@@ -336,7 +336,7 @@ public class Controller extends JFrame implements ActionListener {
 			JOptionPane
 					.showMessageDialog(
 							new JFrame(),
-							"Please input two files in barcode format, one for the experiment, the other the control."
+							"Please input 2 files in barcode format (http://barcode.luhs.org/), one for the experiment, the other the control."
 									+ "\n"
 									+ "An example of the barcode format:"
 									+ "\n"
@@ -386,14 +386,10 @@ public class Controller extends JFrame implements ActionListener {
 			JOptionPane
 					.showMessageDialog(
 							new JFrame(),
-							"Please input a .csv Illumina file, and the name of two experiments."
-									+ "\n"
-									+ "A Illumina condition file has lots of columns."
-									+ "\n"
-									+ "In the \"DD\" column you should find the EntrezGeneID"
-									+ "\n"
-									+ "The columns from \"C\" to \"CT\" are conditions, with several sets of .mean, .sd, .p and .nbeads columns"
-									+ "An example of experiment name is  : My4 6 P_5753685072_B.",
+							"The Illumina file should contain a column named \"EntrezGeneID\""
+							+"An Illumina condition is described by many columns: experiment.mean, experiment.sd, experiment.p, experiment.nbeads"
+							+"An example of a extract of a normalized Illumina file with 2 experiments can be found at:" 
+							+"https://sites.google.com/site/caritoguziolowski/interesting-sof/example_illuminaExp.csv?attredirects=0&d=1",
 							"Help", JOptionPane.INFORMATION_MESSAGE);
 		}
 		// if user runs the convert button

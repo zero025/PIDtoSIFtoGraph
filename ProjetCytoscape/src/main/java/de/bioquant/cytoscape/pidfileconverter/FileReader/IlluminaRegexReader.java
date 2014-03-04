@@ -58,24 +58,40 @@ public class IlluminaRegexReader {
 			// First line
 			String line = reader.readLine();
 			String[] conditionsNames = line.split("\t");
+			
+			//Find the columns with the conditions and the one with entrez gene ID
+			int indexEntrezGene=-1;
+			int endOfConditions=-1;
+			for (int i=2;i<conditionsNames.length;i++){
+				if (conditionsNames[i].equals("\"TargetID\"")){
+					endOfConditions = i;
+				}
+				else if (conditionsNames[i].equals("\"Entrez_Gene_ID\"")){
+					indexEntrezGene = i;
+					break;
+				}
+			}
+			if (indexEntrezGene == -1 || endOfConditions == -1)
+			{
+				JOptionPane.showMessageDialog(
+						new JFrame(),
+						"The illumina file does not match the expected structure. Aborting the process.",
+						"Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 
 			while ((line = reader.readLine()) != null) {
 				String geneIDvalue;
 				ArrayList<Float> conditionsMeans = new ArrayList<Float>();
 				ArrayList<Float> conditionsP = new ArrayList<Float>();
-				String[] splittedString = line.split("\t"); // splits the line
-															// at the tab sign;
-															// also force split
-															// into 2 parts only
-				// The "DD" column corresponds to the GeneID : 26*4+4=108
+				String[] splittedString = line.split("\t"); // splits the line at the tab sign;
+				// also force split  into 2 parts only
+				if (splittedString.length > indexEntrezGene){
+					geneIDvalue = splittedString[indexEntrezGene].trim();
 
-				if (splittedString.length > 107) {
-					geneIDvalue = splittedString[107].trim();
-					// The conditions are from column "C" to "CT" : from 3 to
-					// 26*2+20=72. We keep the ".mean" and ".p" values : first
-					// and third values
-					// of each set of four columns
-					for (int i = 2; i < 72; i += 4) {
+					// We keep the ".mean" and ".p" values : first and third values of each of each set of four columns,
+					// corresponding to an experiment
+					for (int i = 2; i < endOfConditions; i += 4) {
 						if ((inputCondition1Text.equals("") && inputCondition2Text
 								.equals(""))
 								|| condition1.equals(conditionsNames[i].trim())
@@ -107,11 +123,10 @@ public class IlluminaRegexReader {
 			}
 
 		} catch (IOException e) {
-			JOptionPane
-					.showMessageDialog(
-							new JFrame(),
-							"File read exception in field 'Control'. Make sure you have selected a valid Illumina formatted file",
-							"Warning", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(
+					new JFrame(),
+					"File read exception in field 'Control'. Make sure you have selected a valid Illumina formatted file",
+					"Warning", JOptionPane.WARNING_MESSAGE);
 		} finally {
 			if (reader != null) {
 				reader.close();
