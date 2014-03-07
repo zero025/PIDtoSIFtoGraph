@@ -1,3 +1,9 @@
+/**
+ * This class represents one Uniprot ID. It handles also the part molecules which have the same ID like their parent
+ * 
+ * @author Florian Dittmann
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.Model;
 
 import java.util.HashMap;
@@ -5,11 +11,6 @@ import java.util.Map;
 
 import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidArgumentException;
 
-/**
- * This class represents one Uniprot ID. It handles also the part molecules which have the same ID like their parent
- * 
- * @author Florian Dittmann
- */
 public class UniprotID {
 
 	private String id;

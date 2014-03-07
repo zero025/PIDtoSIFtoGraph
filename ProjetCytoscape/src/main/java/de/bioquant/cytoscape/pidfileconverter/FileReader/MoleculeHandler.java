@@ -1,4 +1,5 @@
 /**
+ * Creates the molecule nodes from the loaded PID
  * @author Florian Dittmann
  * @contributor Yamei & Thomas
  */
@@ -40,7 +41,6 @@ public class MoleculeHandler {
 	private InteractionComponentManager intCompMan;
 
 	private MoleculeNode currentMolecule = null;
-	// private MultipleMoleculeNode currMulMolNode = null;
 	private Map<String, Collection<CompMolMember>> familyMembers = new HashMap<String, Collection<CompMolMember>>();
 	private Map<String, Collection<CompMolMember>> complexComponents = new HashMap<String, Collection<CompMolMember>>();
 
@@ -59,7 +59,8 @@ public class MoleculeHandler {
 
 	private ModificationManager modificationManager;
 
-	public MoleculeHandler(MoleculeNodeManager mManager, ModificationManager modificationManager,
+	public MoleculeHandler(MoleculeNodeManager mManager,
+			ModificationManager modificationManager,
 			InteractionComponentManager intCompMan) {
 		super();
 		this.mManager = mManager;
@@ -76,51 +77,76 @@ public class MoleculeHandler {
 		memHasModification = false;
 	}
 
-	public void handleName(Attributes atts) throws InvalidUniProtId, InvalidEntrezGeneId, UnknownOntologyException,
+	/**
+	 * Handle the name of the molecule
+	 * @param atts
+	 * @throws InvalidUniProtId
+	 * @throws InvalidEntrezGeneId
+	 * @throws UnknownOntologyException
+	 * @throws InconsistentOntologyException
+	 * @throws InvalidArgumentException
+	 */
+	public void handleName(Attributes atts) throws InvalidUniProtId,
+			InvalidEntrezGeneId, UnknownOntologyException,
 			InconsistentOntologyException, InvalidArgumentException {
-		if (PidTags.MOLECULELIST.isIn() && PidTags.MOLECULE.isIn() && PidTags.NAME.isIn()) {
+		if (PidTags.MOLECULELIST.isIn() && PidTags.MOLECULE.isIn()
+				&& PidTags.NAME.isIn()) {
 			String name_type = atts.getValue("name_type");
 			String long_name = atts.getValue("long_name_type");
 			if (name_type != null && long_name != null) {
 				String value = atts.getValue("value");
 				if (name_type.equals("UP") && long_name.equals("UniProt")) {
 					handleUniProtId(value);
-					return;
-				}
-				if (name_type.equals("LL") && long_name.equals("EntrezGene")) {
+				} else if (name_type.equals("LL")
+						&& long_name.equals("EntrezGene")) {
 					handleEntrezGeneId(value);
-					return;
-				}
-				if (name_type.equals("PF") && long_name.equals("preferred symbol")) {
+				} else if (name_type.equals("PF")
+						&& long_name.equals("preferred symbol")) {
 					currentMolecule.setPreferredSymbol(value);
-					return;
-				}
-				if (name_type.equals("AS") && long_name.equals("alias") && (currentMolecule.getPreferredSymbol() ==null || currentMolecule.getPreferredSymbol().equals(""))) {
+				} else if (name_type.equals("AS")
+						&& long_name.equals("alias")
+						&& (currentMolecule.getPreferredSymbol() == null || currentMolecule
+								.getPreferredSymbol().equals(""))) {
 					currentMolecule.setPreferredSymbol(value);
-					return;
-				}
-				if (name_type.equals("OF") && long_name.equals("official symbol") && (currentMolecule.getPreferredSymbol() == null || currentMolecule.getPreferredSymbol().equals(""))) {
+				} else if (name_type.equals("OF")
+						&& long_name.equals("official symbol")
+						&& (currentMolecule.getPreferredSymbol() == null || currentMolecule
+								.getPreferredSymbol().equals(""))) {
 					currentMolecule.setPreferredSymbol(value);
-					return;
 				}
 			}
-
 		}
 	}
 
-	public void handleUniProtId(final String value) throws UnknownOntologyException, InconsistentOntologyException,
+	/**
+	 * Handle the uniprot id
+	 * @param value
+	 * @throws UnknownOntologyException
+	 * @throws InconsistentOntologyException
+	 * @throws InvalidUniProtId
+	 */
+	public void handleUniProtId(final String value)
+			throws UnknownOntologyException, InconsistentOntologyException,
 			InvalidUniProtId {
 		if (currentMolecule.isProtein() || currentMolecule.isRna()) {
 
 			if (value.matches("[P,Q,O]......*")) {
 				this.hasUniprot = true;
 				this.uniprot = value.substring(0, 6);
-				// this.uniprot=value;
 			}
 		}
 	}
 
-	public void handleEntrezGeneId(final String value) throws UnknownOntologyException, InconsistentOntologyException,
+	/**
+	 * Handle the entrez gene id
+	 * @param value
+	 * @throws UnknownOntologyException
+	 * @throws InconsistentOntologyException
+	 * @throws InvalidUniProtId
+	 * @throws InvalidEntrezGeneId
+	 */
+	public void handleEntrezGeneId(final String value)
+			throws UnknownOntologyException, InconsistentOntologyException,
 			InvalidUniProtId, InvalidEntrezGeneId {
 		if (currentMolecule.isProtein() || currentMolecule.isRna()) {
 			if (value.matches("([0-9])+")) {
@@ -129,9 +155,15 @@ public class MoleculeHandler {
 			}
 		}
 	}
-
+	
+	/**
+	 * Handle the members of a family
+	 * @param atts
+	 * @throws InvalidIdException
+	 */
 	public void handleMember(Attributes atts) throws InvalidIdException {
-		if (PidTags.MOLECULE.isIn() && PidTags.FAMILYMEMBERLIST.isIn() && PidTags.MEMBER.isIn()) {
+		if (PidTags.MOLECULE.isIn() && PidTags.FAMILYMEMBERLIST.isIn()
+				&& PidTags.MEMBER.isIn()) {
 
 			String id = atts.getValue("member_molecule_idref");
 			member = new InteractionComponentImpl(MoleculeNode.PREFIX + id);
@@ -145,9 +177,9 @@ public class MoleculeHandler {
 			String pid = member.getFullPid();
 			Modification modification = memModification.getModification();
 			if (modificationManager.containsModification(pid, modification)) {
-				memModification.setModification(modificationManager.getEqualModification(pid, modification));
-			}
-			else {
+				memModification.setModification(modificationManager
+						.getEqualModification(pid, modification));
+			} else {
 				modificationManager.addModificationforPid(pid, modification);
 			}
 			this.member.setModification(memModification);
@@ -156,7 +188,6 @@ public class MoleculeHandler {
 	}
 
 	public void handleMoleculeEnd() throws InvalidArgumentException {
-
 		mManager.addMolecule(currentMolecule);
 		if (hasUniprot) {
 			currentMolecule.setUniProdID(uniprot, partMolecule);
@@ -171,7 +202,8 @@ public class MoleculeHandler {
 			this.resetMoleculeStates();
 			String type = atts.getValue("molecule_type");
 			String id = atts.getValue("id");
-			final Ontology onto = OntologyManager.getInstance().getOntology(MoleculeTypeOntology.NAME);
+			final Ontology onto = OntologyManager.getInstance().getOntology(
+					MoleculeTypeOntology.NAME);
 			MoleculeNode molNode = new MoleculeNode(MoleculeNode.PREFIX + id);
 			OntologyElement molType = onto.getElement(type);
 			if (null != molType) {
@@ -182,7 +214,8 @@ public class MoleculeHandler {
 	}
 
 	public void handlePart(Attributes atts) throws InvalidArgumentException {
-		if (PidTags.MOLECULELIST.isIn() && PidTags.MOLECULE.isIn() && PidTags.PART.isIn()) {
+		if (PidTags.MOLECULELIST.isIn() && PidTags.MOLECULE.isIn()
+				&& PidTags.PART.isIn()) {
 			partMolecule = true;
 			String parent = atts.getValue("whole_molecule_idref");
 			String start = atts.getValue("start");
@@ -211,7 +244,8 @@ public class MoleculeHandler {
 		return familyMembers;
 	}
 
-	private boolean addFamilyMemberForMolecule(String parentID, CompMolMember member) {
+	private boolean addFamilyMemberForMolecule(String parentID,
+			CompMolMember member) {
 		Collection<CompMolMember> members;
 		if (!this.familyMembers.containsKey(parentID)) {
 			members = new ArrayList<CompMolMember>();
@@ -222,7 +256,8 @@ public class MoleculeHandler {
 		return currentMolecule.addFamilyMember(member) && members.add(member);
 	}
 
-	private boolean addComplexComponentForMolecule(String parentID, InteractionComponent member2) {
+	private boolean addComplexComponentForMolecule(String parentID,
+			InteractionComponent member2) {
 		Collection<CompMolMember> members;
 		if (!this.complexComponents.containsKey(parentID)) {
 			members = new ArrayList<CompMolMember>();
@@ -230,7 +265,8 @@ public class MoleculeHandler {
 		} else {
 			members = complexComponents.get(parentID);
 		}
-		return currentMolecule.addComplexComponent(member2) && members.add(member2);
+		return currentMolecule.addComplexComponent(member2)
+				&& members.add(member2);
 	}
 
 	/**
@@ -240,8 +276,10 @@ public class MoleculeHandler {
 		return complexComponents;
 	}
 
-	public void handleComplexComponent(Attributes atts) throws InvalidIdException {
-		if (PidTags.MOLECULE.isIn() && PidTags.COMPLEXCOMPONENTLIST.isIn() && PidTags.COMPLEXCOMPONENT.isIn()) {
+	public void handleComplexComponent(Attributes atts)
+			throws InvalidIdException {
+		if (PidTags.MOLECULE.isIn() && PidTags.COMPLEXCOMPONENTLIST.isIn()
+				&& PidTags.COMPLEXCOMPONENT.isIn()) {
 
 			String id = atts.getValue("molecule_idref");
 			this.member = new InteractionComponentImpl(MoleculeNode.PREFIX + id);
@@ -249,28 +287,34 @@ public class MoleculeHandler {
 		}
 	}
 
-	public void handleComplexComponentEnd() throws InvalidInteractionIdException, InvalidArgumentException {
-		if (PidTags.MOLECULE.isIn() && PidTags.COMPLEXCOMPONENTLIST.isIn() && PidTags.COMPLEXCOMPONENT.isIn()) {
+	public void handleComplexComponentEnd()
+			throws InvalidInteractionIdException, InvalidArgumentException {
+		if (PidTags.MOLECULE.isIn() && PidTags.COMPLEXCOMPONENTLIST.isIn()
+				&& PidTags.COMPLEXCOMPONENT.isIn()) {
 			if (newMember) {
 				connectModificationToMember();
 				if (intCompMan.containsInteractionComponent(member)) {
 					member = intCompMan.getEqualInteractionComponent(member);
 				}
-				this.addComplexComponentForMolecule(currentMolecule.getPid(), member);
+				this.addComplexComponentForMolecule(currentMolecule.getPid(),
+						member);
 				this.intCompMan.addInteractionComponent(this.member);
 			}
 			this.newMember = false;
 		}
 	}
 
-	public void handleMemberEnd() throws InvalidIdException, InvalidArgumentException {
-		if (PidTags.MOLECULE.isIn() && PidTags.FAMILYMEMBERLIST.isIn() && PidTags.MEMBER.isIn()) {
+	public void handleMemberEnd() throws InvalidIdException,
+			InvalidArgumentException {
+		if (PidTags.MOLECULE.isIn() && PidTags.FAMILYMEMBERLIST.isIn()
+				&& PidTags.MEMBER.isIn()) {
 			if (newMember) {
 				connectModificationToMember();
 				if (intCompMan.containsInteractionComponent(member)) {
 					member = intCompMan.getEqualInteractionComponent(member);
 				}
-				this.addFamilyMemberForMolecule(currentMolecule.getPid(), this.member);
+				this.addFamilyMemberForMolecule(currentMolecule.getPid(),
+						this.member);
 				this.intCompMan.addInteractionComponent(this.member);
 			}
 			newMember = false;
@@ -280,7 +324,6 @@ public class MoleculeHandler {
 	public void setLocation(OntologyElement element) {
 		this.newModification();
 		this.memModification.setLocation(element);
-
 	}
 
 	public void setActivityState(OntologyElement element) {

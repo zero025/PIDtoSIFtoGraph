@@ -2,7 +2,7 @@
  * This class mainly deals with the subgraph extraction in Step 3 of the plugin UI
  * 
  * @author Hadi Kang
- * 
+ * @contributor Yamei Sun & Thomas Brunel
  */
 
 package de.bioquant.cytoscape.pidfileconverter.FileReader;
@@ -50,7 +50,7 @@ public class SubgraphExtraction {
 	private final static String regex1 = "(\\[*([POQ]\\d|A-Z\\d|A-Z\\d|A-Z\\d|A-Z\\d|A-Z).*)+";
 
 	/**
-	 * The constructor for this class. Mainframe is instantiated and defined.
+	 * The constructor for this class. Step3 is instantiated and defined.
 	 */
 	public SubgraphExtraction(Step3 step3) {
 		
@@ -88,6 +88,7 @@ public class SubgraphExtraction {
 				String l;
 				// get the network view object and its nodelists
 				CyNetwork cynetwork = Cytoscape.getCurrentNetwork();
+				@SuppressWarnings("unchecked")
 				List<CyNode> cynodelist = Cytoscape.getCyNodesList();
 				while ((l = reader.readLine()) != null) {
 					temporarylist.add(l.trim()); // as per default, the lines
@@ -101,12 +102,11 @@ public class SubgraphExtraction {
 						return;
 					} else {
 						for (int i = 0; i < cynodelist.size(); i++) {
-							// if the read line l is same as one of the list ofnodes, add that node to the list to
-							// besubgraphed!
+							// if the read line l is same as one of the list ofnodes, add that node to the list to be subgraphed!
 							if (cynodelist.get(i).getIdentifier()
 						.equals(l.trim())) {
 								cytosourcesubgraph.add(cynodelist.get(i));
-								temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, deleteit from temporary list!
+								temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it from temporary list!
 							}
 						}
 					}
@@ -137,6 +137,7 @@ public class SubgraphExtraction {
 				String l;
 				// get the network view object and its nodelists
 				CyNetwork cynetwork = Cytoscape.getCurrentNetwork();
+				@SuppressWarnings("unchecked")
 				List<CyNode> cynodelist = Cytoscape.getCyNodesList();
 				while ((l = reader.readLine()) != null) {
 					temporarylist.add(l.trim()); // as per default, the lines
@@ -187,6 +188,7 @@ public class SubgraphExtraction {
 				String l;
 				// get the network view object and its nodelists
 				CyNetwork cynetwork = Cytoscape.getCurrentNetwork();
+				@SuppressWarnings("unchecked")
 				List<CyNode> cynodelist = Cytoscape.getCyNodesList();
 				while ((l = reader.readLine()) != null) {
 					temporarylist.add(l.trim()); // as per default, the lines are added to the list
@@ -279,6 +281,7 @@ public class SubgraphExtraction {
 				String l;
 				// get the network view object and its nodelists
 				CyNetwork cynetwork = Cytoscape.getCurrentNetwork();
+				@SuppressWarnings("unchecked")
 				List<CyNode> cynodelist = Cytoscape.getCyNodesList();
 				while ((l = reader.readLine()) != null) {
 				
@@ -403,6 +406,7 @@ public class SubgraphExtraction {
 				String l;
 				// get the network view object and its nodelists
 				CyNetwork cynetwork = Cytoscape.getCurrentNetwork();
+				@SuppressWarnings("unchecked")
 				List<CyNode> cynodelist = Cytoscape.getCyNodesList();
 				while ((l = reader.readLine()) != null) {
 					temporarylist.add(l.trim()); // as per default, the lines
@@ -524,7 +528,6 @@ public class SubgraphExtraction {
 	public void drawJungGraph(SplashFrame sp, ProcessSubgraph process) {
 
 		// Progress
-		int total = 100;
 		int progress = 0;
 
 		DirectedGraph<CyNode, CyEdge> myGraph = cytotojungGraph(); // greates the JUNG graph
@@ -532,8 +535,9 @@ public class SubgraphExtraction {
 		DijkstraShortestPath<CyNode, CyEdge> dpath = new DijkstraShortestPath<CyNode, CyEdge>(
 				myGraph, false); // create shortest path object
 
+		//progress bar
 		progress += 10;
-		sp.getBar().setValue((progress * 100) / total + 1);
+		sp.getBar().setValue(progress);
 		if (!process.isContinueThread()) {
 			return;
 		}
@@ -544,7 +548,7 @@ public class SubgraphExtraction {
 			CyNode startnode = cytosourcesubgraph.get(i);
 			for (int j = 0; j < cytotargetsubgraph.size(); j++) {
 				progress++;
-				sp.getBar().setValue((progress * 100) / total + 1);
+				sp.getBar().setValue(progress);
 				if (!process.isContinueThread()) {
 					return;
 				}
@@ -564,8 +568,9 @@ public class SubgraphExtraction {
 			}
 		}
 
+		//progress bar
 		progress += 10;
-		sp.getBar().setValue((progress * 100) / total + 1);
+		sp.getBar().setValue(progress);
 		if (!process.isContinueThread()) {
 			return;
 		}
@@ -597,6 +602,7 @@ public class SubgraphExtraction {
 	 */
 	public DirectedGraph<CyNode, CyEdge> cytotojungGraph() {
 		DirectedGraph<CyNode, CyEdge> myGraph = new DirectedSparseGraph<CyNode, CyEdge>();
+		@SuppressWarnings("unchecked")
 		List<CyEdge> l = Cytoscape.getCyEdgesList();
 		for (CyEdge e : l) {
 			myGraph.addEdge(e, (CyNode) e.getSource(), (CyNode) e.getTarget());

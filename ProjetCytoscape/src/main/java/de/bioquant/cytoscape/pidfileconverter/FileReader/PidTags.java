@@ -1,3 +1,7 @@
+/**
+ * Tags of the PID file
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.FileReader;
 
 public enum PidTags {
@@ -41,6 +45,10 @@ public enum PidTags {
 		return name;
 	}
 
+	/**
+	 * @param role
+	 * @return a PidTags
+	 */
 	public static PidTags getValue(String role) {
 		try {
 			return valueOf(role.toUpperCase());

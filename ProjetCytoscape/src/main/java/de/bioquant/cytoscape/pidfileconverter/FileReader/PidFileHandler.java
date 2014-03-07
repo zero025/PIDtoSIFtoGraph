@@ -43,12 +43,10 @@ import de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized.SpecialOntolo
 public class PidFileHandler extends DefaultHandler {
 
 	private InteractionNodeManager iManager;
-
 	private PathwayNodeManager pManager;
 	private ModificationManager modiManager;
 	private MoleculeNodeManager mManager;
 	private InteractionComponentManager intCompMan;
-	// private OntologyManager oManager=OntologyManager.getInstance();
 
 	private InteractionNode currentInter = null;
 	private Ontology currentOnto = null;
@@ -58,6 +56,15 @@ public class PidFileHandler extends DefaultHandler {
 
 	MoleculeHandler molHandler;
 
+	/**
+	 * 
+	 * @param iManager
+	 * @param mManager
+	 * @param pManager
+	 * @param modiManager
+	 * @param intCompMan
+	 * @throws NoValidManagerSetException
+	 */
 	public PidFileHandler(final InteractionNodeManager iManager, final MoleculeNodeManager mManager,
 			final PathwayNodeManager pManager, final ModificationManager modiManager,
 			final InteractionComponentManager intCompMan) throws NoValidManagerSetException {

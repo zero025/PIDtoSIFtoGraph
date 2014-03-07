@@ -1,5 +1,6 @@
 /**
- * @author Yamei & Thomas
+ * Separate thread of the step 2 Affymetrix
+ * @contributor Yamei Sun & Thomas Brunel
  */
 package de.bioquant.cytoscape.pidfileconverter.FileReader;
 
@@ -22,6 +23,18 @@ public class ProcessAffymetrix extends AbstractProcess {
 	private static final String ABSENT_PROTEINS_CONCATENATION = "(filtered_absent_proteins)";
 	private static final String VIZMAP_PROPS_FILE_NAME = "netView.props";
 	
+	/**
+	 * Constructor
+	 * @param sp
+	 * 			the splash frame
+	 * @param controller
+	 * 			the controller
+	 * @param affymetrixview
+	 * 			the affymetrix window
+	 * @param targetSIFpath
+	 * 			path for the created SIF file
+	 * @param targetfilteredSIFpath
+	 */
 	public ProcessAffymetrix(SplashFrame sp, Controller controller,
 			AffymetrixView affymetrixview, String targetSIFpath,
 			String targetfilteredSIFpath) {
@@ -37,7 +50,7 @@ public class ProcessAffymetrix extends AbstractProcess {
 			
 			affymetrixFrame.getStart().setEnabled(false);
 			
-			//create affymetrix geneid hash map
+			//create affymetrix geneid hash map for the molecules of the loaded PID.
 			AffymetrixRegexReader.createAffymetrixHashMap(controller.getTargetNODE_TYPEpath(), controller.getTargetGeneIDtoAffymetrixMapFilepath(), affymetrixFrame, this);		
 			if(!isContinueThread()){
 				return;
@@ -51,14 +64,13 @@ public class ProcessAffymetrix extends AbstractProcess {
 					.getInputcondition2field().getText());
 
 			// read the barcodes and compare them
-			AffymetrixRegexReader.barcode1Reader(controller.getInputbarcode1());
+			AffymetrixRegexReader.barcodeReader(controller.getInputbarcode1(), AffymetrixRegexReader.getBarcode1hashmap());
 
-			AffymetrixRegexReader.barcode2Reader(controller.getInputbarcode2());
+			AffymetrixRegexReader.barcodeReader(controller.getInputbarcode2(), AffymetrixRegexReader.getBarcode2hashmap());
 
 			AffymetrixRegexReader.compareBarcodes();	
 
 			// create new SIF
-			// TODO: If can please create a separate method here
 			AffymetrixRegexReader.SIFreaderAndNewCreator(targetSIFpath);
 
 			String[] temporarypath = targetSIFpath.split(".sif");
@@ -108,6 +120,7 @@ public class ProcessAffymetrix extends AbstractProcess {
 
 			// delete the splashframe
 			affymetrixFrame.dispose();
+			
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(new JFrame(),
 					"Invalid Barcode files detected. Please check!", "Warning",
@@ -115,6 +128,5 @@ public class ProcessAffymetrix extends AbstractProcess {
 			e1.printStackTrace();
 		}
 	}
-
 
 }

@@ -1,3 +1,8 @@
+/**
+ * Menu entry of the plugin
+ *
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.CytoPlugin;
 
 import java.awt.event.ActionEvent;

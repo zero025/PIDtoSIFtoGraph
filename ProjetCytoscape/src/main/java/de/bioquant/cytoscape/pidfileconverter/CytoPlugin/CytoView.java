@@ -1,3 +1,8 @@
+/**
+ * Add the menu entry of the plugin to Cytoscape
+ *
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.CytoPlugin;
 
 import cytoscape.Cytoscape;

@@ -1,5 +1,5 @@
 /**
- * @author Yamei & Thomas
+ * @author Yamei Sun & Thomas Brunel
  * This class represents one EntrezGene ID. It handles also the part molecules which have the same ID like their parent
  */
 

@@ -1,7 +1,6 @@
 /**
- * 
- * @author Yamei & Thomas
- *
+ * Separate thread for the step 3
+ * @contributor Yamei Sun & Thomas Brunel
  */
 
 package de.bioquant.cytoscape.pidfileconverter.FileReader;
@@ -27,6 +26,18 @@ public class ProcessSubgraph extends AbstractProcess {
 	// the file name of the VIZMAP property file
 	private static final String VIZMAP_PROPS_FILE_NAME = "netView.props";
 
+	/**
+	 * Constructor
+	 * @param sp
+	 * 			the splash frame
+	 * @param controller
+	 * 			the controller
+	 * @param step3
+	 * 			window of the step 3
+	 * @param targetSIFpath
+	 * 			path for the new SIF file created
+	 * @param targetsubgraphedSIFpath
+	 */
 	public ProcessSubgraph(SplashFrame sp, Controller controller, Step3 step3,
 			String targetSIFpath, String targetsubgraphedSIFpath) {
 		this.subgraphFrame = sp;
@@ -45,8 +56,7 @@ public class ProcessSubgraph extends AbstractProcess {
 			// setfocus on the splash frame
 			subgraphFrame.requestFocus();
 
-			// TODO: instead of getting targetSIFpath, get actual
-			// network worked upon
+			// TODO: instead of getting targetSIFpath, get actual network worked upon
 			String currentNetworkFilepath = targetSIFpath;
 
 			SubgraphExtraction sgex;
@@ -56,7 +66,7 @@ public class ProcessSubgraph extends AbstractProcess {
 			//		"The subgraph extraction will be created", "Info",
 			//		JOptionPane.INFORMATION_MESSAGE);
 
-			// Blocage ici avec le .jar
+			// Stuck here in the .jar
 			sgex = new SubgraphExtraction(step3);
 			// Test for .jar file :
 			// sgex=new SubgraphExtraction();
@@ -75,8 +85,7 @@ public class ProcessSubgraph extends AbstractProcess {
 			sgex.readCytoSourceText();
 			sgex.readCytoTargetText();
 
-			// then draw the graph from the read files/text
-			// long part
+			// then draw the graph from the read files/text long part
 			sgex.drawJungGraph(subgraphFrame, this);
 			if (!isContinueThread()) {
 				return;
@@ -89,11 +98,7 @@ public class ProcessSubgraph extends AbstractProcess {
 				targetsubgraphedSIFpath = temporarypath[0].concat(Controller
 						.getSubgraphed() + ".sif");
 				// draw graph of new SIF and create a network
-				Cytoscape.createNetworkFromFile(targetsubgraphedSIFpath);// load
-																			// the
-																			// NODE_TYPE
-																			// .NA
-																			// file
+				Cytoscape.createNetworkFromFile(targetsubgraphedSIFpath);// load the NODE_TYPE .NA file
 
 				// load the VIZMAP props file
 				//TODO : add a checkbox to ask if the user wants to have a hierarchical graph
@@ -114,7 +119,6 @@ public class ProcessSubgraph extends AbstractProcess {
 					+ ex.getClass().getName(), "Warning",
 					JOptionPane.WARNING_MESSAGE);
 		}
-
 	}
 
 }

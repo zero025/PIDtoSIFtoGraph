@@ -1,6 +1,8 @@
 /**
- * @author Yamei & Thomas
+ * Separate thread for the step 1
+ * @contributor Yamei Sun & Thomas Brunel
  */
+
 package de.bioquant.cytoscape.pidfileconverter.FileReader;
 
 import java.io.File;
@@ -23,14 +25,23 @@ public class ProcessConvert extends AbstractProcess {
 	// the file name of the VIZMAP property file
 	private static final String VIZMAP_PROPS_FILE_NAME = "netView.props";
 
-	public ProcessConvert(SplashFrame sp, Controller controller, Step1 step1,
-			String inputfilepath, File curFile) {
+	/**
+	 * Constructor
+	 * @param sp
+	 * 			the splash frame
+	 * @param controller
+	 * 			the controller
+	 * @param step1
+	 * 			the window of the step1
+	 * @param inputfilepath
+	 * 		
+	 * @param curFile
+	 */
+	public ProcessConvert(SplashFrame sp, Controller controller, Step1 step1) {
 
 		this.convertFrame = sp;
 		this.controller = controller;
 		this.step1 = step1;
-		this.inputfilepath = inputfilepath;
-		this.curFile = curFile;
 	}
 
 	public void run() {
@@ -115,7 +126,6 @@ public class ProcessConvert extends AbstractProcess {
 					controller.getTargetCytoIDtoIDFilepath(),
 					controller.getTargetUniqueIDFilepath(),
 					controller.getTargetUniProtToGeneIDMapFilepath(),
-					controller.getTargetGeneIDtoAffymetrixMapFilepath(),
 					convertFrame, this);
 			if (!isContinueThread()) {
 				return;
@@ -144,7 +154,6 @@ public class ProcessConvert extends AbstractProcess {
 			// delete the SplashFrame when the work is done
 			convertFrame.dispose();
 		}
-
 	}
 
 }

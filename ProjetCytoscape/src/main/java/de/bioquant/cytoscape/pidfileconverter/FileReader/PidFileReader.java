@@ -1,3 +1,7 @@
+/**
+ * @contributor Yamei Sun & Thomas Brunel
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.FileReader;
 
 import java.io.BufferedInputStream;
@@ -53,14 +57,14 @@ public final class PidFileReader implements FileReader {
 	public void read(String path) throws NoValidManagerSetException, FileParsingException {
 		
 		//Progress
-		int total=100;
 		int progress =0;
 		
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		try {
-			
+			//Parse the PID file
 			SAXParser saxParser = factory.newSAXParser();
 			
+			//progress bar of the file parsing
 			 InputStream in = new BufferedInputStream(
                      new ProgressMonitorInputStream(
                              sp,
@@ -68,8 +72,10 @@ public final class PidFileReader implements FileReader {
                              new FileInputStream(path)));
 			
 			saxParser.parse(in, handler);
+			
+			//General progress bar
 			progress+=75;
-			sp.getBar().setValue((progress * 100) / total + 1);
+			sp.getBar().setValue(progress);
 			if(!process.isContinueThread()){
 				return;
 			}

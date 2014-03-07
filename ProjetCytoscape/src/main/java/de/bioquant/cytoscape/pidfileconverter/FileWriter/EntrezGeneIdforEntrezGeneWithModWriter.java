@@ -1,5 +1,5 @@
 /**
- * @author Yamei & Thomas
+ * @author Yamei Sun & Thomas Brunel
  */
 
 package de.bioquant.cytoscape.pidfileconverter.FileWriter;

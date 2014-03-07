@@ -1,14 +1,15 @@
-package de.bioquant.cytoscape.pidfileconverter.Model;
-
-import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidIdException;
-import de.bioquant.cytoscape.pidfileconverter.Ontology.OntologyManager;
-
 /**
  * This class represents an object in the graph,characterized by a pid.
  * 
  * @author Florian Dittmann
  * 
  */
+
+package de.bioquant.cytoscape.pidfileconverter.Model;
+
+import de.bioquant.cytoscape.pidfileconverter.Exceptions.InvalidIdException;
+import de.bioquant.cytoscape.pidfileconverter.Ontology.OntologyManager;
+
 public abstract class AbstractGraphNode implements Comparable<AbstractGraphNode>, PidNode {
 
 	private final String pid;

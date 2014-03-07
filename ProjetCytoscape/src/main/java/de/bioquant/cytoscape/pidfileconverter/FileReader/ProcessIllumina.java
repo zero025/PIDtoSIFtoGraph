@@ -1,5 +1,6 @@
 /**
- * @author Yamei & Thomas
+ * separate thread for step 2 Illumina
+ * @author Yamei Sun & Thomas Brunel
  */
 
 package de.bioquant.cytoscape.pidfileconverter.FileReader;
@@ -24,6 +25,18 @@ public class ProcessIllumina extends AbstractProcess {
 	private static final String ABSENT_PROTEINS_CONCATENATION = "(filtered_absent_proteins)";
 	private static final String VIZMAP_PROPS_FILE_NAME = "netView.props";
 
+	/**
+	 * Constructor
+	 * @param sp
+	 * 			the splash frame
+	 * @param controller
+	 * 			the controller
+	 * @param illuminaview
+	 * 			window of illumina
+	 * @param targetSIFpath
+	 * 			path for the new SIF file created
+	 * @param targetfilteredSIFpath
+	 */
 	public ProcessIllumina(SplashFrame sp, Controller controller,
 			IlluminaView illuminaview, String targetSIFpath,
 			String targetfilteredSIFpath) {
@@ -60,11 +73,7 @@ public class ProcessIllumina extends AbstractProcess {
 			targetfilteredSIFpath = temporarypath[0]
 					.concat(ABSENT_PROTEINS_CONCATENATION + ".sif");
 			// draw graph of new SIF and create a network
-			Cytoscape.createNetworkFromFile(targetfilteredSIFpath);// load
-																	// the
-																	// NODE_TYPE
-																	// .NA
-																	// file
+			Cytoscape.createNetworkFromFile(targetfilteredSIFpath);// load the NODE_TYPE .NA file
 
 			// setfocus on the splash frame
 			illuminaFrame.requestFocus();
@@ -108,13 +117,13 @@ public class ProcessIllumina extends AbstractProcess {
 					.setTitle("Visualisation loaded, this window closes automatically.");
 			// delete the splashframe
 			illuminaFrame.dispose();
+			
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(new JFrame(),
 					"Invalid Barcode files detected. Please check!", "Warning",
 					JOptionPane.WARNING_MESSAGE);
 			e1.printStackTrace();
 		}
-
 	}
 
 }

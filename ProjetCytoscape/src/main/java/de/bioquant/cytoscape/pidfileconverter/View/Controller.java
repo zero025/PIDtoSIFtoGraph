@@ -143,7 +143,9 @@ public class Controller extends JFrame implements ActionListener {
 		this.affymetrixview = affymetrixview;
 		// load up the static hashmap mappings once the window opens
 		try {
-			AffymetrixRegexReader.makeHashMapUniProtToGeneID();
+			if (AffymetrixRegexReader.getUniprottogeneidFullhashmap().size() == 0){
+				AffymetrixRegexReader.makeHashMapUniProtToGeneID();
+			}
 			AffymetrixRegexReader.makeHashMapGeneIDtoAffyID();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -158,11 +160,13 @@ public class Controller extends JFrame implements ActionListener {
 	 */
 	public Controller(IlluminaView illuminaview) {
 		this.illuminaview = illuminaview;
-		try {
-			AffymetrixRegexReader.makeHashMapUniProtToGeneID();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (AffymetrixRegexReader.getUniprottogeneidFullhashmap().size() == 0){
+			try {
+				AffymetrixRegexReader.makeHashMapUniProtToGeneID();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -411,7 +415,7 @@ public class Controller extends JFrame implements ActionListener {
 			// Start a processus to do the conversion
 
 			ProcessConvert process = new ProcessConvert(convertFrame, this,
-					step1, inputfilepath, curFile);
+					step1);
 			Thread t = new Thread(process);
 			convertFrame.setProcess(process);
 			t.start();

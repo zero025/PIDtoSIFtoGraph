@@ -1,5 +1,6 @@
 /**
- * @contributor Yamei & Thomas
+ * This class deals with the step 2, Illumina, of the plugin.
+ * @contributor Yamei Sun & Thomas Brunel
  */
 package de.bioquant.cytoscape.pidfileconverter.FileReader;
 
@@ -23,26 +24,33 @@ import de.bioquant.cytoscape.pidfileconverter.View.Controller;
 import de.bioquant.cytoscape.pidfileconverter.View.SplashFrame;
 
 public class IlluminaRegexReader {
+	
+	//counter of suppressed nodes
 	private static int counter = 0;
 
 	// regular expression of e.g. [P98170::Q13490::Q13489:]
 	private final static String regex1 = "(\\[*([POQ]\\d|A-Z\\d|A-Z\\d|A-Z\\d|A-Z\\d|A-Z).*)+";
 
+	//nodes to be deleted
 	private static ArrayList<String> nodeIDtobedeleted = new ArrayList<String>();
 
-	// the hashmap for the first barcode values. Key=GeneID,
-	// Value=true(expressed) or false(not expressed)
+	// the hashmap for the barcode values. Key=GeneID, Value=true(expressed) or false(not expressed)
 	private static HashMap<String, Boolean> barcodehashmap = new HashMap<String, Boolean>();
 
 	public IlluminaRegexReader() {
 	}
 
 	/**
-	 * This method reads one illumina file and assigns a value (barcode) to a
+	 * This method reads one Illumina file and assigns a value (barcode) to a
 	 * key (GeneID) and puts them into a hashmap, 1 or 0 from
 	 * barcodeFilter(String line)
 	 * 
 	 * @param barcodefilepath
+	 * 				Illumina file 
+	 * @param inputCondition1Text
+	 * 		 		first condition given by the user
+	 * @param inputCondition2Text
+	 * 				second condition given by the user
 	 * @throws IOException
 	 */
 	public static void fileReader(String barcodefilepath,
@@ -75,7 +83,7 @@ public class IlluminaRegexReader {
 			{
 				JOptionPane.showMessageDialog(
 						new JFrame(),
-						"The illumina file does not match the expected structure. Aborting the process.",
+						"The Illumina file does not match the expected structure. Aborting the process.",
 						"Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
@@ -84,12 +92,11 @@ public class IlluminaRegexReader {
 				String geneIDvalue;
 				ArrayList<Float> conditionsMeans = new ArrayList<Float>();
 				ArrayList<Float> conditionsP = new ArrayList<Float>();
-				String[] splittedString = line.split("\t"); // splits the line at the tab sign;
-				// also force split  into 2 parts only
+				String[] splittedString = line.split("\t"); // splits the line at the tab sign
 				if (splittedString.length > indexEntrezGene){
 					geneIDvalue = splittedString[indexEntrezGene].trim();
 
-					// We keep the ".mean" and ".p" values : first and third values of each of each set of four columns,
+					// We keep the ".mean" and ".p" values : first and third values of each set of four columns,
 					// corresponding to an experiment
 					for (int i = 2; i < endOfConditions; i += 4) {
 						if ((inputCondition1Text.equals("") && inputCondition2Text
@@ -109,8 +116,7 @@ public class IlluminaRegexReader {
 							barcodehashmap.put(geneIDvalue, false);
 							for (int i = 0; i < conditionsMeans.size(); i++) {
 								// If one of the two conditions for the presence
-								// to be true is not respected (see Report
-								// ElKoursi&Lavergne)
+								// to be true is not respected (see Report ElKoursi&Lavergne)
 								if (conditionsMeans.get(i) > 150
 										&& conditionsP.get(i) <= 0.01) {
 									barcodehashmap.put(geneIDvalue, true);
@@ -136,8 +142,8 @@ public class IlluminaRegexReader {
 
 	/**
 	 * This method checks if the defaultID is present in the hashmap
-	 * uniprottogeneid_fullhashmap and then crosschecking in the barcode1hashmap
-	 * and barcode2hashmap, before concluding which idcyto to delete, and
+	 * uniprottogeneid_fullhashmap and then crosschecking in the barcodehashmap, 
+	 * before concluding which idcyto to delete, and
 	 * returning a boolean of true if something is deleted, else false!
 	 * 
 	 * @param defaultid
@@ -152,8 +158,7 @@ public class IlluminaRegexReader {
 			if ((uniprottogeneid != null) && !uniprottogeneid.isEmpty()) {
 				String geneID = uniprottogeneid;
 
-				// if there exists a set of values in the barcode1hashmap for
-				// the geneID
+				// if there exists a set of values in the barcode1hashmap for the geneID
 				if (barcodehashmap.containsKey(geneID)) {
 					// if both barcode files give 0 for the geneID,
 					if (barcodehashmap.get(geneID) == false) {
@@ -162,8 +167,7 @@ public class IlluminaRegexReader {
 				}
 			}
 		} else {// EntrezGene
-			// if there exists a set of values in the barcode1hashmap for the
-			// geneID
+			// if there exists a set of values in the barcode1hashmap for the geneID
 			if (barcodehashmap.containsKey(defaultid)) {
 				// if both barcode files give 0 for the affyID,
 				if (barcodehashmap.get(defaultid) == false) {
@@ -175,14 +179,14 @@ public class IlluminaRegexReader {
 	}
 
 	/**
-	 * This method reads the barcode hashmaps and decides what to do with the
+	 * This method reads the barcode hashmap and decides what to do with the
 	 * barcode lines. If not expressed (0), delete the node corresponding to the
 	 * illuminaID. If expressed (1), leave it
 	 * 
-	 * @param illuminaID
-	 *            the illuminaID
-	 * @param value
-	 *            either 0 or 1
+	 * @param sp
+	 * 			the splashframe window
+	 * @param 
+	 * 			the illumina process
 	 */
 	public static void compareConditions(SplashFrame sp, ProcessIllumina process) {
 
@@ -195,6 +199,8 @@ public class IlluminaRegexReader {
 		// for every entry in proteinhashmap
 		for (Map.Entry<String, String> entryFromProteinHashmap : AffymetrixRegexReader
 				.getProteinhashmap().entrySet()) {
+			
+			//progress bar
 			progress++;
 			sp.getBar().setValue((progress * 100) / total + 1);
 			if(!process.isContinueThread()){
@@ -202,8 +208,7 @@ public class IlluminaRegexReader {
 			}
 
 			String key = entryFromProteinHashmap.getKey(); // the IDcyto
-			String value = entryFromProteinHashmap.getValue(); // the single
-																// defaultID
+			String value = entryFromProteinHashmap.getValue(); // the single defaultID
 			try {
 				if (isPresentInHashMaps(value) == true) {
 					destroyNode(key);
@@ -213,10 +218,11 @@ public class IlluminaRegexReader {
 			}
 		}
 		// for every entry in proteinfamilyhashmap
-		// protein family to be deleted if ALL members are present as 0 in the
-		// barcodes
+		// protein family to be deleted if ALL members are present as 0 in the barcodes
 		for (Map.Entry<String, String> entryFromProteinFamilyHashmap : AffymetrixRegexReader
 				.getProteinfamilyhashmap().entrySet()) {
+			
+			//progress bar
 			progress++;
 			sp.getBar().setValue((progress * 100) / total + 1);
 			if(!process.isContinueThread()){
@@ -224,8 +230,7 @@ public class IlluminaRegexReader {
 			}
 			
 			String key = entryFromProteinFamilyHashmap.getKey(); // the IDcyto
-			String value = entryFromProteinFamilyHashmap.getValue(); // the
-																		// defaultID(s)
+			String value = entryFromProteinFamilyHashmap.getValue(); // the defaultID(s)
 			if (value.contains("::")) // if there are many IDs
 			{
 				String[] splittedvalue = value.split("::");
@@ -257,10 +262,13 @@ public class IlluminaRegexReader {
 				}
 			}
 		}
+		
 		// for every entry in proteincomplexhashmap
 		// entry to be deleted if ANY of the members show 0
 		for (Map.Entry<String, String> entryFromProteinComplexHashmap : AffymetrixRegexReader
 				.getProteincomplexhashmap().entrySet()) {
+			
+			//progress bar
 			progress++;
 			sp.getBar().setValue((progress * 100) / total + 1);
 			if(!process.isContinueThread()){
@@ -268,9 +276,7 @@ public class IlluminaRegexReader {
 			}
 			
 			String key = entryFromProteinComplexHashmap.getKey(); // the IDcyto
-			String value = entryFromProteinComplexHashmap.getValue(); // the
-																		// single
-																		// defaultID
+			String value = entryFromProteinComplexHashmap.getValue(); // the single defaultID
 			if (value.contains(":")) {
 				String[] splittedvalue = value.split(":");
 				int number_of_members = splittedvalue.length;
@@ -361,21 +367,15 @@ public class IlluminaRegexReader {
 					String node1;
 					String node2;
 
-					String[] splittedString = line.split("[\\t]"); // splits the
-																	// line at
-																	// the tab
-																	// space
+					String[] splittedString = line.split("[\\t]"); // splits the line at the tab space
 					node1 = splittedString[0].trim();
 					node2 = splittedString[2].trim();
 					// if the list of nodes to be deleted contains the IDcyto
 					// read from the SIF,
 					if (!(nodeIDtobedeleted.contains(node1) || nodeIDtobedeleted
-							.contains(node2))) // if list of nodes does not
-												// contain IDcyto to be
-												// deleted, then pass it to the
-												// new SIF by
-												// printing it
-					{
+							.contains(node2))) {
+						// if list of nodes does not contain IDcyto to bedeleted, then pass it to the
+						// new SIF by printing it
 						writer.println(line);
 					}
 				}
@@ -396,8 +396,8 @@ public class IlluminaRegexReader {
 	}
 
 	/**
-	 * This method clears the barcode hashmaps and the ArrayList
-	 * nodeIDtobedeleted. If the Hashmaps are not cleared, then the next
+	 * This method clears the barcode hashmap and the ArrayList
+	 * nodeIDtobedeleted. If the Hashmap is not cleared, then the next
 	 * filtering might be erroneous!
 	 */
 	public static void clearBarcodeHashMaps() {

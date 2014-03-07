@@ -1,3 +1,7 @@
+/**
+ * Contributor Yamei Sun & Thomas Brunel
+ */
+
 package de.bioquant.cytoscape.pidfileconverter.Ontology.Specialized;
 
 import de.bioquant.cytoscape.pidfileconverter.Ontology.Ontology;
