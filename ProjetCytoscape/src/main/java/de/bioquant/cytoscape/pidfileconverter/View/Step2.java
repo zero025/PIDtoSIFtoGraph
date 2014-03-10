@@ -35,6 +35,11 @@ public class Step2 extends JFrame {
 	private JRadioButton affymetrixRadio = new JRadioButton();
 	private ButtonGroup group = new ButtonGroup();
 
+	/**
+	 * Constructor of the window
+	 * @param controller
+	 * @throws Exception
+	 */
 	public Step2(Controller controller) throws Exception {
 
 		controller = new Controller(this);
@@ -176,6 +181,7 @@ public class Step2 extends JFrame {
 		setVisible(true);
 		//pack(); //To have a reduced window
 		
+		//Tooltip help
 		chooseButton.setToolTipText("choose Illumina or Affymetrix files");
 		helpButton.setToolTipText("To get information about how to use the plugin");
 		back.setToolTipText("Step 1 : Generate network from PID/SIF");

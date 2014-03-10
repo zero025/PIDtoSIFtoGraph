@@ -1,7 +1,7 @@
 /** This class is responsible for the Actions and the methods they call.
  * 
  * @author Hadi Kang
- * @contributor Yamei & Thomas
+ * @contributor Yamei Sun & Thomas Brunel
  */
 
 package de.bioquant.cytoscape.pidfileconverter.View;
@@ -9,7 +9,6 @@ package de.bioquant.cytoscape.pidfileconverter.View;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
@@ -23,26 +22,11 @@ import cytoscape.graph.layout.algorithm.MutablePolyEdgeGraphLayout;
 import cytoscape.graph.layout.impl.RotationLayouter;
 import cytoscape.layout.CyLayouts;
 import cytoscape.visual.VisualStyle;
-import de.bioquant.cytoscape.pidfileconverter.Exceptions.FileParsingException;
-import de.bioquant.cytoscape.pidfileconverter.Exceptions.NoValidManagerSetException;
 import de.bioquant.cytoscape.pidfileconverter.FileReader.AffymetrixRegexReader;
-import de.bioquant.cytoscape.pidfileconverter.FileReader.PidFileReader;
 import de.bioquant.cytoscape.pidfileconverter.FileReader.ProcessAffymetrix;
 import de.bioquant.cytoscape.pidfileconverter.FileReader.ProcessConvert;
 import de.bioquant.cytoscape.pidfileconverter.FileReader.ProcessIllumina;
 import de.bioquant.cytoscape.pidfileconverter.FileReader.ProcessSubgraph;
-import de.bioquant.cytoscape.pidfileconverter.FileWriter.EntrezGeneIdforEntrezGeneWithModWriter;
-import de.bioquant.cytoscape.pidfileconverter.FileWriter.ExtPreferredSymbolWriter;
-import de.bioquant.cytoscape.pidfileconverter.FileWriter.FileWriter;
-import de.bioquant.cytoscape.pidfileconverter.FileWriter.IdWithPreferredSymbolWriter;
-import de.bioquant.cytoscape.pidfileconverter.FileWriter.ModificationsWriter;
-import de.bioquant.cytoscape.pidfileconverter.FileWriter.NodeTypeAttributeForIDWithModWriter;
-import de.bioquant.cytoscape.pidfileconverter.FileWriter.PidForIDWithModWriter;
-import de.bioquant.cytoscape.pidfileconverter.FileWriter.PreferredSymbolForIDWithModWriter;
-import de.bioquant.cytoscape.pidfileconverter.FileWriter.SifFileWriter;
-import de.bioquant.cytoscape.pidfileconverter.FileWriter.UniprotIdForUniprotWithModWriter;
-import de.bioquant.cytoscape.pidfileconverter.FileWriter.MemberExpansion.SifFileExpandMolWriter;
-import de.bioquant.cytoscape.pidfileconverter.NodeManager.NodeManagerImpl;
 import edu.ucsd.bioeng.coreplugin.tableImport.reader.DefaultAttributeTableReader;
 import edu.ucsd.bioeng.coreplugin.tableImport.ui.ImportAttributeTableTask;
 
@@ -98,7 +82,7 @@ public class Controller extends JFrame implements ActionListener {
 	/**
 	 * The constructor for the step 1 controller
 	 * 
-	 * @param mainframe
+	 * @param Step1
 	 */
 	public Controller(Step1 step1) {
 		Controller.step1 = step1;
@@ -107,7 +91,7 @@ public class Controller extends JFrame implements ActionListener {
 	/**
 	 * The constructor for the step 2 controller
 	 * 
-	 * @param mainframe
+	 * @param Step2
 	 */
 	public Controller(Step2 step2) {
 		Controller.step2 = step2;
@@ -115,9 +99,9 @@ public class Controller extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * The constructor for the step 2 controller
+	 * The constructor for the step 3 controller
 	 * 
-	 * @param mainframe
+	 * @param Step3
 	 */
 	public Controller(Step3 step3) {
 		Controller.step3 = step3;
@@ -127,7 +111,6 @@ public class Controller extends JFrame implements ActionListener {
 			try {
 				AffymetrixRegexReader.makeHashMapUniProtToGeneID();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -148,7 +131,6 @@ public class Controller extends JFrame implements ActionListener {
 			}
 			AffymetrixRegexReader.makeHashMapGeneIDtoAffyID();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -164,7 +146,6 @@ public class Controller extends JFrame implements ActionListener {
 			try {
 				AffymetrixRegexReader.makeHashMapUniProtToGeneID();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -178,16 +159,48 @@ public class Controller extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
-
-		// if user clicks browse button
+		
+		/*------------------------------------------*/
+		//General :
+		
+		if (command.equals("Quit")) {
+			step1.dispose();
+			if (step2 != null){
+				step2.dispose();
+			}
+			if (step3 != null){
+				step3.dispose();
+			}
+		}
+		
+		/*----------------------------------------------*/
+		//Step 1 :
+		
+		// if user clicks browse button of the input file
 		if (command.equals("Browse")) {
 			browseInputFile();
 		}
-
-		// if user clicks output button
+		
+		// if user clicks on the browse button of the output file
 		if (command.equals("Output")) {
 			browseOutputFilePath();
 		}
+		
+		// if user runs the convert button of step1
+		if (command.equals("Convert")) {
+			// checks if the user has typed a file path into the input
+			// textfield. if not, alert!
+			if (step1.getInputTextFieldText().equals("")) {
+				JOptionPane.showMessageDialog(new JFrame(),
+						"Please enter a file using the browse button above",
+						"Warning", JOptionPane.WARNING_MESSAGE);
+			} else if (!step1.getInputTextFieldText().equals("")) {
+
+				// create the splashframe
+				convertFrame = new SplashFrame("convert", this);
+			}
+		}
+				
 		if (command.equals("Help Step 1")) {
 			JOptionPane
 					.showMessageDialog(
@@ -198,6 +211,8 @@ public class Controller extends JFrame implements ActionListener {
 							"What's this CheckBox?",
 							JOptionPane.INFORMATION_MESSAGE);
 		}
+		
+		
 		if (command.equals("Next 1")) {
 			if (!isConverted) {
 				JOptionPane
@@ -212,10 +227,8 @@ public class Controller extends JFrame implements ActionListener {
 						step1.setVisible(false);
 						step2= new Step2(this);
 						step2.setLocationRelativeTo((JFrame)step1);
-						//step2.setSize(step1.getSize());
 						step2.requestFocus();
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -226,9 +239,32 @@ public class Controller extends JFrame implements ActionListener {
 				}
 			}
 		}
+		
+		/*-------------------------------------------*/
+		//Step 2 :
+		
 		// if user clicks choose button
 		if (command.equals("Choose")) {
-				runChoose();
+			boolean isaffymetrixselected = step2.isAffymetrixSelected();
+			boolean isilluminaselected = step2.isIlluminaSelected();
+
+			// if neither radio buttons are selected
+			if (!isaffymetrixselected && !isilluminaselected) {
+				JOptionPane.showMessageDialog(new JFrame(),
+						"Please select one single option.", "Warning",
+						JOptionPane.WARNING_MESSAGE);
+			}
+
+			// if affymetrix is selected
+			else if (isaffymetrixselected) {
+				affymetrixview = new AffymetrixView(this);
+				
+			}
+
+			// if illumina is selected
+			else if (isilluminaselected) {
+				illuminaview = new IlluminaView(this);
+			}
 		}
 		if (command.equals("Help Step 2")) {
 			JOptionPane
@@ -247,15 +283,13 @@ public class Controller extends JFrame implements ActionListener {
 		}
 		if (command.equals("Next 2")) {
 			if (step3==null){
-
-			try {
-				step3 = new Step3(this);
-				step3.setLocationRelativeTo(step2);
-				step3.requestFocus();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+				try {
+					step3 = new Step3(this);
+					step3.setLocationRelativeTo(step2);
+					step3.requestFocus();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 			else{
 				step2.setVisible(false);
@@ -263,6 +297,28 @@ public class Controller extends JFrame implements ActionListener {
 				step3.requestFocus();
 			}
 		}
+		
+		if (command.equals("Start convert")) {
+
+			// Start a processus to do the conversion
+			ProcessConvert process = new ProcessConvert(convertFrame, this,
+					step1);
+			Thread t = new Thread(process);
+			convertFrame.setProcess(process);
+			t.start();
+
+		}
+		
+		if (command.equals("Stop convert")) {
+			if (convertFrame.getProcess() != null){
+				convertFrame.getProcess().setContinueThread(false);
+			}
+			convertFrame.dispose();
+		}
+
+		/*---------------------------------------------*/
+		//Affymetrix :
+		
 		// if user clicks browse condition 1 button
 		if (command.equals("Affymetrix Browse Condition 1")) {
 			browseBarcode1File();
@@ -273,17 +329,11 @@ public class Controller extends JFrame implements ActionListener {
 		if (command.equals("Affymetrix Browse Condition 2")) {
 			browseBarcode2File();
 		}
-
-		// if user clicks browse condition 1 button
-		if (command.equals("Illumina Browse File")) {
-			browseFileIllumina();
-			// TODO: check if file really exists!!
-		}
-
-		// if user clicks apply filter button
+		
+		// if user clicks apply filter button of affymetrixview
 		if (command.equals("Affymetrix Apply Filter")) {
 
-			// not, show the warning message.
+			// if one of the input conditions is empty, show the warning message.
 			if (affymetrixview.getInputcondition1field().getText().equals("")
 					|| affymetrixview.getInputcondition2field().getText()
 							.equals("")) {
@@ -292,10 +342,7 @@ public class Controller extends JFrame implements ActionListener {
 								new JFrame(),
 								"Please choose 2 barcode files using the browse buttons",
 								"Warning", JOptionPane.WARNING_MESSAGE);
-			} else if (!affymetrixview.getInputcondition1field().getText()
-					.equals("")
-					&& !affymetrixview.getInputcondition2field().getText()
-							.equals("")) {
+			} else {
 				// only if the two fields are not the same then try to read the
 				// files. Else warning message!
 				if (affymetrixview
@@ -314,11 +361,10 @@ public class Controller extends JFrame implements ActionListener {
 				}
 			}
 		}
-
+		
 		if (command.equals("Start Affymetrix Apply Filter")) {
 
 			// Start a processus to do the filtering
-
 			ProcessAffymetrix process = new ProcessAffymetrix(
 					affymetrixApplyFilterFrame, this, affymetrixview,
 					targetSIFpath, targetfilteredSIFpath);
@@ -335,30 +381,39 @@ public class Controller extends JFrame implements ActionListener {
 			affymetrixApplyFilterFrame.dispose();
 		}
 		
-		// if user clicks help button
+		// if user clicks help button of affymetrixview
 		if (command.equals("Affymetrix Help")) {
 			JOptionPane
-					.showMessageDialog(
-							new JFrame(),
-							"Please input 2 files in barcode format (http://barcode.luhs.org/), one for the experiment, the other the control."
-									+ "\n"
-									+ "An example of the barcode format:"
-									+ "\n"
-									+ "\"1007_s_at\",1"
-									+ "\n"
-									+ "\"1053_at\",0", "Take Note!",
+			.showMessageDialog(
+					new JFrame(),
+					"Please input 2 files in barcode format (http://barcode.luhs.org/), one for the experiment, the other the control."
+							+ "\n"
+							+ "An example of the barcode format:"
+							+ "\n"
+							+ "\"1007_s_at\",1"
+							+ "\n"
+							+ "\"1053_at\",0", "Take Note!",
 							JOptionPane.INFORMATION_MESSAGE);
 		}
+
+		/*-----------------------------------------*/
+		//Illumina :
 		
+		// if user clicks browse condition 1 button
+		if (command.equals("Illumina Browse File")) {
+			browseFileIllumina();
+			// TODO: check if file really exists!!
+		}
+				
 		// if user clicks apply filter button
 		if (command.equals("Illumina Apply Filter")) {
-			// checks if the user has selected 2 files in the two fields. if
+			// checks if the user has selected a file in the field. If
 			// not, show the warning message.
 			if (illuminaview.getInputFileField().getText().equals("")) {
 				JOptionPane.showMessageDialog(new JFrame(),
-						"Please choose a file using the browse buttons",
+						"Please choose a file using the browse button",
 						"Warning", JOptionPane.WARNING_MESSAGE);
-			} else if (!illuminaview.getInputFileField().getText().equals("")) {
+			} else {
 				// create the splashframe
 				illuminaApplyFilterFrame = new SplashFrame(
 						"Illumina Apply Filter", this);
@@ -368,7 +423,6 @@ public class Controller extends JFrame implements ActionListener {
 		if (command.equals("Start Illumina Apply Filter")) {
 
 			// Start a processus to do the filtering
-
 			ProcessIllumina process = new ProcessIllumina(
 					illuminaApplyFilterFrame, this, illuminaview,
 					targetSIFpath, targetfilteredSIFpath);
@@ -381,7 +435,7 @@ public class Controller extends JFrame implements ActionListener {
 		
 		if (command.equals("Stop Illumina Apply Filter")) {
 			if (illuminaApplyFilterFrame.getProcess() !=null){
-			illuminaApplyFilterFrame.getProcess().setContinueThread(false);
+				illuminaApplyFilterFrame.getProcess().setContinueThread(false);
 			}
 			illuminaApplyFilterFrame.dispose();
 		}
@@ -396,84 +450,58 @@ public class Controller extends JFrame implements ActionListener {
 							+"https://sites.google.com/site/caritoguziolowski/interesting-sof/example_illuminaExp.csv?attredirects=0&d=1",
 							"Help", JOptionPane.INFORMATION_MESSAGE);
 		}
-		// if user runs the convert button
-		if (command.equals("Convert")) {
-			// checks if the user has typed a file path into the input
-			// textfield. if not, alert!
-			if (step1.getInputTextFieldText().equals("")) {
-				JOptionPane.showMessageDialog(new JFrame(),
-						"Please enter a file using the browse button above",
-						"Warning", JOptionPane.WARNING_MESSAGE);
-			} else if (!step1.getInputTextFieldText().equals("")) {
+				
+		/*--------------------------------------*/
+		//Step 3 :
 
-				// create the splashframe
-				convertFrame = new SplashFrame("convert", this);
-			}
-		}
-		if (command.equals("Start convert")) {
-
-			// Start a processus to do the conversion
-
-			ProcessConvert process = new ProcessConvert(convertFrame, this,
-					step1);
-			Thread t = new Thread(process);
-			convertFrame.setProcess(process);
-			t.start();
-
+		if (command.equals("Gene Target Browse")) {
+			browseGeneTarget();
 		}
 		
-		if (command.equals("Stop convert")) {
-			if (convertFrame.getProcess() != null){
-				convertFrame.getProcess().setContinueThread(false);
-			}
-			convertFrame.dispose();
+		if (command.equals("Source Source Browse")) {
+			browseSigmolSource();
 		}
 		
+		if (command.equals("Source Target Browse")) {
+			browseSigmolTarget();
+		}
+
 		if (command.equals("Subgraph")) {
 			try {
-				if (!isConverted) {
-					JOptionPane
-							.showMessageDialog(
-									new JFrame(),
-									"Please convert first in Step 1 above before continuing.",
-									"Warning", JOptionPane.WARNING_MESSAGE);
+				// check the source and target fields for emptiness
+				if (step3.getSourceSourceTextField().getText().trim()
+						.equals("")
+						&&
+						// mainframe.getGenesourcetextfield().getText().trim().equals("")&&
+						step3.getCytoidSourceTextArea().getText()
+						.trim().equals("")) {
+					JOptionPane.showMessageDialog(new JFrame(),
+							"Please enter at least one file in SOURCE",
+							"Warning", JOptionPane.WARNING_MESSAGE);
+				} else if (step3.getGeneTargetTextField().getText()
+						.trim().equals("")
+						&& step3.getSourceTargetTextField().getText()
+						.trim().equals("")
+						&& step3.getCytoidTargetTextArea().getText()
+						.trim().equals("")) {
+					JOptionPane.showMessageDialog(new JFrame(),
+							"Please enter at least one file in TARGET",
+							"Warning", JOptionPane.WARNING_MESSAGE);
+				} else {
+					// create the splashframe
+					subgraphFrame = new SplashFrame("subgraph", this);
 				}
-				if (isConverted) {
-					// check the source and target fields for emptiness
-					if (step3.getSourceSourceTextField().getText().trim()
-							.equals("")
-							&&
-							// mainframe.getGenesourcetextfield().getText().trim().equals("")&&
-							step3.getCytoidSourceTextArea().getText()
-									.trim().equals("")) {
-						JOptionPane.showMessageDialog(new JFrame(),
-								"Please enter at least one file in SOURCE",
-								"Warning", JOptionPane.WARNING_MESSAGE);
-					} else if (step3.getGeneTargetTextField().getText()
-							.trim().equals("")
-							&& step3.getSourceTargetTextField().getText()
-									.trim().equals("")
-							&& step3.getCytoidTargetTextArea().getText()
-									.trim().equals("")) {
-						JOptionPane.showMessageDialog(new JFrame(),
-								"Please enter at least one file in TARGET",
-								"Warning", JOptionPane.WARNING_MESSAGE);
-					} else {
-						// create the splashframe
-						subgraphFrame = new SplashFrame("subgraph", this);
-					}
-				}
+
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(new JFrame(), "Error :  "
 						+ ex.getClass().getName(), "Warning",
 						JOptionPane.WARNING_MESSAGE);
 			}
-
 		}
+		
 		if (command.equals("Start subgraph")) {
 
 			// Start a processus to subgraph
-
 			ProcessSubgraph process = new ProcessSubgraph(subgraphFrame, this,
 					step3, targetSIFpath, targetsubgraphedSIFpath);
 			Thread t = new Thread(process);
@@ -481,21 +509,14 @@ public class Controller extends JFrame implements ActionListener {
 			t.start();
 
 		}
+		
 		if (command.equals("Stop subgraph")) {
 			if (subgraphFrame.getProcess() != null){
 			subgraphFrame.getProcess().setContinueThread(false);
 			}
 			subgraphFrame.dispose();
 		}
-		if (command.equals("Gene Target Browse")) {
-			browseGeneTarget();
-		}
-		if (command.equals("Source Source Browse")) {
-			browseSigmolSource();
-		}
-		if (command.equals("Source Target Browse")) {
-			browseSigmolTarget();
-		}
+		
 		if (command.equals("Help Step 3")) {
 			JOptionPane
 					.showMessageDialog(
@@ -518,63 +539,8 @@ public class Controller extends JFrame implements ActionListener {
 		if (command.equals("Back 2")) {
 			step3.setVisible(false);
 			step2.setVisible(true);
-			step2.requestFocus();
-			
+			step2.requestFocus();	
 		}
-		if (command.equals("Quit")) {
-			step1.dispose();
-			if (step2 != null){
-				step2.dispose();
-			}
-			if (step3 != null){
-				step3.dispose();
-			}
-		}
-	}
-
-	public void setConverted(boolean isConverted) {
-		Controller.isConverted = isConverted;
-	}
-
-	/**
-	 * This method checks the states of the affymetrix and illumina checkboxes
-	 * in mainframe and runs the appropriate commands to open the respective
-	 * window. This method checks if neither checkboxes are checked, or both are
-	 * checked, and gives a warning message to select only one checkbox.
-	 */
-	private void runChoose() {
-		boolean isaffymetrixselected = step2.isAffymetrixSelected();
-		boolean isilluminaselected = step2.isIlluminaSelected();
-
-		// if neither checkboxes are checked
-		if (!isaffymetrixselected && !isilluminaselected) {
-			JOptionPane.showMessageDialog(new JFrame(),
-					"Please select one single option.", "Warning",
-					JOptionPane.WARNING_MESSAGE);
-		}
-
-		// if only affymetrix is checked
-		if (isaffymetrixselected) {
-			affymetrixview = new AffymetrixView(this);
-			affymetrixview.setTitle("Import Barcode Output");
-			affymetrixview.setLocation(30, 30);
-			affymetrixview.setSize(400, 300);
-			affymetrixview.setResizable(false);
-			affymetrixview.setVisible(true);
-			affymetrixview.pack();
-		}
-
-		// if only illumina is checked
-		if (isilluminaselected) {
-			illuminaview = new IlluminaView(this);
-			illuminaview.setTitle("Illumina View");
-			illuminaview.setLocation(80, 80);
-			illuminaview.setSize(400, 300);
-			illuminaview.setResizable(false);
-			illuminaview.setVisible(true);
-			illuminaview.pack();
-		}
-
 	}
 
 	/**
@@ -635,6 +601,7 @@ public class Controller extends JFrame implements ActionListener {
 
 		// TODO: big construction site here, to find out how to import network
 		// file from table
+		
 		ImportAttributeTableTask task = new ImportAttributeTableTask(
 				new DefaultAttributeTableReader(null, null, 0, null, true), s);
 		task.run();
@@ -648,16 +615,16 @@ public class Controller extends JFrame implements ActionListener {
 		Cytoscape.firePropertyChange(Cytoscape.NEW_ATTRS_LOADED, null, null);
 
 		// try {
-		// ImportTextTableDialog ittd = new
-		// ImportTextTableDialog(Cytoscape.getDesktop(), true, 1);
-		// ittd.pack();
-		// ittd.setLocationRelativeTo(Cytoscape.getDesktop());
-		// ittd.setVisible(true);
+		// 		ImportTextTableDialog ittd = new
+		// 		ImportTextTableDialog(Cytoscape.getDesktop(), true, 1);
+		// 		ittd.pack();
+		// 		ittd.setLocationRelativeTo(Cytoscape.getDesktop());
+		// 		ittd.setVisible(true);
 		//
 		// } catch (JAXBException e) {
-		// e.printStackTrace();
+		// 		e.printStackTrace();
 		// } catch (IOException e) {
-		// e.printStackTrace();
+		// 		e.printStackTrace();
 		// }
 	}
 
@@ -684,203 +651,13 @@ public class Controller extends JFrame implements ActionListener {
 		Cytoscape.getCurrentNetworkView().redrawGraph(true, true);
 
 		// If the user wants it, and if it is possible (depending on the code of cytoscape), 
-		//set the layout as hierarchical
+		//set the layout as hierarchical. If the graph is too big, the hierarchical layout is not applied
 		if (step1 != null && step1.isHierarchicalChecked()){
 			CyLayouts.getLayout("hierarchical").doLayout();
 		}
-		
-		if (Cytoscape.getCurrentNetwork().getNodeCount() < 1000) {
-			// TODO: sometimes rotating the graph causes some crash errors. thus
-			// only rotate if hierarchichal layout!
+		// only rotate if hierarchichal layout. 
+		if (Cytoscape.getCurrentNetwork().getNodeCount() < 1000 && step1.isHierarchicalChecked()) {
 			rotateGraph();
-		}
-	}
-
-	/**
-	 * This method gets the filepath from the input file text area and then
-	 * converts that xml file into SIF files
-	 * 
-	 * @param filepath
-	 */
-	public void convertFile(String filepath, SplashFrame sp, ProcessConvert process) {
-		
-		// if the outputfiletextfield is empty, output file folder is same as
-		// input file's
-		if (step1.getOutputTextFieldText().trim().equals("")) {
-			String[] temporarypath = null;
-			// if a file with xml ending
-			if (curFile.getAbsolutePath().endsWith("xml")) {
-				// set the SIF file path
-				temporarypath = curFile.getAbsolutePath().split(".xml");
-				setTargetSIFpath(temporarypath[0].concat(".sif"));
-			} else if (curFile.getAbsolutePath().endsWith("sif")) {
-				temporarypath = curFile.getAbsolutePath().split(".sif");
-				setTargetSIFpath(curFile.getAbsolutePath());
-				// for loading of pre-filtered SIF files
-				if (curFile.getAbsolutePath().contains(
-						getAbsentProteinsConcatenation())) {
-					temporarypath[0] = temporarypath[0].replace(
-							getAbsentProteinsConcatenation(), "");
-				}
-				// for loading of pre-subgraphed SIF files
-				if (curFile.getAbsolutePath().contains(getSubgraphed())) {
-					temporarypath[0] = temporarypath[0].replace(
-							getSubgraphed(), "");
-				}
-			}
-			// set the target node type NA path
-			setTargetNODE_TYPEpath(temporarypath[0].concat(".NODE_TYPE.NA"));
-			// set the UNIPROT NA path
-			setTargetUNIPROTpath(temporarypath[0].concat(".UNIPROT.NA"));
-			// set the ENTREZGENE NA path
-			setTargetENTREZGENEpath(temporarypath[0].concat(".ENTREZGENE.NA"));
-			// set the MODIFICATIONS NA path
-			setTargetMODIFICATIONSpath(temporarypath[0]
-					.concat(".MODIFICATIONS.NA"));
-			// set the PREFERRED_SYMBOL NA path
-			setTargetPREFERRED_SYMBOLpath(temporarypath[0]
-					.concat(".PREFERRED_SYMBOL.NA"));
-			// set the PREFERRED_SYMBOL_EXT NA path
-			setTargetPREFERRED_SYMBOL_EXTpath(temporarypath[0]
-					.concat(".PREFERRED_SYMBOL_EXT.NA"));
-			// set the PID NA path
-			setTargetPIDpath(temporarypath[0].concat(".PID.NA"));
-			// set the ID_PREF NA path
-			setTargetID_PREFpath(temporarypath[0].concat(".ID_PREF.NA"));
-			// set the CytoIDtoIDFile path
-			setTargetCytoIDtoIDFilepath(temporarypath[0]
-					.concat(".CytoIDToID.NA"));
-			// set the UniqueID path
-			setTargetUniqueIDFilepath(temporarypath[0].concat(".UNIQUEID.NA"));
-			// set the UniProt to GeneID map file path
-			setTargetUniProtToGeneIDMapFilepath(temporarypath[0]
-					.concat(".UPToGeneIDMap.NA"));
-			// set the GeneID to Affymetrix map file path
-			setTargetGeneIDtoAffymetrixMapFilepath(temporarypath[0]
-					.concat(".GeneIDToAffyMap.NA"));
-		}
-		this.inputfilepath = filepath;
-		if (inputfilepath.endsWith("xml")) {
-			NodeManagerImpl manager = NodeManagerImpl.getInstance();
-			PidFileReader reader = PidFileReader.getInstance();
-			reader.setSplashFrameAndProcess(sp, process);
-			try {
-				
-				//The longest part of the function (in processing time)
-				reader.read(inputfilepath);
-				if(!process.isContinueThread()){
-					return;
-				}
-				
-			} catch (NoValidManagerSetException e1) {
-				JOptionPane
-						.showMessageDialog(
-								new JFrame(),
-								"Program error, please contact hadi.kang@bioquant.uni-heidelberg.de for assistance.",
-								"Warning", JOptionPane.WARNING_MESSAGE);
-				e1.printStackTrace();
-			} catch (FileParsingException e1) {
-				JOptionPane
-						.showMessageDialog(
-								new JFrame(),
-								"File parse error. Make sure you have selected a valid xml file downloaded from Protein Interaction Database.",
-								"Warning", JOptionPane.WARNING_MESSAGE);
-				e1.printStackTrace();
-			}
-
-			FileWriter writer = SifFileWriter.getInstance();
-			try {
-				writer.write(getTargetSIFpath(), manager);
-				sp.getBar().setValue(85);
-				if(!process.isContinueThread()){
-					return;
-				}
-				if (step1.isExpandChecked()) {
-					writer = SifFileExpandMolWriter.getInstance();
-					writer.write(getTargetSIFpath(), manager);
-				}
-			} catch (FileNotFoundException e) {
-				JOptionPane.showMessageDialog(new JFrame(), "File write error",
-						"Warning", JOptionPane.WARNING_MESSAGE);
-				e.printStackTrace();
-			}
-
-			FileWriter nWriter = NodeTypeAttributeForIDWithModWriter
-					.getInstance();
-			try {
-				nWriter.write(getTargetNODE_TYPEpath(), manager);
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			FileWriter uWriter = UniprotIdForUniprotWithModWriter.getInstance();
-			try {
-				uWriter.write(getTargetUNIPROTpath(), manager);
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			FileWriter eWriter = EntrezGeneIdforEntrezGeneWithModWriter
-					.getInstance();
-			try {
-				eWriter.write(getTargetENTREZGENEpath(), manager);
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			FileWriter modiWriter = ModificationsWriter.getInstance();
-			try {
-				modiWriter.write(getTargetMODIFICATIONSpath(), manager);
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			FileWriter pWriter = PreferredSymbolForIDWithModWriter
-					.getInstance();
-			try {
-				pWriter.write(getTargetPREFERRED_SYMBOLpath(), manager);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			pWriter = ExtPreferredSymbolWriter.getInstance();
-			try {
-				pWriter.write(getTargetPREFERRED_SYMBOL_EXTpath(), manager);
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			FileWriter pidWriter = PidForIDWithModWriter.getInstance();
-			try {
-				pidWriter.write(getTargetPIDpath(), manager);
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			FileWriter prefIdWriter = IdWithPreferredSymbolWriter.getInstance();
-			try {
-				prefIdWriter.write(getTargetID_PREFpath(), manager);
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-
-		} else if (inputfilepath.endsWith("sif")) {
-			sp.getBar().setValue(85);
-			
-		} else // not an xml or SIF file
-		{
-			JOptionPane
-					.showMessageDialog(
-							new JFrame(),
-							"File parse error. Make sure you have selected a valid xml file downloaded from Protein Interaction Database.",
-							"Warning", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
@@ -890,7 +667,6 @@ public class Controller extends JFrame implements ActionListener {
 	 */
 	private void browseInputFile() {
 		try {
-			// JFileChooser fc = new JFileChooser(".");
 			fc.setDialogTitle("Please choose an XML file");
 			FileNameExtensionFilter xmldata = new FileNameExtensionFilter(
 					"XML", "xml");
@@ -899,9 +675,8 @@ public class Controller extends JFrame implements ActionListener {
 			fc.addChoosableFileFilter(xmldata);
 			fc.addChoosableFileFilter(sifdata);
 
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
-														// file browser
-			// get name und path
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
+			// get name and path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				curFile = fc.getSelectedFile();
 				currentDirectory = fc.getCurrentDirectory();
@@ -928,7 +703,6 @@ public class Controller extends JFrame implements ActionListener {
 							"Warning", JOptionPane.WARNING_MESSAGE);
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -939,7 +713,6 @@ public class Controller extends JFrame implements ActionListener {
 		String filedirectory = "";
 		String filepath = "";
 		try {
-			// JFileChooser fc = new JFileChooser(".");
 			fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // select directories or files
 			fc.setDialogTitle("Please choose a directory to save the converted file(s)");
 			fc.setCurrentDirectory(currentDirectory);
@@ -969,7 +742,7 @@ public class Controller extends JFrame implements ActionListener {
 					String[] temporarypath = curFile.getName().split(".xml");
 
 					// set the target SIF path
-					setTargetSIFpath(filepath.concat("\\").concat(
+					setTargetSIFpath(filepath.concat(separator).concat(
 							temporarypath[0].concat(".sif")));
 
 					// set the target node type NA path
@@ -1108,12 +881,10 @@ public class Controller extends JFrame implements ActionListener {
 	 */
 	public void browseBarcode1File() {
 		try {
-			// JFileChooser fc = new JFileChooser(".");
 			fc.setDialogTitle("Please choose Barcode file of Condition 1");
 			fc.setCurrentDirectory(currentDirectory);
 
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
-														// file browser
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
 			// get name and path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				barcode1File = fc.getSelectedFile();
@@ -1136,12 +907,10 @@ public class Controller extends JFrame implements ActionListener {
 	 */
 	public void browseBarcode2File() {
 		try {
-			// JFileChooser fc = new JFileChooser(".");
 			fc.setDialogTitle("Please choose Barcode file of Condition 2");
 			fc.setCurrentDirectory(currentDirectory);
 
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
-														// file browser
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
 			// get name and path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				barcode2File = fc.getSelectedFile();
@@ -1171,8 +940,7 @@ public class Controller extends JFrame implements ActionListener {
 					"CSV", "csv");
 			fc.addChoosableFileFilter(csvdata);
 			
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
-														// file browser
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
 			// get name and path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				fileIllumina = fc.getSelectedFile();
@@ -1196,13 +964,11 @@ public class Controller extends JFrame implements ActionListener {
 	 */
 	private void browseGeneTarget() {
 		try {
-			// JFileChooser fc = new JFileChooser(".");
 			fc.setDialogTitle("Please choose a text file");
 			fc.setCurrentDirectory(currentDirectory);
 
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
-														// file browser
-			// get name und path
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
+			// get name and path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				genetargetFile = fc.getSelectedFile();
 				// put the absolute path in the textfield
@@ -1224,13 +990,11 @@ public class Controller extends JFrame implements ActionListener {
 	 */
 	private void browseSigmolSource() {
 		try {
-			// JFileChooser fc = new JFileChooser(".");
 			fc.setDialogTitle("Please choose a text file");
 			fc.setCurrentDirectory(currentDirectory);
 
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
-														// file browser
-			// get name und path
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
+			// get name and path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				sigmolsourceFile = fc.getSelectedFile();
 				currentDirectory = fc.getCurrentDirectory();
@@ -1251,13 +1015,11 @@ public class Controller extends JFrame implements ActionListener {
 	 */
 	private void browseSigmolTarget() {
 		try {
-			// JFileChooser fc = new JFileChooser(".");
 			fc.setDialogTitle("Please choose a text file");
 			fc.setCurrentDirectory(currentDirectory);
 
-			int returnVal = fc.showOpenDialog(this); // shows the dialog of the
-														// file browser
-			// get name und path
+			int returnVal = fc.showOpenDialog(this); // shows the dialog of the file browser
+			// get name and path
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				sigmoltargetFile = fc.getSelectedFile();
 				// put the absolute path in the textfield
@@ -1411,5 +1173,8 @@ public class Controller extends JFrame implements ActionListener {
 	public static String getSubgraphed() {
 		return SUBGRAPHED;
 	}
-
+	
+	public void setConverted(boolean isConverted) {
+		Controller.isConverted = isConverted;
+	}
 }

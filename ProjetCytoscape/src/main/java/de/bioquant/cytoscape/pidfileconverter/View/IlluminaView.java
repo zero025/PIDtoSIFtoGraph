@@ -1,5 +1,6 @@
 /**
- * @contributor Yamei & Thomas
+ * This class create the Illumina window.
+ * @contributor Yamei Sun & Thomas Brunel
  */
 
 package de.bioquant.cytoscape.pidfileconverter.View;
@@ -59,65 +60,55 @@ public class IlluminaView extends JFrame {
 		/* ------------------------------------------------------ */
 		// adding the inputFileField to filepanel
 		c.gridx = 1;
-		c.gridy = 0;
 		filepanel.add(inputFileField, c);
 		/* ------------------------------------------------------ */
 		// adding the browseFileButton to filepanel and adding action commands/listener
 		c.gridx = 2;
-		c.gridy = 0;
 		filepanel.add(browseFileButton, c);
 		browseFileButton.setActionCommand("Illumina Browse File");
 		browseFileButton.addActionListener(controller);
 		/* ------------------------------------------------------ */
 		// setting the insertNameslabel and adding it to conditionspanel
 		insertNameslabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
-		// c.ipady = 30; //make this component tall
-		// c.ipadx = 20;
-		//c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.gridx = 0;
 		c.gridy = 0;
 		conditionspanel.add(insertNameslabel, c);
 		/* ------------------------------------------------------ */
 		// adding the condition1label label to conditionspanel
-		// c.ipady = 15;
-		// c.ipadx = 15;
-		c.weightx = 0.5;
 		c.gridwidth = 1;
-		c.gridx = 0;
 		c.gridy = 1;
 		conditionspanel.add(condition1Label, c);
 		/* ------------------------------------------------------ */
 		// adding the condition2label label to conditionspanel
-		// c.ipady = 15;
-		// c.ipadx = 15;
-		c.gridx = 0;
 		c.gridy = 2;
 		conditionspanel.add(condition2Label, c);
 		/* ------------------------------------------------------ */
 		// adding the inputcondition1Field label to conditionspanel
 		c.gridx = 1;
 		c.gridy = 1;
+		c.weightx =1;
 		conditionspanel.add(inputcondition1Field, c);
 		/* ------------------------------------------------------ */
-		// adding the inputcondition1Field label to conditionspanel
-		c.gridx = 1;
+		// adding the inputcondition2Field label to conditionspanel
 		c.gridy = 2;
 		conditionspanel.add(inputcondition2Field, c);
 		/* ------------------------------------------------------ */
-		// adding the applyfilterbutton to conditionspanel and adding action commands/listener
-		c.gridx = 3;
-		c.gridy = 3;
-		conditionspanel.add(applyfilterbutton, c);
-		applyfilterbutton.setActionCommand("Illumina Apply Filter");
-		applyfilterbutton.addActionListener(controller);
-		/* ------------------------------------------------------ */
 		// adding the help button to conditionspanel and adding action commands/listener
-		c.gridx = 3;
-		c.gridy = 4;
+		c.gridx = 0;
+		c.gridy = 3;
+		c.weightx =0;
 		conditionspanel.add(helpbutton, c);
 		helpbutton.setActionCommand("Illumina Help");
 		helpbutton.addActionListener(controller);
+		/* ------------------------------------------------------ */
+		// adding the applyfilterbutton to conditionspanel and adding action commands/listener
+		c.gridx = 3;
+		conditionspanel.add(applyfilterbutton, c);
+		applyfilterbutton.setActionCommand("Illumina Apply Filter");
+		applyfilterbutton.addActionListener(controller);
+		
 		/* ------------------------------------------------------ */
 		// Add filepanel into the main panel
 		c.ipady = 10;
@@ -127,7 +118,6 @@ public class IlluminaView extends JFrame {
 		mainpanel.add(filepanel, c);
 		/* ------------------------------------------------------ */
 		// Add conditionspanel into the main panel
-		c.gridx = 0;
 		c.gridy = 1;
 		mainpanel.add(conditionspanel, c);
 		/* ------------------------------------------------------ */
@@ -136,10 +126,18 @@ public class IlluminaView extends JFrame {
 		getContentPane().setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
-		
+		//Tooltip help
 		browseFileButton.setToolTipText("Click here to find an Illumina file, CSV format");
 		applyfilterbutton.setToolTipText("Start filtering");
 		helpbutton.setToolTipText("To get information about how to use the plugin");
+		
+		//General appearance
+		setTitle("Illumina View");
+		setLocationRelativeTo(null);
+		setSize(400, 300);
+		setResizable(false);
+		setVisible(true);
+		pack();
 	}
 
 	public void setInputFileFieldText(String arg) {

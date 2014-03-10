@@ -51,6 +51,11 @@ public class Step3 extends JFrame {
 	private JScrollPane cytoidsourcescrollpane;
 	private JScrollPane cytoidtargetscrollpane;
 
+	/**
+	 * Constructor of the window
+	 * @param controller
+	 * @throws Exception
+	 */
 	public Step3(Controller controller) throws Exception {
 
 		controller = new Controller(this);
@@ -66,7 +71,6 @@ public class Step3 extends JFrame {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 
-		/********************************************/
 		/* ------------------------------------------------------ */
 		// setting the title
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -294,7 +298,8 @@ public class Step3 extends JFrame {
 		//setResizable(false); // To disable the possibility to change the size of the window
 		setVisible(true);
 		//pack(); //To have a reduced window
-		
+
+		//Tooltip help
 		browseGeneTargetButton.setToolTipText("browse Gene Molecules-Targets");
 		browseSourceSourceButton.setToolTipText("browse Source Molecules-Sources");
 		browseSourceTargetButton.setToolTipText("browse Source Molecules-Targets");

@@ -26,13 +26,11 @@ public class SplashFrame extends JFrame {
 	private static SplashFrame myself;
 	private AbstractProcess process;
 	private JButton stop;
-	
-	public JButton getStart() {
-		return start;
-	}
 
+	/**
+	 * Default constructor, without "start" and "stop" buttons
+	 */
 	public SplashFrame() {
-		
 		
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);	
 		setTitle("Please Wait a Moment...");
@@ -55,6 +53,11 @@ public class SplashFrame extends JFrame {
 		
 	}
 		
+	/**
+	 * Constructor linked to a processus, with a "sart" and a "stop" buttons.
+	 * @param processus
+	 * @param controller
+	 */
 	public SplashFrame(String processus, Controller controller) {
 		
 		SplashFrame.myself=this;
@@ -63,8 +66,6 @@ public class SplashFrame extends JFrame {
 		setTitle("Please Wait a Moment...");
 		setLocationRelativeTo(null); 
 		setSize(500, 200);
-		setResizable(false);
-
 
 		label = new JLabel("Please wait for processing. This window closes automatically.");
 		add(label,  BorderLayout.NORTH);
@@ -116,5 +117,9 @@ public class SplashFrame extends JFrame {
 
 	public JProgressBar getBar() {
 		return bar;
+	}
+	
+	public JButton getStart() {
+		return start;
 	}
 }

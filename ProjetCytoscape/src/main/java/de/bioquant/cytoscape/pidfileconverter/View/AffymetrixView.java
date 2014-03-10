@@ -1,3 +1,7 @@
+/**
+ * Windows of the affymetrix filtering
+ * @contributor Yamei Sun & Thomas Brunel
+ */
 package de.bioquant.cytoscape.pidfileconverter.View;
 
 import java.awt.ComponentOrientation;
@@ -61,18 +65,14 @@ public class AffymetrixView extends JFrame {
 		c.gridwidth = 1;
 		c.ipady = 5;
 		c.ipadx = 5;
-		c.gridx = 0;
-		c.gridy = 0;
 		toppanel.add(condition1label, c);
 		/* ------------------------------------------------------ */
 		// adding the inputcondition1field to toppanel
 		c.gridx = 1;
-		c.gridy = 0;
 		toppanel.add(inputcondition1field, c);
 		/* ------------------------------------------------------ */
 		// adding the browsecondition1button to toppanel and adding action commands/listener
 		c.gridx = 2;
-		c.gridy = 0;
 		toppanel.add(browsecondition1button, c);
 		browsecondition1button.setActionCommand("Affymetrix Browse Condition 1");
 		browsecondition1button.addActionListener(controller);
@@ -84,12 +84,10 @@ public class AffymetrixView extends JFrame {
 		/* ------------------------------------------------------ */
 		// adding the inputcondition2field label to toppanel
 		c.gridx = 1;
-		c.gridy = 1;
 		toppanel.add(inputcondition2field, c);
 		/* ------------------------------------------------------ */
 		// adding the browsecondition2button to toppanel and adding action commands/listener
 		c.gridx = 2;
-		c.gridy = 1;
 		toppanel.add(browsecondition2button, c);
 		browsecondition2button.setActionCommand("Affymetrix Browse Condition 2");
 		browsecondition2button.addActionListener(controller);
@@ -107,7 +105,6 @@ public class AffymetrixView extends JFrame {
 		toppanel.add(applyfilterbutton, c);
 		applyfilterbutton.setActionCommand("Affymetrix Apply Filter");
 		applyfilterbutton.addActionListener(controller);
-
 		/* ------------------------------------------------------ */
 		// Add top title panel into the main panel
 		c.ipady = 10;
@@ -117,9 +114,6 @@ public class AffymetrixView extends JFrame {
 		mainpanel.add(titlepanel, c);
 		/* ------------------------------------------------------ */
 		// Add top panel into the main panel
-		c.ipady = 10;
-		c.ipadx = 10;
-		c.gridx = 0;
 		c.gridy = 1;
 		mainpanel.add(toppanel, c);
 		/* ------------------------------------------------------ */
@@ -128,10 +122,19 @@ public class AffymetrixView extends JFrame {
 		getContentPane().setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
+		//ToolTip help
 		browsecondition1button.setToolTipText("Data of the control");
 		browsecondition2button.setToolTipText("Data of the experiment");
 		applyfilterbutton.setToolTipText("Start filtering");
 		helpbutton.setToolTipText("To get information about how to use the plugin");
+		
+		//General appearance
+		setTitle("Import Barcode Output");
+		setLocationRelativeTo(null);
+		setSize(400, 300);
+		setResizable(false);
+		setVisible(true);
+		pack();
 	}
 
 	public void setInput1FieldText(String arg) {

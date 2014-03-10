@@ -41,6 +41,11 @@ public class Step1 extends JFrame {
 	private JCheckBox showMoreCheckBox = new JCheckBox();
 	private JCheckBox hierarchicalCheckBox = new JCheckBox();
 	
+	/**
+	 * Constructor of the window
+	 * @param controller
+	 * @throws Exception
+	 */
 	public Step1(Controller controller) throws Exception {
 
 		controller = new Controller(this);
@@ -206,9 +211,10 @@ public class Step1 extends JFrame {
 		//setResizable(false); // To disable the possibility to change the size of the window
 		setVisible(true);
 		//pack(); //To have a reduced window
-		next.setEnabled(false);
 		
-
+		next.setEnabled(false); //The user cannot go to step 2 or 3 without loading a file (PID or SIF).
+		
+		//tooltip help
 		browseInputButton.setToolTipText("Click here to find a PID file, XML or SIF format");
 		browseOutputButton.setToolTipText("Click here to find the directory where the files will be created (optionnal)");
 		convertButton.setToolTipText("Create a graph from a PID and show it");
