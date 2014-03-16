@@ -652,7 +652,7 @@ public class Controller extends JFrame implements ActionListener {
 
 		// If the user wants it, and if it is possible (depending on the code of cytoscape), 
 		//set the layout as hierarchical. If the graph is too big, the hierarchical layout is not applied
-		if (step1 != null && step1.isHierarchicalChecked()){
+		if (step1 != null && step1.isHierarchicalChecked() && Cytoscape.getCurrentNetwork().getNodeCount() < 1000){
 			CyLayouts.getLayout("hierarchical").doLayout();
 		}
 		// only rotate if hierarchichal layout. 
