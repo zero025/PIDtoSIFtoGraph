@@ -205,9 +205,16 @@ public class Controller extends JFrame implements ActionListener {
 			JOptionPane
 					.showMessageDialog(
 							new JFrame(),
-							"Check to automatically add into the graph the nodes which"
+							"Show family & complex members: "
 									+ "\n"
-									+ "are each families of protein complex without predecessors.",
+									+ "Check to automatically add into the graph the nodes which"
+									+ "\n"
+									+ "are each families of protein complex without predecessors."
+							+"Hierarchical graph:"
+									+"\n"
+									+"Display a hierarchical graph: every interaction is going down"
+									+"Uncheck if the process is too long"
+									,
 							"What's this CheckBox?",
 							JOptionPane.INFORMATION_MESSAGE);
 		}
@@ -444,9 +451,15 @@ public class Controller extends JFrame implements ActionListener {
 			JOptionPane
 					.showMessageDialog(
 							new JFrame(),
-							"The Illumina file should contain a column named \"EntrezGeneID\""
-							+"An Illumina condition is described by many columns: experiment.mean, experiment.sd, experiment.p, experiment.nbeads"
-							+"An example of a extract of a normalized Illumina file with 2 experiments can be found at:" 
+							"The Illumina CSV file is the normalized file. It should contain a column named \"EntrezGeneID\"."
+							+"\n"
+							+"In this file an experiment is described by many columns, for example: experiment1.mean, experiment1.sd, experiment1.p, experiment1.nbeads."
+							+"\n"
+							+"The text fields \"Condition 1\" and \"Condition 2\" correspond to the name od the experiment, in our example: \"experiment1\"."
+							+"\n"
+							+"An example of a extract of a normalized Illumina file with 2 experiments can be found at: " 
+							+"\n"
+							+"\n"
 							+"https://sites.google.com/site/caritoguziolowski/interesting-sof/example_illuminaExp.csv?attredirects=0&d=1",
 							"Help", JOptionPane.INFORMATION_MESSAGE);
 		}

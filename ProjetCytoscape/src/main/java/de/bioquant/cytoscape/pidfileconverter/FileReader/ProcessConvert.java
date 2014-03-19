@@ -69,17 +69,6 @@ public class ProcessConvert extends AbstractProcess {
 		// set this filepath in the File object
 		curFile = new File(inputfilepath);
 
-		// -------------------------------------------------------
-		if (curFile.getAbsolutePath().endsWith("xml")) {
-			// targetSIFpath is set here by default
-			String[] temporarypath = curFile.getAbsolutePath().split(".xml");
-			controller.setTargetSIFpath(temporarypath[0].concat(".sif"));
-		}
-		if (curFile.getAbsolutePath().endsWith("sif")) {
-			// targetSIFpath is set here by default
-			controller.setTargetSIFpath(curFile.getAbsolutePath());
-		}
-
 		try {
 			// converting a file which is displayed in the inputtextfield
 			// JTextfield field in mainframe
