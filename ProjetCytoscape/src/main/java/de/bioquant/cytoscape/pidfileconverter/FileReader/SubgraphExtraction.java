@@ -70,7 +70,7 @@ public class SubgraphExtraction {
 	}
 
 	/**
-	 * Read the cytoidsourcearea of class MainFrame and reads it according to CytoIDs, checks if present in CyNetwork,
+	 * Read the cytoidsourcearea of class ste3 and reads it according to CytoIDs, checks if present in CyNetwork,
 	 * before putting the IDs into an ArrayList of type CyNode, which is to undergo subgraph extraction.
 	 */
 	public void readCytoSourceText() {
@@ -196,47 +196,79 @@ public class SubgraphExtraction {
 										"Caution!", JOptionPane.PLAIN_MESSAGE);
 						return;
 					} else {
-						String otherID=l.trim(); //Check for the CytoID or the Entrezgene of each ID of the file
+	
+						//If the default ID is UniprotID, look for the corresponding EntrezGeneID
+						//We can only look for a perfect match in case of an EntrezGeneID
+						String otherID=l.trim(); 
 						if (Pattern.matches(regex1, l.trim())) {
-							String uniprottogeneid = AffymetrixRegexReader
+							String entrezGeneID = AffymetrixRegexReader
 									.getUniprottogeneidFullhashmap().get(l.trim());
-							if ((uniprottogeneid != null) && !uniprottogeneid.isEmpty()) {
-								otherID = uniprottogeneid;
+							if ((entrezGeneID != null) && !entrezGeneID.isEmpty()) {
+								otherID = entrezGeneID; //corresponding EntrezGene ID
+								System.out.println("EntrezGeneID: "+otherID);
 							}
+							
+							if (isComingFromTranslation(l.trim(), sifpath,
+									nodetypefilepath)) // if l comes from a translation event
+							{
+								for (int i = 0; i < cynodelist.size(); i++) {
+									if (!cynodelist.get(i).getIdentifier()
+											.contains(":")) // if cytoID doesntcontain ":" i.e. notfamily or complex
+									{
+										if (cynodelist.get(i).getIdentifier()
+												.contains(l.trim()) || cynodelist.get(i).getIdentifier()
+												.equals(otherID) )// if cytoIDcontains l, i.e. P10291@nucleus is possible
+										{
+											if (!cytotargetsubgraph
+													.contains(cynodelist.get(i))) // then add the cytoid to the target subgraph list
+											{
+												cytotargetsubgraph.add(cynodelist
+														.get(i));
+												temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it  from temporary list!
+											}
+										}
+									}
+								}
+							}
+							
 						}
-						else if (!Pattern.matches("pid",  l.trim()) && AffymetrixRegexReader
+						//If the default ID is an EntrezGeneID, look the corresponding UniprotID
+						else if (Pattern.matches("([0-9])+",l.trim()) && AffymetrixRegexReader
 								.getUniprottogeneidFullhashmap().containsValue(l.trim())){
 							for(String uniprotID : AffymetrixRegexReader
 									.getUniprottogeneidFullhashmap().keySet()){
 								if (AffymetrixRegexReader
 										.getUniprottogeneidFullhashmap().get(uniprotID).equals(l.trim())){
 									otherID = uniprotID;
+									break;
 								}
 							}
-						}
-						if (isComingFromTranslation(l.trim(), sifpath,
-								nodetypefilepath) || isComingFromTranslation(otherID, sifpath,
-										nodetypefilepath)) // if l comes from a translation event
-						{
-							for (int i = 0; i < cynodelist.size(); i++) {
-								if (!cynodelist.get(i).getIdentifier()
-										.contains(":")) // if cytoID doesntcontain ":" i.e. notfamily or complex
-								{
-									if (cynodelist.get(i).getIdentifier()
-											.contains(l.trim()) || cynodelist.get(i).getIdentifier()
-											.contains(otherID)) // if cytoIDcontains l, i.e. P10291@nucleus is possible
+
+							if (!otherID.equals(l.trim()) && isComingFromTranslation(otherID, sifpath,
+									nodetypefilepath)) // if otherID comes from a translation event
+							{
+								for (int i = 0; i < cynodelist.size(); i++) {
+									if (!cynodelist.get(i).getIdentifier()
+											.contains(":")) // if cytoID doesntcontain ":" i.e. notfamily or complex
 									{
-										if (!cytotargetsubgraph
-												.contains(cynodelist.get(i))) // then add the cytoid to the target subgraph list
+										if (cynodelist.get(i).getIdentifier()
+												.equals(l.trim()) || (!otherID.equals(l.trim()) && cynodelist.get(i).getIdentifier()
+												.contains(otherID)) )// if cytoIDcontains l, i.e. P10291@nucleus is possible
 										{
-											cytotargetsubgraph.add(cynodelist
-													.get(i));
-											temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it  from temporary list!
+											if (!cytotargetsubgraph
+													.contains(cynodelist.get(i))) // then add the cytoid to the target subgraph list
+											{
+												cytotargetsubgraph.add(cynodelist
+														.get(i));
+												temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it  from temporary list!
+											}
 										}
 									}
 								}
 							}
 						}
+
+
 					}
 				}
 			} catch (IOException e) {
@@ -293,70 +325,13 @@ public class SubgraphExtraction {
 						for (int i = 0; i < cynodelist.size(); i++) {
 							if (step3.isIncludeComplexesChecked()) // if the checkbox is ticked
 							{
-								String otherID=l.trim(); //Check for the CytoID or the Entrezgene of each ID of the file
-								if (Pattern.matches(regex1, l.trim())) {
-									String uniprottogeneid = AffymetrixRegexReader
-											.getUniprottogeneidFullhashmap().get(l.trim());
-									if ((uniprottogeneid != null) && !uniprottogeneid.isEmpty()) {
-										otherID = uniprottogeneid;
-									}
-								}
-								else if (!Pattern.matches("pid",  l.trim()) && AffymetrixRegexReader
-										.getUniprottogeneidFullhashmap().containsValue(l.trim())){
-									for(String uniprotID : AffymetrixRegexReader
-											.getUniprottogeneidFullhashmap().keySet()){
-										if (AffymetrixRegexReader
-												.getUniprottogeneidFullhashmap().get(uniprotID).equals(l.trim())){
-											otherID = uniprotID;
-										}
-									}
-								}
-								if (cynodelist.get(i).getIdentifier()
-										.contains(l.trim()) || cynodelist.get(i).getIdentifier()
-										.contains(otherID)) // see if the string of UniProt is present in the CytoID
-								{
-									if (!cytosourcesubgraph.contains(cynodelist
-											.get(i))) // add it to the subgraph list
-									{
-										cytosourcesubgraph.add(cynodelist
-												.get(i));
-										temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it from temporary list!
-									}
-								}
-							} else if (!step3.isIncludeComplexesChecked()) // else if the checkbox is not ticked
+								addIfPossible(l, cytosourcesubgraph, cynodelist, i, temporarylist);
+							} else // else if the checkbox is not ticked
 							{
 								if (!cynodelist.get(i).getIdentifier()
 										.contains(":")) // if cytoID doesnt contain ":" i.e. not family or complex
 								{
-									String otherID=l.trim(); //Check for the CytoID or the Entrezgene of each ID of the file
-									if (Pattern.matches(regex1, l.trim())) {
-										String uniprottogeneid = AffymetrixRegexReader
-												.getUniprottogeneidFullhashmap().get(l.trim());
-										if ((uniprottogeneid != null) && !uniprottogeneid.isEmpty()) {
-											otherID = uniprottogeneid;
-										}
-									}
-									else if (!Pattern.matches("pid",  l.trim()) && AffymetrixRegexReader
-											.getUniprottogeneidFullhashmap().containsValue(l.trim())){
-										for(String uniprotID : AffymetrixRegexReader
-												.getUniprottogeneidFullhashmap().keySet()){
-											if (AffymetrixRegexReader
-													.getUniprottogeneidFullhashmap().get(uniprotID).equals(l.trim())){
-												otherID = uniprotID;
-											}
-										}
-									}
-									if (cynodelist.get(i).getIdentifier()
-											.contains(l.trim()) || cynodelist.get(i).getIdentifier()
-											.contains(otherID))  // if so, add the text to the subgraph list
-									{
-										if (!cytosourcesubgraph
-												.contains(cynodelist.get(i))) {
-											cytosourcesubgraph.add(cynodelist
-													.get(i));
-											temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it from temporary list!
-										}
-									}
+									addIfPossible(l.trim(), cytosourcesubgraph, cynodelist, i, temporarylist);
 								}
 							}
 						}
@@ -419,70 +394,15 @@ public class SubgraphExtraction {
 
 							if (step3.isIncludeComplexesChecked()) // if the checkbox is ticked
 							{
-								String otherID=l.trim(); //Check for the CytoID or the Entrezgene of each ID of the file
-								if (Pattern.matches(regex1, l.trim())) {
-									String uniprottogeneid = AffymetrixRegexReader
-											.getUniprottogeneidFullhashmap().get(l.trim());
-									if ((uniprottogeneid != null) && !uniprottogeneid.isEmpty()) {
-										otherID = uniprottogeneid;
-									}
-								}
-								else if (!Pattern.matches("pid",  l.trim()) && AffymetrixRegexReader
-										.getUniprottogeneidFullhashmap().containsValue(l.trim())){
-									for(String uniprotID : AffymetrixRegexReader
-											.getUniprottogeneidFullhashmap().keySet()){
-										if (AffymetrixRegexReader
-												.getUniprottogeneidFullhashmap().get(uniprotID).equals(l.trim())){
-											otherID = uniprotID;
-										}
-									}
-								}
-								if (cynodelist.get(i).getIdentifier()
-										.contains(l.trim()) || cynodelist.get(i).getIdentifier()
-										.contains(otherID))  // see if the string of UniProt is present in the CytoID
-								{
-									if (!cytotargetsubgraph.contains(cynodelist
-											.get(i))) // add it to the subgraph list
-									{
-										cytotargetsubgraph.add(cynodelist
-												.get(i));
-										temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it from temporary list!
-									}
-								}
-							} else if (!step3.isIncludeComplexesChecked()) // else if the checkbox is not ticked
+								addIfPossible(l, cytotargetsubgraph, cynodelist, i, temporarylist);
+									
+							} else // else if the checkbox is not ticked
 							{
 								if (!cynodelist.get(i).getIdentifier()
 										.contains(":")) // if cytoID doesnt contain ":" i.e. not family or complex
 								{
-									String otherID=l.trim(); //Check for the CytoID or the Entrezgene of each ID of the file
-									if (Pattern.matches(regex1, l.trim())) {
-										String uniprottogeneid = AffymetrixRegexReader
-												.getUniprottogeneidFullhashmap().get(l.trim());
-										if ((uniprottogeneid != null) && !uniprottogeneid.isEmpty()) {
-											otherID = uniprottogeneid;
-										}
-									}
-									else if (!Pattern.matches("pid",  l.trim()) && AffymetrixRegexReader
-											.getUniprottogeneidFullhashmap().containsValue(l.trim())){
-										for(String uniprotID : AffymetrixRegexReader
-												.getUniprottogeneidFullhashmap().keySet()){
-											if (AffymetrixRegexReader
-													.getUniprottogeneidFullhashmap().get(uniprotID).equals(l.trim())){
-												otherID = uniprotID;
-											}
-										}
-									}
-									if (cynodelist.get(i).getIdentifier()
-											.contains(l.trim()) || cynodelist.get(i).getIdentifier()
-											.contains(otherID))  // if so, add the text to the subgraph list
-									{
-										if (!cytotargetsubgraph
-												.contains(cynodelist.get(i))) {
-											cytotargetsubgraph.add(cynodelist
-													.get(i));
-											temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it from temporary list!
-										}
-									}
+									addIfPossible(l, cytotargetsubgraph, cynodelist, i, temporarylist);
+									
 								}
 							}
 						}
@@ -526,7 +446,7 @@ public class SubgraphExtraction {
 		// Progress
 		int progress = 0;
 
-		DirectedGraph<CyNode, CyEdge> myGraph = cytotojungGraph(); // greates the JUNG graph
+		DirectedGraph<CyNode, CyEdge> myGraph = cytotojungGraph(); // creates the JUNG graph
 
 		DijkstraShortestPath<CyNode, CyEdge> dpath = new DijkstraShortestPath<CyNode, CyEdge>(
 				myGraph, false); // create shortest path object
@@ -574,20 +494,20 @@ public class SubgraphExtraction {
 		System.out.println("Nodes in the source graph:");
 		for (int i = 0; i < cytosourcesubgraph.size(); i++) {
 			// colour the corresponding source node
-			colourThisNode(cytosourcesubgraph.get(i), "255,0,0"); // source node colour/ red
+			colourThisNode(cytosourcesubgraph.get(i), "255,0,0"); // source node colour red
 			System.out.println(cytosourcesubgraph.get(i).toString());
 		}
 		System.out.println("Nodes in the target graph:");
 		for (int i = 0; i < cytotargetsubgraph.size(); i++) {
 			// colour the corresponding target node
-			colourThisNode(cytotargetsubgraph.get(i), "0,0,255"); // source node colour blue
+			colourThisNode(cytotargetsubgraph.get(i), "0,0,255"); // target node colour blue
 			System.out.println(cytotargetsubgraph.get(i).toString());
 		}
 		System.out.println("Nodes in the set:");
 		for (CyNode n : s) {
 			// add the node in the set to the nodeIDtobekept arraylist
 			nodeIDtobekept.add(n.getIdentifier());
-			System.out.println(n.getIdentifier());
+			//System.out.println(n.getIdentifier());
 		}
 	}
 
@@ -771,5 +691,69 @@ public class SubgraphExtraction {
 		// node.getIdentifier() is the name of the individual node,
 		// "node.fillColor" is a constant to change the fill color,
 		// and the last string is the RGB color code
+	}
+	
+	/**
+	 * Function used in readSigmolSourceFile() and readSigmolTargetFile()
+	 * Finds if possible the UniprotID or the EntrezGene ID of the ID given in the file,
+	 * and adds it to the list "cytosubgraph", which is cytotargetsubgraph or cytosourcesubgraph
+	 * @param l
+	 * 		default ID
+	 * @param cytosubgraph
+	 * 		cytotargetsubgraph or cytosourcesubgraph
+	 * @param cynodelist
+	 * 		list of nodes in the initial graph
+	 * @param i
+	 * 		position of the node of cynodelist considered
+	 * @param temporarylist
+	 * 		list of IDs still not recognized
+	 */
+	private void addIfPossible(String l, ArrayList<CyNode> cytosubgraph, List<CyNode> cynodelist, int i, ArrayList<String> temporarylist){
+		//If the default ID is UniprotID, look for the corresponding EntrezGeneID
+		//We can only look for a perfect match in case of an EntrezGeneID
+		String otherID=l.trim(); 
+		if (Pattern.matches(regex1, l)) {
+			String entrezGeneID = AffymetrixRegexReader
+					.getUniprottogeneidFullhashmap().get(l.trim());
+			if ((entrezGeneID != null) && !entrezGeneID.isEmpty()) {
+				otherID = entrezGeneID; //corresponding EntrezGene ID
+			}
+			
+			if (cynodelist.get(i).getIdentifier()
+					.contains(l.trim()) || (cynodelist.get(i).getIdentifier()
+					.equals(otherID)))  // if so, add the text to the subgraph list
+			{
+				if (!cytosubgraph
+						.contains(cynodelist.get(i))) {
+					cytosubgraph.add(cynodelist
+							.get(i));
+					temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it from temporary list!
+				}
+			}
+		}
+		//If the default ID is an EntrezGeneID, look the corresponding UniprotID
+		else if (Pattern.matches("([0-9])+",l.trim()) && AffymetrixRegexReader
+				.getUniprottogeneidFullhashmap().containsValue(l.trim())){
+			for(String uniprotID : AffymetrixRegexReader
+					.getUniprottogeneidFullhashmap().keySet()){
+				if (AffymetrixRegexReader
+						.getUniprottogeneidFullhashmap().get(uniprotID).equals(l.trim())){
+					otherID = uniprotID;
+					break;
+				}
+			}
+			
+			if (cynodelist.get(i).getIdentifier()
+					.equals(l.trim()) || (!otherID.equals(l.trim()) && cynodelist.get(i).getIdentifier()
+							.contains(otherID)))  // if so, add the text to the subgraph list
+			{
+				if (!cytosubgraph
+						.contains(cynodelist.get(i))) {
+					cytosubgraph.add(cynodelist
+							.get(i));
+					temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it from temporary list!
+				}
+			}
+		}
 	}
 }
