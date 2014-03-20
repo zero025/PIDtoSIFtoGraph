@@ -149,7 +149,7 @@ public class ProcessConvert extends AbstractProcess {
 			step1.getNext().setEnabled(true);
 		} catch (Exception exp) {
 			JOptionPane.showMessageDialog(new JFrame(),
-					"The graph cannot be read! Exception :"
+					"The graph cannot be read! Exception:"
 							+ exp.getClass().getName(), "Warning",
 					JOptionPane.WARNING_MESSAGE);
 			exp.printStackTrace();

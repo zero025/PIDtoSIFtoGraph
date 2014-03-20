@@ -293,11 +293,10 @@ public class Step3 extends JFrame {
 		// Set the frame
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("PIDtoSIftoGraph");
-		setSize(800, 500);
 		setLocationRelativeTo(null);
 		//setResizable(false); // To disable the possibility to change the size of the window
 		setVisible(true);
-		//pack(); //To have a reduced window
+		pack(); //To have a reduced window
 
 		//Tooltip help
 		browseGeneTargetButton.setToolTipText("browse Gene Molecules-Targets");

@@ -234,7 +234,9 @@ public class Controller extends JFrame implements ActionListener {
 						step1.setVisible(false);
 						step2= new Step2(this);
 						step2.setLocationRelativeTo((JFrame)step1);
+						step2.setSize(step1.getSize());
 						step2.requestFocus();
+						
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
@@ -506,7 +508,7 @@ public class Controller extends JFrame implements ActionListener {
 				}
 
 			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(new JFrame(), "Error :  "
+				JOptionPane.showMessageDialog(new JFrame(), "Error:  "
 						+ ex.getClass().getName(), "Warning",
 						JOptionPane.WARNING_MESSAGE);
 			}
@@ -669,7 +671,7 @@ public class Controller extends JFrame implements ActionListener {
 			CyLayouts.getLayout("hierarchical").doLayout();
 		}
 		// only rotate if hierarchichal layout. 
-		if (Cytoscape.getCurrentNetwork().getNodeCount() < 1000 && step1.isHierarchicalChecked()) {
+		if (step1 != null && Cytoscape.getCurrentNetwork().getNodeCount() < 1000 && step1.isHierarchicalChecked()) {
 			rotateGraph();
 		}
 	}

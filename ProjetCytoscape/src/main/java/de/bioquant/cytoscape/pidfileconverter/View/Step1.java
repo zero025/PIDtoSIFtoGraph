@@ -126,7 +126,6 @@ public class Step1 extends JFrame {
 		topPanel.add(hierachicalLabel, c);
 
 		// adding the hierarchical checkbox to topPanel
-		hierarchicalCheckBox.setSelected(true);
 		c.gridx = 1;
 		topPanel.add(hierarchicalCheckBox, c);
 		
@@ -206,11 +205,10 @@ public class Step1 extends JFrame {
 		// Set the frame
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("PIDtoSIftoGraph");
-		setSize(600, 400);
 		setLocationRelativeTo(null);
 		//setResizable(false); // To disable the possibility to change the size of the window
 		setVisible(true);
-		//pack(); //To have a reduced window
+		pack(); //To have a reduced window
 		
 		next.setEnabled(false); //The user cannot go to step 2 or 3 without loading a file (PID or SIF).
 		
