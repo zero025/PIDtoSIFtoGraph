@@ -474,12 +474,16 @@ public class SubgraphExtraction {
 
 				if (!endnode.equals(startnode)) // if we are dealing with unique nodes
 				{
-					List<CyEdge> gp = dpath.getPath(startnode, endnode);
-					if (gp != null) {
-						for (CyEdge e : gp) {
-							s.add(myGraph.getEndpoints(e).getFirst());
-							s.add(myGraph.getEndpoints(e).getSecond());
+					try{
+						List<CyEdge> gp = dpath.getPath(startnode, endnode);
+						if (gp != null) {
+							for (CyEdge e : gp) {
+								s.add(myGraph.getEndpoints(e).getFirst());
+								s.add(myGraph.getEndpoints(e).getSecond());
+							}
 						}
+					} catch (IllegalArgumentException e){
+						//Do nothing!
 					}
 				}
 			}

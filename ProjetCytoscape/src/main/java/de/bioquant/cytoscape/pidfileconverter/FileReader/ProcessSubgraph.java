@@ -101,8 +101,9 @@ public class ProcessSubgraph extends AbstractProcess {
 			}
 
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			JOptionPane.showMessageDialog(new JFrame(), "Error:  "
-					+ ex.getClass().getName(), "Warning",
+				+ ex.getClass().getName(), "Warning",
 					JOptionPane.WARNING_MESSAGE);
 		}
 	}
