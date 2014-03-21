@@ -72,7 +72,7 @@ public class ProcessSubgraph extends AbstractProcess {
 			sgex.readCytoTargetText();
 
 			// then draw the graph from the read files/text long part
-			sgex.drawJungGraph(subgraphFrame, this);
+			sgex.drawJungGraph(subgraphFrame, this, controller.getTargetNODE_TYPEpath());
 			if (!isContinueThread()) {
 				return;
 			}

@@ -44,6 +44,7 @@ public class SubgraphExtraction {
 	private Step3 step3;
 	private ArrayList<CyNode> cytosourcesubgraph = new ArrayList<CyNode>();
 	private ArrayList<CyNode> cytotargetsubgraph = new ArrayList<CyNode>();
+	private ArrayList<CyNode> cytogenes = new ArrayList<CyNode>(); //list of cytoIDs of genes to keep in the subgraph.
 	private ArrayList<String> nodeIDtobekept = new ArrayList<String>();
 
 	// regular expression of e.g. [P98170::Q13490::Q13489:]
@@ -205,10 +206,9 @@ public class SubgraphExtraction {
 									.getUniprottogeneidFullhashmap().get(l.trim());
 							if ((entrezGeneID != null) && !entrezGeneID.isEmpty()) {
 								otherID = entrezGeneID; //corresponding EntrezGene ID
-								System.out.println("EntrezGeneID: "+otherID);
 							}
 							
-							if (isComingFromTranslation(l.trim(), sifpath,
+							if (isComingFromTranscription(l.trim(), sifpath,
 									nodetypefilepath)) // if l comes from a translation event
 							{
 								for (int i = 0; i < cynodelist.size(); i++) {
@@ -224,6 +224,7 @@ public class SubgraphExtraction {
 											{
 												cytotargetsubgraph.add(cynodelist
 														.get(i));
+												cytogenes.add(cynodelist.get(i));
 												temporarylist.remove(l.trim()); // if the line is not present in the list of nodes, delete it  from temporary list!
 											}
 										}
@@ -244,7 +245,7 @@ public class SubgraphExtraction {
 								}
 							}
 
-							if (!otherID.equals(l.trim()) && isComingFromTranslation(otherID, sifpath,
+							if (!otherID.equals(l.trim()) && isComingFromTranscription(otherID, sifpath,
 									nodetypefilepath)) // if otherID comes from a translation event
 							{
 								for (int i = 0; i < cynodelist.size(); i++) {
@@ -441,12 +442,12 @@ public class SubgraphExtraction {
 	 * @author Hadi Kang
 	 * @author Aristotelis Kittas
 	 */
-	public void drawJungGraph(SplashFrame sp, ProcessSubgraph process) {
+	public void drawJungGraph(SplashFrame sp, ProcessSubgraph process, String nodetypefilepath) {
 
 		// Progress
 		int progress = 0;
 
-		DirectedGraph<CyNode, CyEdge> myGraph = cytotojungGraph(); // creates the JUNG graph
+		DirectedGraph<CyNode, CyEdge> myGraph = cytotojungGraph(nodetypefilepath); // creates the JUNG graph
 
 		DijkstraShortestPath<CyNode, CyEdge> dpath = new DijkstraShortestPath<CyNode, CyEdge>(
 				myGraph, false); // create shortest path object
@@ -507,7 +508,7 @@ public class SubgraphExtraction {
 		for (CyNode n : s) {
 			// add the node in the set to the nodeIDtobekept arraylist
 			nodeIDtobekept.add(n.getIdentifier());
-			//System.out.println(n.getIdentifier());
+			System.out.println(n.getIdentifier());
 		}
 	}
 
@@ -516,12 +517,24 @@ public class SubgraphExtraction {
 	 * 
 	 * @return
 	 */
-	public DirectedGraph<CyNode, CyEdge> cytotojungGraph() {
+	public DirectedGraph<CyNode, CyEdge> cytotojungGraph(String nodetypefilepath){
 		DirectedGraph<CyNode, CyEdge> myGraph = new DirectedSparseGraph<CyNode, CyEdge>();
 		@SuppressWarnings("unchecked")
 		List<CyEdge> l = Cytoscape.getCyEdgesList();
 		for (CyEdge e : l) {
-			myGraph.addEdge(e, (CyNode) e.getSource(), (CyNode) e.getTarget());
+			
+			//In the subgraph, we want every gene to come for a translation, and only a transcription.
+			//If the target of the edge is one of the genes, keep the edge only if it is the source is of type transcription.
+			//i.e if the target is not a gene, or the source is a transcription, keep the edge.
+			try {
+				if (!cytogenes.contains(((CyNode) e.getTarget())) 
+						|| isPrecursorNodeTranscription(e.getSource().getIdentifier(),nodetypefilepath)){
+					myGraph.addEdge(e, (CyNode) e.getSource(), (CyNode) e.getTarget());
+				}
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		return myGraph;
 	}
@@ -589,7 +602,7 @@ public class SubgraphExtraction {
 	 * @return
 	 * @throws IOException
 	 */
-	public boolean isComingFromTranslation(String nodename, String sifpath,
+	public boolean isComingFromTranscription(String nodename, String sifpath,
 			String nodetypefilepath) throws IOException {
 		boolean value = false;
 		BufferedReader reader = null;
