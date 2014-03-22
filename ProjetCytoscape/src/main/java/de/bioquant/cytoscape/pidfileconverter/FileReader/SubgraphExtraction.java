@@ -127,7 +127,7 @@ public class SubgraphExtraction {
 	public void readCytoTargetText() {
 		if (!inputcytotargettext.trim().equals("")) {
 			BufferedReader reader = null;
-			ArrayList<String> temporarylist = new ArrayList<String>(); // temporary list for nodes NOT inthe graph
+			ArrayList<String> temporarylist = new ArrayList<String>(); // temporary list for nodes NOT in the graph
 			try {
 				reader = new BufferedReader(new StringReader(
 						inputcytotargettext));

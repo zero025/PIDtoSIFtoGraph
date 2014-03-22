@@ -805,7 +805,7 @@ public class AffymetrixRegexReader {
 
 		JOptionPane.showMessageDialog(new JFrame(),
 				"The graph view has been filtered and updated. " + counter
-						+ " nodes have been removed.", "Filtered",
+						+ " molecules have been removed.", "Filtered",
 				JOptionPane.PLAIN_MESSAGE);
 		counter = 0;
 	}

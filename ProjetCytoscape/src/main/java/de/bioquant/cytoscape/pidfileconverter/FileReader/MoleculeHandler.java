@@ -100,16 +100,16 @@ public class MoleculeHandler {
 				} else if (name_type.equals("LL")
 						&& long_name.equals("EntrezGene")) {
 					handleEntrezGeneId(value);
+				} else if (name_type.equals("OF")
+						&& long_name.equals("official symbol")) {
+					currentMolecule.setPreferredSymbol(value);
 				} else if (name_type.equals("PF")
-						&& long_name.equals("preferred symbol")) {
+						&& long_name.equals("preferred symbol")
+						&& (currentMolecule.getPreferredSymbol() == null || currentMolecule
+						.getPreferredSymbol().equals(""))) {
 					currentMolecule.setPreferredSymbol(value);
 				} else if (name_type.equals("AS")
 						&& long_name.equals("alias")
-						&& (currentMolecule.getPreferredSymbol() == null || currentMolecule
-								.getPreferredSymbol().equals(""))) {
-					currentMolecule.setPreferredSymbol(value);
-				} else if (name_type.equals("OF")
-						&& long_name.equals("official symbol")
 						&& (currentMolecule.getPreferredSymbol() == null || currentMolecule
 								.getPreferredSymbol().equals(""))) {
 					currentMolecule.setPreferredSymbol(value);
